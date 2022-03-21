@@ -1,2 +1,21 @@
-package Tournois;public class Player {
+package Tournois;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+public class Player extends Person {
+	private boolean isProfessional;
+	private double elo;
+	private ArrayList<Result> results;
+
+	public Player(String firstName, String lastName, GregorianCalendar birthDate, char gender, boolean isProfessional, double elo) {
+		super(firstName, lastName, birthDate, gender);
+		this.isProfessional = isProfessional;
+		this.elo = elo;
+		results = new ArrayList<>();
+	}
+
+	public void addResult(Result result) {
+		results.add(result);
+	}
 }
