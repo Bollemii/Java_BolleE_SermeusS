@@ -1,9 +1,7 @@
-package Tournois;
+package Model;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Timer;
 
 public class Match {
 	private GregorianCalendar dateStart;

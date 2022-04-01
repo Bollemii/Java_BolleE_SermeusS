@@ -1,4 +1,4 @@
-package Tournois;
+package Model;
 
 public class Reservation {
 	private Visitor visitor;

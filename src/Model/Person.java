@@ -1,4 +1,4 @@
-package Tournois;
+package Model;
 
 import java.util.GregorianCalendar;
 

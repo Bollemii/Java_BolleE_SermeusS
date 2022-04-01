@@ -1,4 +1,4 @@
-package Tournois;
+package Model;
 
 public class Result {
 	private Player player;

@@ -1,4 +1,4 @@
-package Tournois;
+package Model;
 
 public class Reward {
 	private String name;
