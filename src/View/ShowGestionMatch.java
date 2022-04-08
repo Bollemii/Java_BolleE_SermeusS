@@ -1,19 +1,16 @@
 package View;
 
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 
-public class ShowPlayer extends JPanel {
+public class ShowGestionMatch extends JPanel {
     private JButton submit;
     private JComboBox comboBox;
     private JTable table;;
     private JLabel title;
     //constructor
-    public ShowPlayer() {
+    public ShowGestionMatch() {
         //gridBagLayout
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
@@ -21,7 +18,7 @@ public class ShowPlayer extends JPanel {
 
 
         //title
-        title = new JLabel("Players");
+        title = new JLabel("Gestion des matchs");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;
@@ -79,5 +76,4 @@ public class ShowPlayer extends JPanel {
 
 
     }
-
 }
