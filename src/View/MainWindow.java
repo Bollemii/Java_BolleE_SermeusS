@@ -1,3 +1,4 @@
+		setSize(1080, 700);
 package View;
 
 import javax.swing.*;
@@ -18,7 +19,6 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         //set size of window
-        setSize(1920, 1000);
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         appMenu = new JMenu("Application");

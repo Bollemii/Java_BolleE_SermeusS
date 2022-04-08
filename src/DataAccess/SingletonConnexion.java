@@ -13,13 +13,12 @@ public class SingletonConnexion {
 		);
 	}
 
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DataException {
 		if (connection == null) {
 			try {
 				new SingletonConnexion();
 			} catch (SQLException exception) {
-				System.out.println("Connection : " + exception.getMessage());
-				return null;
+				throw new DataException(exception.getMessage());
 			}
 		}
 		return connection;

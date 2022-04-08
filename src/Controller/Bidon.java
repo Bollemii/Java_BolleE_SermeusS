@@ -1,2 +1,4 @@
-package Controller;public class Bidon {
+package Controller;
+
+public class Bidon {
 }

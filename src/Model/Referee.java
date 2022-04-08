@@ -7,8 +7,8 @@ public class Referee extends Person {
 	private String level;
 	private ArrayList<Match> matchs;
 
-	public Referee(String firstName, String lastName, GregorianCalendar birthDate, char gender, String level) {
-		super(firstName, lastName, birthDate, gender);
+	public Referee(int id, String firstName, String lastName, GregorianCalendar birthDate, char gender, String level) {
+		super(id, firstName, lastName, birthDate, gender);
 		this.level = level;
 		matchs = new ArrayList<>();
 	}

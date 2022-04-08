@@ -8,8 +8,8 @@ public class Player extends Person {
 	private double elo;
 	private ArrayList<Result> results;
 
-	public Player(String firstName, String lastName, GregorianCalendar birthDate, char gender, boolean isProfessional, double elo) {
-		super(firstName, lastName, birthDate, gender);
+	public Player(int id, String firstName, String lastName, GregorianCalendar birthDate, char gender, boolean isProfessional, double elo) {
+		super(id, firstName, lastName, birthDate, gender);
 		this.isProfessional = isProfessional;
 		this.elo = elo;
 		results = new ArrayList<>();
