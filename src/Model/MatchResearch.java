@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class MatchResearch {
+	private int id;
 	private GregorianCalendar dateStart;
 	private int duration;
 	private boolean isFinal;
@@ -12,7 +13,8 @@ public class MatchResearch {
 	private String referee;
 	private String location;
 
-	public MatchResearch(GregorianCalendar dateStart, boolean isFinal, String comment, String tournament, String referee, String location) {
+	public MatchResearch(int id, GregorianCalendar dateStart, boolean isFinal, String comment, String tournament, String referee, String location) {
+		this.id = id;
 		this.dateStart = dateStart;
 		this.isFinal = isFinal;
 		this.comment = comment;
@@ -27,7 +29,7 @@ public class MatchResearch {
 
 	@Override
 	public String toString() {
-		return "MatchResearch{" +
+		return  "Match " + id + " { " +
 				"dateStart = " + dateStart.get(Calendar.DAY_OF_MONTH) + "/" + dateStart.get(Calendar.MONTH) + "/" + dateStart.get(Calendar.YEAR) +
 				", duration = " + duration +
 				", isFinal = " + isFinal +
@@ -35,6 +37,6 @@ public class MatchResearch {
 				", tournament = '" + tournament + '\'' +
 				", referee = '" + referee + '\'' +
 				", location = '" + location + '\'' +
-				'}';
+				" }";
 	}
 }
