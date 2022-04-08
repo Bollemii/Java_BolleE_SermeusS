@@ -1,2 +1,4 @@
-package Business;public class Bidon {
+package Business;
+
+public class Bidon {
 }

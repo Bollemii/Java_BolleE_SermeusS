@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://DESKTOP-G9LT55S:3306/library</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="java_project@DESKTOP-G9LT55S" uuid="7575158a-c914-4f6c-a77a-69b19313a301">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://DESKTOP-G9LT55S:3306/java_project</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

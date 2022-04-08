@@ -7,19 +7,18 @@ public class SingletonConnexion {
 
 	private SingletonConnexion() throws SQLException {
 		connection = DriverManager.getConnection(
-				"jdbc:mysql://DESKTOP-G9LT55S:3306/library",
+				"jdbc:mysql://DESKTOP-G9LT55S:3306/java_project",
 				"bolle",
 				"1111"
 		);
 	}
 
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DataException {
 		if (connection == null) {
 			try {
 				new SingletonConnexion();
 			} catch (SQLException exception) {
-				System.out.println("Connection : " + exception.getMessage());
-				return null;
+				throw new DataException(exception.getMessage());
 			}
 		}
 		return connection;

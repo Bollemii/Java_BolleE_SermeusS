@@ -10,4 +10,8 @@ public class Location {
 		this.nbRows = nbRows;
 		this.nbSeatsPerRow = nbSeatsPerRow;
 	}
+
+	public int nbPlaces() {
+		return nbRows * nbSeatsPerRow;
+	}
 }
