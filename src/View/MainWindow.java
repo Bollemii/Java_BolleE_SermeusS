@@ -1,8 +1,9 @@
-		setSize(1080, 700);
+
 package View;
 
-import javax.swing.*;
-import java.awt.event.*;
+
+    import javax.swing.*;
+    import java.awt.event.*;
 
 public class MainWindow extends JFrame {
     private JMenuBar menuBar;
@@ -19,6 +20,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         //set size of window
+        setSize(900, 700);
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         appMenu = new JMenu("Application");
@@ -104,7 +106,7 @@ public class MainWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             //clear the window
             getContentPane().removeAll();
-            ShowTournament showPlayer = new ShowTournament ();
+            ShowTournament showPlayer = new ShowTournament();
             MainWindow.this.add(showPlayer);
             showPlayer.setVisible(true);
             MainWindow.this.validate();
