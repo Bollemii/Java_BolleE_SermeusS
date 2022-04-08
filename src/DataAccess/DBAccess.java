@@ -65,10 +65,13 @@ public class DBAccess implements DataAccess {
 			ArrayList<MatchResearch> list = new ArrayList<>();
 
 			String sqlInstruction =
-					"select m.*" +
+					"select m.matchID, l.name as 'location', t.name as 'tournament', j.firstName as 'judge', m.dateStart, m.duration, r.points " +
 					"from person p " +
 					"inner join result r on r.playerID = p.personID " +
 					"inner join `match` m on m.matchID = r.matchID " +
+					"inner join person j on m.judgeID = j.personID " +
+					"inner join tournament t on m.tournamentID = t.tournamentID " +
+					"inner join location l on m.locationID = l.locationID " +
 					"where p.firstName = (?) and p.lastName = (?) and p.personID = (?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);

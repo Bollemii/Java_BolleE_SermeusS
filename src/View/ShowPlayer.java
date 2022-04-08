@@ -8,15 +8,18 @@ public class ShowPlayer extends JPanel {
 	private JPanel row23;
 	private JButton submit;
 	private JComboBox comboBox;
-	private JTable table;;
+	private JTable table;
 	private JLabel title;
 	//constructor
 	public ShowPlayer() {
+		setLayout(new GridLayout(5,1));
+
+
 		title = new JLabel("Player List");
 		//gridlayout of 3 1
 		title.setHorizontalAlignment(JLabel.CENTER);
-		setLayout(new GridLayout(5,1));
 		add(title);
+
 		row1 = new JPanel(new GridLayout(1,2));
 		comboBox = new JComboBox();
 		comboBox.addItem("All");
@@ -25,16 +28,17 @@ public class ShowPlayer extends JPanel {
 		submit = new JButton("Submit");
 		row1.add(comboBox);
 		row1.add(submit);
+
 		row23 = new JPanel(new GridLayout(1,1));
 		table = new JTable();
 		JScrollPane scrollPane = new JScrollPane(table);
 		row23.add(scrollPane);
+
 		//add components
 		add(row1);
 		add(row23);
 
-
-
+		setVisible(true);
 	}
 
 
