@@ -65,10 +65,7 @@ public class MainWindow extends JFrame {
         //on click on ShowPlayer in menu bar
         showPlayer.addActionListener(new HandleShowPlayer());
         //when window closed, exit
-        this.addWindowListener(new WindowAdapter() {
-                                   public void windowClosing(WindowEvent e) {System.exit(0);
-                                   }
-                               });
+        this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {System.exit(0);}});
 
         this.setVisible(true);
     }

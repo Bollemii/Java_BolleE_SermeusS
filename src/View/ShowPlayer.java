@@ -35,15 +35,10 @@ public class ShowPlayer extends JPanel {
         //add components
         add(row1);
         add(row23);
-
-
-
     }
 
-
-    //painting
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        //repaint components
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
     }
 }

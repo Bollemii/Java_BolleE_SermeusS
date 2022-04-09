@@ -15,6 +15,7 @@ public class Main {
 			for (MatchResearch match : list) {
 				System.out.println(match);
 			}
+			dataAccess.closeConnection();
 		} catch (DataException exception) {
 			System.out.println(exception.getMessage());
 		}*/

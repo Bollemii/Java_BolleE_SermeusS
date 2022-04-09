@@ -13,6 +13,14 @@ public class DBAccess implements DataAccess {
 		connection = SingletonConnexion.getConnection();
 	}
 
+	public void closeConnection() throws DataException {
+		try {
+			connection.close();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
 	@Override
 	public ArrayList<MatchResearch> getAllMatchs() throws DataException {
 		try {
