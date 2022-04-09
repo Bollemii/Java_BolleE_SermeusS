@@ -35,10 +35,10 @@ public class MainWindow extends JFrame {
         menuBar.add(tournament);
         playerInscription = new JMenuItem("Inscription joueur");
         playerInscription.addActionListener(new HandleShowInscription());
-        tournement.add(playerInscription);
+        tournament.add(playerInscription);
         matchManagement = new JMenuItem("Gestion des matchs");
         matchManagement.addActionListener(new HandleShowGestionMatch());
-        tournement.add(matchManagement);
+        tournament.add(matchManagement);
         match = new JMenu("Match");
         match.setMnemonic('M');
         menuBar.add(match);
