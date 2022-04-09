@@ -3,8 +3,7 @@ package DataAccess;
 import Model.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 public class DBAccess implements DataAccess {
 	private Connection connection;
@@ -16,6 +15,20 @@ public class DBAccess implements DataAccess {
 	public void closeConnection() throws DataException {
 		try {
 			connection.close();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	public int addMatch(MatchResearch match) throws DataException {
+		try {
+			String sqlInstruction =
+					"insert into `match`(locationID, tournamentID, judgeID, dateStart, isFinal) " +
+					"values((?),(?),(?),(?),(?))";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			// valeurs variables
+
+			return preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -93,5 +106,28 @@ public class DBAccess implements DataAccess {
 			list.add(match);
 		}
 		return list;
+	}
+
+	public int deleteMatch(int... matchID) throws DataException {
+		try {
+			String sqlInstruction = "delete from `match` where matchID in(?)";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+
+			StringBuilder matchList = new StringBuilder();
+			boolean isFirst = true;
+			for (int id : matchID) {
+				if (!isFirst) {
+					matchList.append(",");
+				} else {
+					isFirst = false;
+				}
+				matchList.append(id);
+			}
+
+			preparedStatement.setString(1, matchList.toString());
+			return preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
 	}
 }

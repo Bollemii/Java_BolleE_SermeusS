@@ -1,9 +1,11 @@
 package View;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame {
+    private Container container;
     private JMenuBar menuBar;
     private JMenu appMenu;
     private JMenuItem exit;
@@ -19,6 +21,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         //set size of window
         setSize(1080, 700);
+
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         appMenu = new JMenu("Application");
@@ -61,16 +64,17 @@ public class MainWindow extends JFrame {
         showPlayer = new JMenuItem("Afficher joueur");
         showPlayer.addActionListener(new HandleShowPanel());
         player.add(showPlayer);
-
         visitor = new JMenu("Visiteur");
         visitor.setMnemonic('V');
         menuBar.add(visitor);
         reservation = new JMenuItem("Reservation");
         reservation.addActionListener(new HandleShowPanel());
         visitor.add(reservation);
+
+        container = getContentPane();
         JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournoi");
         welcome.setHorizontalAlignment(SwingConstants.CENTER);
-        add(welcome);
+        container.add(welcome);
 
         //when window closed, exit
         this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {System.exit(0);}});
@@ -78,12 +82,8 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
     }
 
-    //generate private class HandleShowPlayer
     private class HandleShowPanel implements ActionListener {
-        //extends action listener
-        //method to handle action
         public void actionPerformed(ActionEvent e) {
-            //clear the window
             getContentPane().removeAll();
             JPanel panel = getPanel(e);
             MainWindow.this.add(panel);

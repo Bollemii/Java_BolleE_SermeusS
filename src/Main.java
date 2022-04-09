@@ -2,11 +2,12 @@ import DataAccess.*;
 import Model.*;
 import View.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Main {
 	public static void main(String[] args) {
-		new MainWindow();
+		//new MainWindow();
 		/*try {
 			DataAccess dataAccess = new DBAccess();
 			ArrayList<MatchResearch> list;

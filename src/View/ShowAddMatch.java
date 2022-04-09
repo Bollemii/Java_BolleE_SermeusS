@@ -28,7 +28,6 @@ public class ShowAddMatch extends JPanel {
         add(title, c);
 
 
-
         c.weighty = 2;
         //comboBox
         comboBox = new JComboBox();
@@ -58,9 +57,7 @@ public class ShowAddMatch extends JPanel {
         c.insets = new Insets(0, 0, 20, 0);
         add(submit, c);
 
-
         table = new JTable();
-
 
         String[] tblHead={"Item Name","Price","Qty","Discount"};
         DefaultTableModel dtm=new DefaultTableModel(tblHead,0);
@@ -73,7 +70,5 @@ public class ShowAddMatch extends JPanel {
         c.gridwidth = 2;
         c.insets = new Insets(0, 0, 20, 0);
         add(table, c);
-
-
     }
 }
