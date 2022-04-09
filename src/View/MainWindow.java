@@ -1,8 +1,11 @@
-		setSize(1080, 700);
+
 package View;
 
 
-    import javax.swing.*;
+        import View.ShowPlayer;
+        import View.ShowTournament;
+
+        import javax.swing.*;
     import java.awt.event.*;
 
 public class MainWindow extends JFrame {
