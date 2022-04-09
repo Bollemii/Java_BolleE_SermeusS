@@ -1,4 +1,4 @@
-
+		setSize(1080, 700);
 package View;
 
 
@@ -9,7 +9,7 @@ public class MainWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu appMenu;
     private JMenuItem exit;
-    private JMenu tournement;
+    private JMenu tournament;
     private JMenuItem playerInscription, matchManagement;
     private JMenu match;
     private JMenuItem addMatch,showMatchTable,showAllMatchInfo,modifyMatch,deleteMatch;
@@ -20,7 +20,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         //set size of window
-        setSize(900, 700);
+        setSize(1080, 700);
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         appMenu = new JMenu("Application");
@@ -30,9 +30,9 @@ public class MainWindow extends JFrame {
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         exit.addActionListener(e -> System.exit(0));
         appMenu.add(exit);
-        tournement = new JMenu("Tournoi");
-        tournement.setMnemonic('T');
-        menuBar.add(tournement);
+        tournament = new JMenu("Tournoi");
+        tournament.setMnemonic('T');
+        menuBar.add(tournament);
         playerInscription = new JMenuItem("Inscription joueur");
         playerInscription.addActionListener(new HandleShowInscription());
         tournement.add(playerInscription);
@@ -78,11 +78,9 @@ public class MainWindow extends JFrame {
         showPlayer.addActionListener(new HandleShowPlayer());
         //when window closed, exit
         this.addWindowListener(new WindowAdapter() {
-                                   public void windowClosing(WindowEvent e) {
-                                       System.exit(0);
+                                   public void windowClosing(WindowEvent e) {System.exit(0);
                                    }
-                               }
-        );
+                               });
 
         this.setVisible(true);
     }
