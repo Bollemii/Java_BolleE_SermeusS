@@ -1,4 +1,3 @@
-		setSize(1080, 700);
 package View;
 
 import javax.swing.*;
@@ -8,7 +7,7 @@ public class MainWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu appMenu;
     private JMenuItem exit;
-    private JMenu tournement;
+    private JMenu tournament;
     private JMenuItem playerInscription, matchManagement;
     private JMenu match;
     private JMenuItem addMatch,showMatchTable,showAllMatchInfo,ModifyMatch,deleteMatch;
@@ -19,6 +18,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         //set size of window
+        setSize(1080, 700);
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         appMenu = new JMenu("Application");
@@ -28,13 +28,13 @@ public class MainWindow extends JFrame {
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         exit.addActionListener(e -> System.exit(0));
         appMenu.add(exit);
-        tournement = new JMenu("Tournoi");
-        tournement.setMnemonic('T');
-        menuBar.add(tournement);
+        tournament = new JMenu("Tournoi");
+        tournament.setMnemonic('T');
+        menuBar.add(tournament);
         playerInscription = new JMenuItem("Inscription joueur");
-        tournement.add(playerInscription);
+        tournament.add(playerInscription);
         matchManagement = new JMenuItem("Gestion des matchs");
-        tournement.add(matchManagement);
+        tournament.add(matchManagement);
         match = new JMenu("Match");
         match.setMnemonic('M');
         menuBar.add(match);
@@ -66,11 +66,9 @@ public class MainWindow extends JFrame {
         showPlayer.addActionListener(new HandleShowPlayer());
         //when window closed, exit
         this.addWindowListener(new WindowAdapter() {
-                                   public void windowClosing(WindowEvent e) {
-                                       System.exit(0);
+                                   public void windowClosing(WindowEvent e) {System.exit(0);
                                    }
-                               }
-        );
+                               });
 
         this.setVisible(true);
     }

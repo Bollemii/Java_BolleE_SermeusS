@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String[] args) {
-		//new MainWindow();
-		try {
+		new MainWindow();
+		/*try {
 			DataAccess dataAccess = new DBAccess();
 			ArrayList<MatchResearch> list;
 			//list = dataAccess.getMatchsPlayer(new Player(101, "Emilien", "Bolle", null, 'M', true, 12));
@@ -17,8 +17,6 @@ public class Main {
 			}
 		} catch (DataException exception) {
 			System.out.println(exception.getMessage());
-		}
+		}*/
 	}
 }
-
-	}
