@@ -20,22 +20,40 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
-	public int addMatch(MatchResearch match) throws DataException {
+	public void addMatch(Match match) throws DataException {
 		try {
-			String sqlInstruction =
-					"insert into `match`(locationID, tournamentID, judgeID, dateStart, isFinal) " +
-					"values((?),(?),(?),(?),(?))";
+			String sqlInstruction;
+			sqlInstruction = "insert into `match`(matchID, locationID, tournamentID, judgeID, dateStart, isFinal) " +
+							 "values(?,?,?,?,?,?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-			// valeurs variables
+			preparedStatement.setInt(1, match.getId());
+			preparedStatement.setInt(2, match.getLocation().getId());
+			preparedStatement.setInt(3, match.getTournament().getId());
+			preparedStatement.setInt(4, match.getReferee().getId());
+			preparedStatement.setDate(5, new java.sql.Date(match.getDateStart().getTimeInMillis()));
+			preparedStatement.executeUpdate();
 
-			return preparedStatement.executeUpdate();
+			if (match.getDuration() != null) {
+				sqlInstruction = "update `match` set duration = ? where matchID = ?";
+				preparedStatement = connection.prepareStatement(sqlInstruction);
+				preparedStatement.setInt(1, match.getDuration());
+				preparedStatement.setInt(2, match.getId());
+				preparedStatement.executeUpdate();
+			}
+			if (match.getComment() != null) {
+				sqlInstruction = "update `match` set comment = ? where matchID = ?";
+				preparedStatement = connection.prepareStatement(sqlInstruction);
+				preparedStatement.setString(1, match.getComment());
+				preparedStatement.setInt(2, match.getId());
+				preparedStatement.executeUpdate();
+			}
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
 	}
 
 	@Override
-	public ArrayList<MatchResearch> getAllMatchs() throws DataException {
+	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
 			String sqlInstruction =
 					"select m.*, p.firstName as 'judge', t.name as 'tournament', l.name as 'location'" +
@@ -54,7 +72,7 @@ public class DBAccess implements DataAccess {
 	}
 
 	@Override
-	public ArrayList<MatchResearch> getMatchsPlayer(Player player) throws DataException {
+	public ArrayList<Match> getMatchsPlayer(Player player) throws DataException {
 		try {
 			String sqlInstruction =
 					"select m.*, l.name as 'location', t.name as 'tournament', j.firstName as 'judge', r.points " +
@@ -79,24 +97,24 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
-	private ArrayList<MatchResearch> getMatchs(ResultSet data) throws SQLException {
-		ArrayList<MatchResearch> list = new ArrayList<>();
+	private ArrayList<Match> getMatchs(ResultSet data) throws SQLException {
+		ArrayList<Match> list = new ArrayList<>();
 
-		MatchResearch match;
+		Match match;
 		GregorianCalendar calendar;
 		int duration;
 
 		while (data.next()) {
 			calendar = new GregorianCalendar();
 			calendar.setTime(data.getDate("dateStart"));
-			match = new MatchResearch(
+			match = new Match(
 					data.getInt("matchID"),
 					calendar,
 					data.getBoolean("isFinal"),
 					data.getString("comment"),
-					data.getString("tournament"),
-					data.getString("judge"),
-					data.getString("location")
+					new Tournament(data.getString("tournament")),
+					new Referee(data.getString("judge")),
+					new Location(data.getString("location"))
 			);
 
 			duration = data.getInt("duration");

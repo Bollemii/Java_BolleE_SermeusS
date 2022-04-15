@@ -1,15 +1,23 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class Tournament {
+	private Integer id;
 	private String name;
-	private boolean isOfficial;
-	private ArrayList<Match> matchs;
+	private Boolean isOfficial;
 
-	public Tournament(String name, boolean isOfficial) {
+	public Tournament(Integer id, String name, Boolean isOfficial) {
+		this.id = id;
 		this.name = name;
 		this.isOfficial = isOfficial;
-		matchs = new ArrayList<>();
+	}
+	public Tournament(String name) {
+		this(null, name, null);
+	}
+
+	public Integer getId() {
+		return id;
+	}
+	public String getName() {
+		return name;
 	}
 }

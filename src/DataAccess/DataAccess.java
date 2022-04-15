@@ -9,10 +9,10 @@ public interface DataAccess {
 	void closeConnection() throws DataException;
 
 	// CRUD
-	int addMatch(MatchResearch match) throws DataException;
-	ArrayList<MatchResearch> getAllMatchs() throws DataException;
+	void addMatch(Match match) throws DataException;
+	ArrayList<Match> getAllMatchs() throws DataException;
 	int deleteMatch(int... matchID) throws DataException;
 
 	// RESEARCHES
-	ArrayList<MatchResearch> getMatchsPlayer(Player player) throws DataException;
+	ArrayList<Match> getMatchsPlayer(Player player) throws DataException;
 }
