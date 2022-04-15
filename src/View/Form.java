@@ -1,31 +1,31 @@
 package View;
 
+import Model.Tournament;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Form extends JPanel {
-	private static final String[] ORIGINS = {"Europe", "Afrique", "Asie", "Amérique", "Océanie"};
 	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
 	private JPanel formPanel, datePanel, buttonsPanel;
-	private JTextField firstName, lastName, birthDate, section;
-	private JCheckBox boursier, etranger;
-	private JComboBox<String> origins, monthBox;
+	private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
 	private JComboBox<Integer> dayBox, yearBox;
-	private JRadioButton newStudent, reStudent;
+	private JSpinner durationSpinner;
+	private JTextArea commentText;
+	private JCheckBox finalCheck;
 	private JButton back, validate, reset;
 
 	public Form() {
 		setLayout(new BorderLayout());
 
-		CheckListener checkListener = new CheckListener();
-		RadioListener radioListener = new RadioListener();
-		ButtonListener buttonListener = new ButtonListener();
 		GridBagConstraints c = new GridBagConstraints();
+		ButtonListener buttonListener = new ButtonListener();
 
 		formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(8, 2));
+		formPanel.setLayout(new GridLayout(7, 2));
 
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
 		datePanel = new JPanel();
@@ -45,47 +45,29 @@ public class Form extends JPanel {
 		datePanel.add(yearBox, c);
 		formPanel.add(datePanel);
 
-		formPanel.add(new JLabel("Prénom : ", SwingConstants.RIGHT));
-		firstName = new JTextField();
-		formPanel.add(firstName);
+		formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));
+		tournamentBox = new JComboBox<>();
+		formPanel.add(tournamentBox);
 
-		formPanel.add(new JLabel("Nom : ", SwingConstants.RIGHT));
-		lastName = new JTextField();
-		formPanel.add(lastName);
+		formPanel.add(new JLabel("Arbitre : ", SwingConstants.RIGHT));
+		refereeBox = new JComboBox<>();
+		formPanel.add(refereeBox);
 
-		formPanel.add(new JLabel("Date de naissance : ", SwingConstants.RIGHT));
-		birthDate = new JTextField();
-		birthDate.setToolTipText("Format : YYYYMMJJ");
-		formPanel.add(birthDate);
+		formPanel.add(new JLabel("Localisation : ", SwingConstants.RIGHT));
+		locationBox = new JComboBox<>();
+		formPanel.add(locationBox);
 
-		formPanel.add(new JLabel("Section : ", SwingConstants.RIGHT));
-		section = new JTextField();
-		section.setEnabled(false);
-		formPanel.add(section);
+		formPanel.add(new JLabel("Durée : ", SwingConstants.RIGHT));
+		durationSpinner = new JSpinner();
+		formPanel.add(durationSpinner);
 
-		boursier = new JCheckBox("Boursier");
-		formPanel.add(boursier);
-		etranger = new JCheckBox("Etranger");
-		etranger.setToolTipText("Personne hors Europe");
-		etranger.addItemListener(checkListener);
-		formPanel.add(etranger);
+		formPanel.add(new JLabel("Commentaire : ", SwingConstants.RIGHT));
+		commentText = new JTextArea();
+		formPanel.add(commentText);
 
-		formPanel.add(new JLabel("Origine : ", SwingConstants.RIGHT));
-		origins = new JComboBox<>(ORIGINS);
-		origins.setSelectedItem("Europe");
-		origins.setEnabled(false);
-		formPanel.add(origins);
+		finalCheck = new JCheckBox("est une finale");
+		formPanel.add(finalCheck);
 
-		ButtonGroup group = new ButtonGroup();
-		newStudent = new JRadioButton("Nouvel étudiant", true);
-		newStudent.addItemListener(radioListener);
-		group.add(newStudent);
-		formPanel.add(newStudent);
-		reStudent = new JRadioButton("Réinscription", false);
-		reStudent.setToolTipText("Etudiant déjà inscrit l'année dernière");
-		reStudent.addItemListener(radioListener);
-		group.add(reStudent);
-		formPanel.add(reStudent);
 		this.add(formPanel, BorderLayout.CENTER);
 
 		buttonsPanel = new JPanel();
@@ -109,51 +91,21 @@ public class Form extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 	}
-
-	private class CheckListener implements ItemListener {
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if (e.getStateChange() == ItemEvent.SELECTED) {
-				origins.setEnabled(true);
-			} else {
-				origins.setSelectedItem("Europe");
-				origins.setEnabled(false);
-			}
-		}
-	}
-	private class RadioListener implements ItemListener {
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if (e.getSource() == newStudent && e.getStateChange() == ItemEvent.SELECTED && boursier.isSelected()) {
-				JOptionPane.showMessageDialog(
-						null,
-						"Vous devez vous rendre au secrétariat",
-						"Rendez-vous",
-						JOptionPane.INFORMATION_MESSAGE
-				);
-			} else if (e.getSource() == reStudent && e.getStateChange() == ItemEvent.SELECTED) {
-				JOptionPane.showMessageDialog(
-						null,
-						"Ne tardez pas à remplir votre PAE",
-						"Rappel",
-						JOptionPane.INFORMATION_MESSAGE
-				);
-			}
-		}
-	}
+	
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == reset) {
-				firstName.setText(null);
-				lastName.setText(null);
-				birthDate.setText(null);
-				section.setText(null);
+				dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
+				monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);
+				yearBox.setSelectedItem(LocalDateTime.now().getYear());
 
-				boursier.setSelected(false);
-				etranger.setSelected(false);
+				//tournamentBox.setSelectedIndex(0);
+				//refereeBox.setSelectedIndex(0);
+				//locationBox.setSelectedIndex(0);
 
-				newStudent.setSelected(true);
+				durationSpinner.setValue(0);
+				commentText.setText(null);
 			}
 		}
 	}

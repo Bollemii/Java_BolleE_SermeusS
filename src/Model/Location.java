@@ -1,6 +1,8 @@
 package Model;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
 	private Integer id;
 	private String name;
 	private Integer nbRows;

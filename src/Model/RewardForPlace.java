@@ -1,6 +1,8 @@
 package Model;
 
-public class RewardForPlace {
+import java.io.Serializable;
+
+public class RewardForPlace implements Serializable {
 	private Tournament tournament;
 	private Reward reward;
 	private int place;

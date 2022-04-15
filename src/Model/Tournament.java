@@ -1,6 +1,8 @@
 package Model;
 
-public class Tournament {
+import java.io.Serializable;
+
+public class Tournament implements Serializable {
 	private Integer id;
 	private String name;
 	private Boolean isOfficial;

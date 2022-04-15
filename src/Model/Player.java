@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Player extends Person {
+public class Player extends Person implements Serializable {
 	private boolean isProfessional;
 	private double elo;
 	private ArrayList<Result> results;

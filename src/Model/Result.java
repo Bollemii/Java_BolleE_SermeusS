@@ -1,6 +1,8 @@
 package Model;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
 	private Player player;
 	private Match match;
 	private int points;

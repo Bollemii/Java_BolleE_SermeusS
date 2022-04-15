@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Visitor extends Person {
+public class Visitor extends Person implements Serializable {
 	private boolean isVIP;
 	private ArrayList<Reservation> reservations;
 
