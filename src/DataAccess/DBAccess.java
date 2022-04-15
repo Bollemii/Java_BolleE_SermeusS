@@ -38,7 +38,7 @@ public class DBAccess implements DataAccess {
 			preparedStatement.setDate(5, new java.sql.Date(match.getDateStart().getTimeInMillis()));
 			nbLinesUpdated = preparedStatement.executeUpdate();
 
-			optionalsColumnsMatch(match, preparedStatement);
+			optionalsColumnsMatch(match);
 			return nbLinesUpdated;
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
@@ -129,7 +129,7 @@ public class DBAccess implements DataAccess {
 		try {
 			int nbLinesUpdated;
 			String sqlInstruction;
-			sqlInstruction = "update `match` set locationID = ?, tournamentID = ?, judgeID = ?, dateStart = ?, isFinal = ?) " +
+			sqlInstruction = "update `match` set locationID = ?, tournamentID = ?, judgeID = ?, dateStart = ?, isFinal = ? " +
 							 "where matchID = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, match.getLocation().getId());
@@ -140,16 +140,17 @@ public class DBAccess implements DataAccess {
 			preparedStatement.setInt(6, match.getId());
 			nbLinesUpdated = preparedStatement.executeUpdate();
 
-			optionalsColumnsMatch(match, preparedStatement);
+			optionalsColumnsMatch(match);
 			return nbLinesUpdated;
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
 	}
 
-	private void optionalsColumnsMatch (Match match, PreparedStatement preparedStatement) throws DataException {
+	private void optionalsColumnsMatch (Match match) throws DataException {
 		try {
 			String sqlInstruction;
+			PreparedStatement preparedStatement;
 			if (match.getDuration() != null) {
 				sqlInstruction = "update `match` set duration = ? where matchID = ?";
 				preparedStatement = connection.prepareStatement(sqlInstruction);
