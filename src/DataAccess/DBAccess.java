@@ -20,8 +20,13 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
-	public void addMatch(Match match) throws DataException {
+	@Override
+	public int addMatch(Match match) throws DataException {
+		if (match == null)
+			return 0;
+
 		try {
+			int nbLinesUpdated;
 			String sqlInstruction;
 			sqlInstruction = "insert into `match`(matchID, locationID, tournamentID, judgeID, dateStart, isFinal) " +
 							 "values(?,?,?,?,?,?)";
@@ -31,22 +36,10 @@ public class DBAccess implements DataAccess {
 			preparedStatement.setInt(3, match.getTournament().getId());
 			preparedStatement.setInt(4, match.getReferee().getId());
 			preparedStatement.setDate(5, new java.sql.Date(match.getDateStart().getTimeInMillis()));
-			preparedStatement.executeUpdate();
+			nbLinesUpdated = preparedStatement.executeUpdate();
 
-			if (match.getDuration() != null) {
-				sqlInstruction = "update `match` set duration = ? where matchID = ?";
-				preparedStatement = connection.prepareStatement(sqlInstruction);
-				preparedStatement.setInt(1, match.getDuration());
-				preparedStatement.setInt(2, match.getId());
-				preparedStatement.executeUpdate();
-			}
-			if (match.getComment() != null) {
-				sqlInstruction = "update `match` set comment = ? where matchID = ?";
-				preparedStatement = connection.prepareStatement(sqlInstruction);
-				preparedStatement.setString(1, match.getComment());
-				preparedStatement.setInt(2, match.getId());
-				preparedStatement.executeUpdate();
-			}
+			optionalsColumnsMatch(match, preparedStatement);
+			return nbLinesUpdated;
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -73,6 +66,9 @@ public class DBAccess implements DataAccess {
 
 	@Override
 	public ArrayList<Match> getMatchsPlayer(Player player) throws DataException {
+		if (player == null)
+			return new ArrayList<>();
+
 		try {
 			String sqlInstruction =
 					"select m.*, l.name as 'location', t.name as 'tournament', j.firstName as 'judge', r.points " +
@@ -126,7 +122,58 @@ public class DBAccess implements DataAccess {
 		return list;
 	}
 
+	public int updateMatch(Match match) throws DataException {
+		if (match == null)
+			return 0;
+
+		try {
+			int nbLinesUpdated;
+			String sqlInstruction;
+			sqlInstruction = "update `match` set locationID = ?, tournamentID = ?, judgeID = ?, dateStart = ?, isFinal = ?) " +
+							 "where matchID = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, match.getLocation().getId());
+			preparedStatement.setInt(2, match.getTournament().getId());
+			preparedStatement.setInt(3, match.getReferee().getId());
+			preparedStatement.setDate(4, new java.sql.Date(match.getDateStart().getTimeInMillis()));
+			preparedStatement.setBoolean(5, match.isFinal());
+			preparedStatement.setInt(6, match.getId());
+			nbLinesUpdated = preparedStatement.executeUpdate();
+
+			optionalsColumnsMatch(match, preparedStatement);
+			return nbLinesUpdated;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	private void optionalsColumnsMatch (Match match, PreparedStatement preparedStatement) throws DataException {
+		try {
+			String sqlInstruction;
+			if (match.getDuration() != null) {
+				sqlInstruction = "update `match` set duration = ? where matchID = ?";
+				preparedStatement = connection.prepareStatement(sqlInstruction);
+				preparedStatement.setInt(1, match.getDuration());
+				preparedStatement.setInt(2, match.getId());
+				preparedStatement.executeUpdate();
+			}
+			if (match.getComment() != null) {
+				sqlInstruction = "update `match` set comment = ? where matchID = ?";
+				preparedStatement = connection.prepareStatement(sqlInstruction);
+				preparedStatement.setString(1, match.getComment());
+				preparedStatement.setInt(2, match.getId());
+				preparedStatement.executeUpdate();
+			}
+		} catch(SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
 	public int deleteMatch(int... matchID) throws DataException {
+		if (matchID == null)
+			return 0;
+
 		try {
 			String sqlInstruction = "delete from `match` where matchID in(?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);

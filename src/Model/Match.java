@@ -29,6 +29,9 @@ public class Match {
 	public GregorianCalendar getDateStart() {
 		return dateStart;
 	}
+	public Boolean isFinal() {
+		return isFinal;
+	}
 	public Integer getDuration() {
 		return Integer.valueOf(duration);
 	}
