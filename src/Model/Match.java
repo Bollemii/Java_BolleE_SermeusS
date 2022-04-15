@@ -33,7 +33,7 @@ public class Match {
 		return isFinal;
 	}
 	public Integer getDuration() {
-		return Integer.valueOf(duration);
+		return duration;
 	}
 	public String getComment() {
 		return comment;
