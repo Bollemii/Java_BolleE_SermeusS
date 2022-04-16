@@ -12,6 +12,9 @@ public class Tournament implements Serializable {
 		this.name = name;
 		this.isOfficial = isOfficial;
 	}
+	public Tournament(Integer id, String name) {
+		this(id, name, null);
+	}
 	public Tournament(String name) {
 		this(null, name, null);
 	}

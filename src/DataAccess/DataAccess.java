@@ -14,4 +14,7 @@ public interface DataAccess {
 
 	// RESEARCHES
 	ArrayList<Match> getMatchsPlayer(Player player) throws DataException;
+	ArrayList<Tournament> getAllTournaments() throws DataException;
+	ArrayList<Referee> getAllReferees() throws DataException;
+	ArrayList<Location> getAllLocations() throws DataException;
 }

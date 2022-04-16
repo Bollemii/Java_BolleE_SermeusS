@@ -8,13 +8,17 @@ public class Location implements Serializable {
 	private Integer nbRows;
 	private Integer nbSeatsPerRow;
 
-	public Location(String name, Integer nbRows, Integer nbSeatsPerRow) {
+	public Location(Integer id, String name, Integer nbRows, Integer nbSeatsPerRow) {
+		this.id = id;
 		this.name = name;
 		this.nbRows = nbRows;
 		this.nbSeatsPerRow = nbSeatsPerRow;
 	}
+	public Location(Integer id, String name) {
+		this(id, name, null, null);
+	}
 	public Location(String name) {
-		this(name, null, null);
+		this(null, name, null, null);
 	}
 
 	public Integer getId() {

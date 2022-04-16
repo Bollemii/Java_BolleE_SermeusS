@@ -1,5 +1,6 @@
 package View;
 
+import Business.TournamentManagement;
 import Model.Tournament;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 public class Form extends JPanel {
 	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
+	private TournamentManagement manager;
 	private JPanel formPanel, datePanel, buttonsPanel;
 	private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
 	private JComboBox<Integer> dayBox, yearBox;
@@ -19,6 +21,8 @@ public class Form extends JPanel {
 	private JButton back, validate, reset;
 
 	public Form() {
+		manager = new TournamentManagement();
+
 		setLayout(new BorderLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -46,15 +50,15 @@ public class Form extends JPanel {
 		formPanel.add(datePanel);
 
 		formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));
-		tournamentBox = new JComboBox<>();
+		tournamentBox = new JComboBox<>(manager.getTournamentsList().toArray(new String[0]));
 		formPanel.add(tournamentBox);
 
 		formPanel.add(new JLabel("Arbitre : ", SwingConstants.RIGHT));
-		refereeBox = new JComboBox<>();
+		refereeBox = new JComboBox<>(manager.getRefereesList().toArray(new String[0]));
 		formPanel.add(refereeBox);
 
 		formPanel.add(new JLabel("Localisation : ", SwingConstants.RIGHT));
-		locationBox = new JComboBox<>();
+		locationBox = new JComboBox<>(manager.getLocationsList().toArray(new String[0]));
 		formPanel.add(locationBox);
 
 		formPanel.add(new JLabel("Durée : ", SwingConstants.RIGHT));
@@ -65,6 +69,7 @@ public class Form extends JPanel {
 		commentText = new JTextArea();
 		formPanel.add(commentText);
 
+		formPanel.add(new JPanel());
 		finalCheck = new JCheckBox("est une finale");
 		formPanel.add(finalCheck);
 
@@ -76,7 +81,7 @@ public class Form extends JPanel {
 		buttonsPanel.add(back);
 
 		validate = new JButton("Validation");
-		validate.setToolTipText("Enregistrer l'étudiant");
+		validate.setToolTipText("Enregistrer");
 		buttonsPanel.add(validate);
 
 		reset = new JButton("Réinitialisation");
@@ -91,7 +96,7 @@ public class Form extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 	}
-	
+
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -100,12 +105,13 @@ public class Form extends JPanel {
 				monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);
 				yearBox.setSelectedItem(LocalDateTime.now().getYear());
 
-				//tournamentBox.setSelectedIndex(0);
-				//refereeBox.setSelectedIndex(0);
-				//locationBox.setSelectedIndex(0);
+				tournamentBox.setSelectedIndex(0);
+				refereeBox.setSelectedIndex(0);
+				locationBox.setSelectedIndex(0);
 
 				durationSpinner.setValue(0);
 				commentText.setText(null);
+				finalCheck.setSelected(false);
 			}
 		}
 	}

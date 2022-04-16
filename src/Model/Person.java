@@ -17,6 +17,9 @@ public abstract class Person implements Serializable {
 		this.birthDate = birthDate;
 		this.gender = gender;
 	}
+	public Person(Integer id, String firstName, String lastName) {
+		this (id, firstName, lastName, null, null);
+	}
 	public Person(String firstName) {
 		this (null, firstName, null, null, null);
 	}

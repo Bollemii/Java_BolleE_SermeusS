@@ -20,6 +20,7 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
+	// ADD
 	@Override
 	public int addMatch(Match match) throws DataException {
 		if (match == null)
@@ -45,6 +46,7 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
+	// GET
 	@Override
 	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
@@ -122,6 +124,68 @@ public class DBAccess implements DataAccess {
 		return list;
 	}
 
+	@Override
+	public ArrayList<Tournament> getAllTournaments() throws DataException {
+		try {
+			String sqlInstruction = "select * from tournament";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Tournament> list = new ArrayList<>();
+			while (data.next()) {
+				list.add(new Tournament(
+						data.getInt("tournamentID"),
+						data.getString("name")
+				));
+			}
+			return list;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public ArrayList<Referee> getAllReferees() throws DataException {
+		try {
+			String sqlInstruction = "select * from person where typePerson = 'referee'";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Referee> list = new ArrayList<>();
+			while (data.next()) {
+				list.add(new Referee(
+						data.getInt("personID"),
+						data.getString("firstName"),
+						data.getString("lastName")
+				));
+			}
+			return list;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public ArrayList<Location> getAllLocations() throws DataException {
+		try {
+			String sqlInstruction = "select * from location";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Location> list = new ArrayList<>();
+			while (data.next()) {
+				list.add(new Location(
+						data.getInt("locationID"),
+						data.getString("name")
+				));
+			}
+			return list;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	// UPDATE
 	public int updateMatch(Match match) throws DataException {
 		if (match == null)
 			return 0;
@@ -170,6 +234,7 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
+	// DELETE
 	@Override
 	public int deleteMatch(int... matchID) throws DataException {
 		if (matchID == null)
