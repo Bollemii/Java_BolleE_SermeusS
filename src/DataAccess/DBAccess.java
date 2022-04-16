@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Model.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.*;
@@ -95,7 +96,7 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
-	private ArrayList<Match> getMatchs(ResultSet data) throws SQLException {
+	private ArrayList<Match> getMatchs(@NotNull ResultSet data) throws SQLException {
 		ArrayList<Match> list = new ArrayList<>();
 
 		Match match;
@@ -176,7 +177,9 @@ public class DBAccess implements DataAccess {
 			while (data.next()) {
 				list.add(new Location(
 						data.getInt("locationID"),
-						data.getString("name")
+						data.getString("name"),
+						data.getInt("nbRows"),
+						data.getInt("nbSeatsPerRow")
 				));
 			}
 			return list;
@@ -186,6 +189,7 @@ public class DBAccess implements DataAccess {
 	}
 
 	// UPDATE
+	@Override
 	public int updateMatch(Match match) throws DataException {
 		if (match == null)
 			return 0;
@@ -211,7 +215,7 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
-	private void optionalsColumnsMatch (Match match) throws DataException {
+	private void optionalsColumnsMatch (@NotNull Match match) throws DataException {
 		try {
 			String sqlInstruction;
 			PreparedStatement preparedStatement;

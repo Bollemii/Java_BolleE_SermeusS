@@ -10,6 +10,7 @@ public interface DataAccess {
 	// CRUD
 	int addMatch(Match match) throws DataException;
 	ArrayList<Match> getAllMatchs() throws DataException;
+	int updateMatch(Match match) throws DataException;
 	int deleteMatch(int... matchID) throws DataException;
 
 	// RESEARCHES

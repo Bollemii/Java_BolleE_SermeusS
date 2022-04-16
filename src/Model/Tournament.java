@@ -25,4 +25,9 @@ public class Tournament implements Serializable {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public String toString() {
+		return getName() + " (#" + getId() + ")";
+	}
 }

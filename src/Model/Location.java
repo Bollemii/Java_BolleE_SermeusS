@@ -14,9 +14,6 @@ public class Location implements Serializable {
 		this.nbRows = nbRows;
 		this.nbSeatsPerRow = nbSeatsPerRow;
 	}
-	public Location(Integer id, String name) {
-		this(id, name, null, null);
-	}
 	public Location(String name) {
 		this(null, name, null, null);
 	}
@@ -30,5 +27,10 @@ public class Location implements Serializable {
 
 	public int nbPlaces() {
 		return nbRows * nbSeatsPerRow;
+	}
+
+	@Override
+	public String toString() {
+		return getName() + " (#" + getId() + ") : " + nbPlaces() + " places";
 	}
 }

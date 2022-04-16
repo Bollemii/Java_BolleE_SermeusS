@@ -23,7 +23,7 @@ public class TournamentManagement {
 		ArrayList<String> list = new ArrayList<>();
 		try {
 			for (Tournament tournament : dataAccess.getAllTournaments()) {
-				list.add(tournament.getName() + " (#" + tournament.getId() + ")");
+				list.add(tournament.toString());
 			}
 		} catch (DataException exception) {
 			consoleInteractor.displayMessage(exception.getMessage());
@@ -35,7 +35,7 @@ public class TournamentManagement {
 		ArrayList<String> list = new ArrayList<>();
 		try {
 			for (Referee referee : dataAccess.getAllReferees()) {
-				list.add(referee.getFirstName() + " " + referee.getLastName() + " (#" + referee.getId() + ")");
+				list.add(referee.toString());
 			}
 		} catch (DataException exception) {
 			consoleInteractor.displayMessage(exception.getMessage());
@@ -47,7 +47,7 @@ public class TournamentManagement {
 		ArrayList<String> list = new ArrayList<>();
 		try {
 			for (Location location : dataAccess.getAllLocations()) {
-				list.add(location.getName() + " (#" + location.getId() + ")");
+				list.add(location.toString());
 			}
 		} catch (DataException exception) {
 			consoleInteractor.displayMessage(exception.getMessage());

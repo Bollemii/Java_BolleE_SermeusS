@@ -33,4 +33,9 @@ public abstract class Person implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
+
+	@Override
+	public String toString() {
+		return getFirstName() + " " + getLastName() + " (#" + getId() + ")";
+	}
 }
