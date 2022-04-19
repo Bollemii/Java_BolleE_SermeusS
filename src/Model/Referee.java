@@ -11,11 +11,12 @@ public class Referee extends Person implements Serializable {
 		this.level = level;
 	}
 	public Referee(Integer id, String firstName, String lastName) {
-		super(id, firstName, lastName);
-		this.level = null;
+		this(id, firstName, lastName, null, null, null);
 	}
 	public Referee(String firstName) {
-		super(firstName);
-		this.level = null;
+		this(null, firstName, null);
+	}
+	public Referee(Integer id) {
+		this(id, null, null);
 	}
 }

@@ -16,7 +16,10 @@ public class Tournament implements Serializable {
 		this(id, name, null);
 	}
 	public Tournament(String name) {
-		this(null, name, null);
+		this(null, name);
+	}
+	public Tournament(Integer id) {
+		this(id, null);
 	}
 
 	public Integer getId() {

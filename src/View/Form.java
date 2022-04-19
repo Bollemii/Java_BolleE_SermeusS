@@ -1,17 +1,19 @@
 package View;
 
-import Business.TournamentManagement;
-import Model.Tournament;
+import Business.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Form extends JPanel {
 	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
 	private TournamentManagement manager;
+	private UserInteraction interaction;
 	private JPanel formPanel, datePanel, buttonsPanel;
 	private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
 	private JComboBox<Integer> dayBox, yearBox;
@@ -22,6 +24,7 @@ public class Form extends JPanel {
 
 	public Form() {
 		manager = new TournamentManagement();
+		interaction = new UserInteraction();
 
 		setLayout(new BorderLayout());
 
@@ -62,7 +65,7 @@ public class Form extends JPanel {
 		formPanel.add(locationBox);
 
 		formPanel.add(new JLabel("Durée : ", SwingConstants.RIGHT));
-		durationSpinner = new JSpinner();
+		durationSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100000, 1));
 		formPanel.add(durationSpinner);
 
 		formPanel.add(new JLabel("Commentaire : ", SwingConstants.RIGHT));
@@ -82,6 +85,7 @@ public class Form extends JPanel {
 
 		validate = new JButton("Validation");
 		validate.setToolTipText("Enregistrer");
+		validate.addActionListener(buttonListener);
 		buttonsPanel.add(validate);
 
 		reset = new JButton("Réinitialisation");
@@ -100,7 +104,25 @@ public class Form extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == reset) {
+			if (e.getSource() == validate) {
+				GregorianCalendar dateStart = new GregorianCalendar((int)yearBox.getSelectedItem(), monthBox.getSelectedIndex(), (int)dayBox.getSelectedItem());
+
+				Pattern pattern = Pattern.compile(".+\\(#(\\d+)\\)");
+				Matcher matcher = pattern.matcher(tournamentBox.getSelectedItem().toString());
+
+				Integer tournamentID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+				matcher = pattern.matcher(locationBox.getSelectedItem().toString());
+				Integer locationID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+				matcher = pattern.matcher(refereeBox.getSelectedItem().toString());
+				Integer refereeID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+
+				int value = (int)durationSpinner.getValue();
+				Integer duration = value == 0 ? null : value;
+				String text = commentText.getText();
+				String comment = text == "" ? null : text;
+
+				interaction.displayDataUpdate(manager.addMatch(dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID));
+			} else if (e.getSource() == reset) {
 				dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
 				monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);
 				yearBox.setSelectedItem(LocalDateTime.now().getYear());

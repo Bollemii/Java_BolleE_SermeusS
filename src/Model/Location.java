@@ -17,6 +17,9 @@ public class Location implements Serializable {
 	public Location(String name) {
 		this(null, name, null, null);
 	}
+	public Location(Integer id) {
+		this(id, null, null, null);
+	}
 
 	public Integer getId() {
 		return id;

@@ -29,16 +29,19 @@ public class DBAccess implements DataAccess {
 
 		try {
 			int nbLinesUpdated;
-			String sqlInstruction;
-			sqlInstruction = "insert into `match`(matchID, locationID, tournamentID, judgeID, dateStart, isFinal) " +
-							 "values(?,?,?,?,?,?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-			preparedStatement.setInt(1, match.getId());
-			preparedStatement.setInt(2, match.getLocation().getId());
-			preparedStatement.setInt(3, match.getTournament().getId());
-			preparedStatement.setInt(4, match.getReferee().getId());
-			preparedStatement.setDate(5, new java.sql.Date(match.getDateStart().getTimeInMillis()));
+			String sqlInstruction = "insert into `match`(location_id, tournament_id, judge_id, date_start, is_final) " +
+									"values(?,?,?,?,?)";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setInt(1, match.getLocation().getId());
+			preparedStatement.setInt(2, match.getTournament().getId());
+			preparedStatement.setInt(3, match.getReferee().getId());
+			preparedStatement.setDate(4, new java.sql.Date(match.getDateStart().getTimeInMillis()));
+			preparedStatement.setBoolean(5, match.isFinal());
 			nbLinesUpdated = preparedStatement.executeUpdate();
+
+			ResultSet data = preparedStatement.getGeneratedKeys();
+			if (data.next())
+				match.setId(data.getInt("1"));
 
 			optionalsColumnsMatch(match);
 			return nbLinesUpdated;
@@ -52,11 +55,11 @@ public class DBAccess implements DataAccess {
 	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
 			String sqlInstruction =
-					"select m.*, p.firstName as 'judge', t.name as 'tournament', l.name as 'location'" +
+					"select m.*, p.first_name as 'judge', t.name as 'tournament', l.name as 'location'" +
 					"from `match` m " +
-					"inner join person p on m.judgeID = p.personID " +
-					"inner join tournament t on m.tournamentID = t.tournamentID " +
-					"inner join location l on m.locationID = l.locationID";
+					"inner join person p on m.judge_id = p.person_id " +
+					"inner join tournament t on m.tournament_id = t.tournament_id " +
+					"inner join location l on m.location_id = l.location_id";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
 			ResultSet data = preparedStatement.executeQuery();
@@ -74,14 +77,14 @@ public class DBAccess implements DataAccess {
 
 		try {
 			String sqlInstruction =
-					"select m.*, l.name as 'location', t.name as 'tournament', j.firstName as 'judge', r.points " +
+					"select m.*, l.name as 'location', t.name as 'tournament', j.first_name as 'judge', r.points " +
 					"from person p " +
-					"inner join result r on r.playerID = p.personID " +
-					"inner join `match` m on m.matchID = r.matchID " +
-					"inner join person j on m.judgeID = j.personID " +
-					"inner join tournament t on m.tournamentID = t.tournamentID " +
-					"inner join location l on m.locationID = l.locationID " +
-					"where p.firstName = (?) and p.lastName = (?) and p.personID = (?)";
+					"inner join result r on r.player_id = p.person_id " +
+					"inner join `match` m on m.match_id = r.match_id " +
+					"inner join person j on m.judge_id = j.person_id " +
+					"inner join tournament t on m.tournament_id = t.tournament_id " +
+					"inner join location l on m.location_id = l.location_id " +
+					"where p.first_name = (?) and p.last_name = (?) and p.person_id = (?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setString(1, player.getFirstName());
@@ -102,15 +105,15 @@ public class DBAccess implements DataAccess {
 		Match match;
 		GregorianCalendar calendar;
 		int duration;
+		String comment;
 
 		while (data.next()) {
 			calendar = new GregorianCalendar();
-			calendar.setTime(data.getDate("dateStart"));
+			calendar.setTime(data.getDate("date_start"));
 			match = new Match(
-					data.getInt("matchID"),
+					data.getInt("match_id"),
 					calendar,
-					data.getBoolean("isFinal"),
-					data.getString("comment"),
+					data.getBoolean("is_final"),
 					new Tournament(data.getString("tournament")),
 					new Referee(data.getString("judge")),
 					new Location(data.getString("location"))
@@ -119,6 +122,10 @@ public class DBAccess implements DataAccess {
 			duration = data.getInt("duration");
 			if (!data.wasNull())
 				match.setDuration(duration);
+
+			comment = data.getString("comment");
+			if (!data.wasNull())
+				match.setComment(comment);
 
 			list.add(match);
 		}
@@ -135,7 +142,7 @@ public class DBAccess implements DataAccess {
 			ArrayList<Tournament> list = new ArrayList<>();
 			while (data.next()) {
 				list.add(new Tournament(
-						data.getInt("tournamentID"),
+						data.getInt("tournament_id"),
 						data.getString("name")
 				));
 			}
@@ -148,16 +155,16 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<Referee> getAllReferees() throws DataException {
 		try {
-			String sqlInstruction = "select * from person where typePerson = 'referee'";
+			String sqlInstruction = "select * from person where type_person = 'Referee'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			ResultSet data = preparedStatement.executeQuery();
 
 			ArrayList<Referee> list = new ArrayList<>();
 			while (data.next()) {
 				list.add(new Referee(
-						data.getInt("personID"),
-						data.getString("firstName"),
-						data.getString("lastName")
+						data.getInt("person_id"),
+						data.getString("first_name"),
+						data.getString("last_name")
 				));
 			}
 			return list;
@@ -176,10 +183,10 @@ public class DBAccess implements DataAccess {
 			ArrayList<Location> list = new ArrayList<>();
 			while (data.next()) {
 				list.add(new Location(
-						data.getInt("locationID"),
+						data.getInt("location_id"),
 						data.getString("name"),
-						data.getInt("nbRows"),
-						data.getInt("nbSeatsPerRow")
+						data.getInt("nb_rows"),
+						data.getInt("nb_seats_per_row")
 				));
 			}
 			return list;
@@ -197,8 +204,8 @@ public class DBAccess implements DataAccess {
 		try {
 			int nbLinesUpdated;
 			String sqlInstruction;
-			sqlInstruction = "update `match` set locationID = ?, tournamentID = ?, judgeID = ?, dateStart = ?, isFinal = ? " +
-							 "where matchID = ?";
+			sqlInstruction = "update `match` set location_id = ?, tournament_id = ?, judge_id = ?, date_start = ?, is_final = ? " +
+							 "where match_id = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, match.getLocation().getId());
 			preparedStatement.setInt(2, match.getTournament().getId());
@@ -220,14 +227,14 @@ public class DBAccess implements DataAccess {
 			String sqlInstruction;
 			PreparedStatement preparedStatement;
 			if (match.getDuration() != null) {
-				sqlInstruction = "update `match` set duration = ? where matchID = ?";
+				sqlInstruction = "update `match` set duration = ? where match_id = ?";
 				preparedStatement = connection.prepareStatement(sqlInstruction);
 				preparedStatement.setInt(1, match.getDuration());
 				preparedStatement.setInt(2, match.getId());
 				preparedStatement.executeUpdate();
 			}
 			if (match.getComment() != null) {
-				sqlInstruction = "update `match` set comment = ? where matchID = ?";
+				sqlInstruction = "update `match` set comment = ? where match_id = ?";
 				preparedStatement = connection.prepareStatement(sqlInstruction);
 				preparedStatement.setString(1, match.getComment());
 				preparedStatement.setInt(2, match.getId());
@@ -245,7 +252,7 @@ public class DBAccess implements DataAccess {
 			return 0;
 
 		try {
-			String sqlInstruction = "delete from `match` where matchID in(?)";
+			String sqlInstruction = "delete from `match` where match_id in(?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
 			StringBuilder matchList = new StringBuilder();
