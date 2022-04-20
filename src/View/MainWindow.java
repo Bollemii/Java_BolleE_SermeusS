@@ -20,18 +20,20 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         super("Gestion de tournois");
-        //set size of window
-        setSize(1080, 700);
+        // set size of window
+        this.setSize(1080, 700);
+        this.setLocationRelativeTo(null);
 
+        // menu
         menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
+        this.setJMenuBar(menuBar);
 
         appMenu = new JMenu("Application");
         appMenu.setMnemonic('F');
         menuBar.add(appMenu);
 
         exit = new JMenuItem("Quitter");
-        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         exit.addActionListener(e -> System.exit(0));
         appMenu.add(exit);
 
@@ -87,11 +89,11 @@ public class MainWindow extends JFrame {
         reservation.addActionListener(new HandleShowPanel());
         visitor.add(reservation);
 
+        // components
         container = getContentPane();
-        //JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournoi");
-        //welcome.setHorizontalAlignment(SwingConstants.CENTER);
-        //container.add(welcome);
-        container.add(new Form());
+        JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournoi");
+        welcome.setHorizontalAlignment(SwingConstants.CENTER);
+        container.add(welcome);
 
         //when window closed, exit
         this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {System.exit(0);}});
@@ -101,10 +103,8 @@ public class MainWindow extends JFrame {
 
     private class HandleShowPanel implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            getContentPane().removeAll();
-            JPanel panel = getPanel(e);
-            MainWindow.this.add(panel);
-            panel.setVisible(true);
+            container.removeAll();
+            MainWindow.this.add(getPanel(e));
             MainWindow.this.validate();
         }
 

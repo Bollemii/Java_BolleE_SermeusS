@@ -16,9 +16,8 @@ public class ShowAllMatchInfo extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
         setLayout(layout);
 
-
         //title
-        title = new JLabel("Toutes les infos des matchs");
+        title = new JLabel("Match Table");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;
@@ -26,7 +25,6 @@ public class ShowAllMatchInfo extends JPanel {
         c.anchor = GridBagConstraints.NORTH;
         c.weighty = 1;
         add(title, c);
-
 
         c.weighty = 2;
         //comboBox
@@ -36,7 +34,6 @@ public class ShowAllMatchInfo extends JPanel {
         comboBox.addItem("Inactive");
 
         comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
-
 
         add(comboBox, c);
 

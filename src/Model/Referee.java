@@ -13,8 +13,8 @@ public class Referee extends Person implements Serializable {
 	public Referee(Integer id, String firstName, String lastName) {
 		this(id, firstName, lastName, null, null, null);
 	}
-	public Referee(String firstName) {
-		this(null, firstName, null);
+	public Referee(String firstName, String lastName) {
+		this(null, firstName, lastName);
 	}
 	public Referee(Integer id) {
 		this(id, null, null);

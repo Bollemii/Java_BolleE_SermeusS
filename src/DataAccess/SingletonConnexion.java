@@ -7,9 +7,9 @@ public class SingletonConnexion {
 
 	private SingletonConnexion() throws SQLException {
 		connection = DriverManager.getConnection(
-				"jdbc:mysql://127.0.0.1:3306/library",
-				"root",
-				"root"
+				"jdbc:mysql://DESKTOP-G9LT55S:3306/java_project",
+				"bolle",
+				"1111"
 		);
 	}
 

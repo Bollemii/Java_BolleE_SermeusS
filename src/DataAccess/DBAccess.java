@@ -55,7 +55,7 @@ public class DBAccess implements DataAccess {
 	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
 			String sqlInstruction =
-					"select m.*, p.first_name as 'referee', t.name as 'tournament', l.name as 'location'" +
+					"select m.*, p.first_name, p.last_name, t.name as 'tournament', l.name as 'location'" +
 					"from `match` m " +
 					"inner join person p on m.referee_id = p.person_id " +
 					"inner join tournament t on m.tournament_id = t.tournament_id " +
@@ -77,7 +77,7 @@ public class DBAccess implements DataAccess {
 
 		try {
 			String sqlInstruction =
-					"select m.*, l.name as 'location', t.name as 'tournament', j.first_name as 'referee', r.points " +
+					"select m.*, l.name as 'location', t.name as 'tournament', j.first_name, j.last_name, r.points " +
 					"from person p " +
 					"inner join result r on r.player_id = p.person_id " +
 					"inner join `match` m on m.match_id = r.match_id " +
@@ -115,7 +115,7 @@ public class DBAccess implements DataAccess {
 					calendar,
 					data.getBoolean("is_final"),
 					new Tournament(data.getString("tournament")),
-					new Referee(data.getString("referee")),
+					new Referee(data.getString("first_name"), data.getString("last_name")),
 					new Location(data.getString("location"))
 			);
 

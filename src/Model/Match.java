@@ -1,7 +1,6 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Match implements Serializable {
@@ -64,18 +63,5 @@ public class Match implements Serializable {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return  "Match " + id + " { " +
-				"dateStart = " + dateStart.get(Calendar.DAY_OF_MONTH) + "/" + (dateStart.get(Calendar.MONTH)+1) + "/" + dateStart.get(Calendar.YEAR) +
-				", duration = " + duration +
-				", isFinal = " + isFinal +
-				", comment = '" + comment + '\'' +
-				", tournament = '" + tournament.getName() + '\'' +
-				", referee = '" + referee.getFirstName() + '\'' +
-				", location = '" + location.getName() + '\'' +
-				" }";
 	}
 }

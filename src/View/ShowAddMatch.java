@@ -1,74 +1,135 @@
 package View;
 
+import Business.TournamentManagement;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShowAddMatch extends JPanel {
-    private JButton submit;
-    private JComboBox comboBox;
-    private JTable table;;
-    private JLabel title;
-    //constructor
+    private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
+    private TournamentManagement manager;
+    private JPanel formPanel, datePanel, buttonsPanel;
+    private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
+    private JComboBox<Integer> dayBox, yearBox;
+    private JSpinner durationSpinner;
+    private JTextArea commentText;
+    private JCheckBox finalCheck;
+    private JButton validate, reset;
+
     public ShowAddMatch() {
-        //gridBagLayout
-        GridBagLayout layout = new GridBagLayout();
+        manager = new TournamentManagement();
+
+        setLayout(new BorderLayout());
+
         GridBagConstraints c = new GridBagConstraints();
-        setLayout(layout);
+        ButtonListener buttonListener = new ButtonListener();
 
+        formPanel = new JPanel();
+        formPanel.setLayout(new GridLayout(7, 2));
 
-        //title
-        title = new JLabel("Ajouter match");
-        title.setFont(new Font("Arial", Font.PLAIN, 40));
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.NORTH;
-        c.weighty = 1;
-        add(title, c);
+        formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
+        datePanel = new JPanel();
+        datePanel.setLayout(new GridBagLayout());
+        dayBox = new JComboBox<>();
+        for (int i = 1; i <= 31; i++)
+            dayBox.addItem(i);
+        dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
+        datePanel.add(dayBox, c);
+        monthBox = new JComboBox<>(MONTHS);
+        monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);
+        datePanel.add(monthBox, c);
+        yearBox = new JComboBox<>();
+        for (int i = 1900; i <= LocalDateTime.now().getYear(); i++)
+            yearBox.addItem(i);
+        yearBox.setSelectedItem(LocalDateTime.now().getYear());
+        datePanel.add(yearBox, c);
+        formPanel.add(datePanel);
 
+        formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));
+        tournamentBox = new JComboBox<>(manager.getTournamentsList().toArray(new String[0]));
+        formPanel.add(tournamentBox);
 
-        c.weighty = 2;
-        //comboBox
-        comboBox = new JComboBox();
-        comboBox.addItem("All");
-        comboBox.addItem("Active");
-        comboBox.addItem("Inactive");
+        formPanel.add(new JLabel("Arbitre : ", SwingConstants.RIGHT));
+        refereeBox = new JComboBox<>(manager.getRefereesList().toArray(new String[0]));
+        formPanel.add(refereeBox);
 
-        comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
+        formPanel.add(new JLabel("Localisation : ", SwingConstants.RIGHT));
+        locationBox = new JComboBox<>(manager.getLocationsList().toArray(new String[0]));
+        formPanel.add(locationBox);
 
+        formPanel.add(new JLabel("Durée : ", SwingConstants.RIGHT));
+        durationSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100000, 1));
+        formPanel.add(durationSpinner);
 
-        add(comboBox, c);
+        formPanel.add(new JLabel("Commentaire : ", SwingConstants.RIGHT));
+        commentText = new JTextArea();
+        formPanel.add(commentText);
 
-        submit = new JButton("Submit");
-        submit.setFont(new Font("Arial", Font.PLAIN, 20));
+        formPanel.add(new JPanel());
+        finalCheck = new JCheckBox("est une finale");
+        formPanel.add(finalCheck);
 
-        add(submit, c);
+        this.add(formPanel, BorderLayout.CENTER);
 
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(comboBox, c);
+        buttonsPanel = new JPanel();
+        validate = new JButton("Validation");
+        validate.setToolTipText("Enregistrer");
+        validate.addActionListener(buttonListener);
+        buttonsPanel.add(validate);
 
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(submit, c);
+        reset = new JButton("Réinitialisation");
+        reset.setToolTipText("Vider le formulaire");
+        reset.addActionListener(buttonListener);
+        buttonsPanel.add(reset);
 
-        table = new JTable();
+        this.add(buttonsPanel, BorderLayout.SOUTH);
+    }
 
-        String[] tblHead={"Item Name","Price","Qty","Discount"};
-        DefaultTableModel dtm=new DefaultTableModel(tblHead,0);
-        table =new JTable(dtm);
-        String[] item={"A","B","C","D"};
-        dtm.addRow(item);
-        table.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(table, c);
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+    }
+
+    private class ButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == validate) {
+                GregorianCalendar dateStart = new GregorianCalendar((int)yearBox.getSelectedItem(), monthBox.getSelectedIndex(), (int)dayBox.getSelectedItem());
+
+                Pattern pattern = Pattern.compile(".+\\(#(\\d+)\\)");
+                Matcher matcher = pattern.matcher(tournamentBox.getSelectedItem().toString());
+
+                Integer tournamentID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+                matcher = pattern.matcher(locationBox.getSelectedItem().toString());
+                Integer locationID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+                matcher = pattern.matcher(refereeBox.getSelectedItem().toString());
+                Integer refereeID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+
+                int value = (int)durationSpinner.getValue();
+                Integer duration = value == 0 ? null : value;
+                String text = commentText.getText();
+                String comment = text.isBlank() ? null : text;
+
+                manager.addMatch(dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
+            } else if (e.getSource() == reset) {
+                dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
+                monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);
+                yearBox.setSelectedItem(LocalDateTime.now().getYear());
+
+                tournamentBox.setSelectedIndex(0);
+                refereeBox.setSelectedIndex(0);
+                locationBox.setSelectedIndex(0);
+
+                durationSpinner.setValue(0);
+                commentText.setText(null);
+                finalCheck.setSelected(false);
+            }
+        }
     }
 }

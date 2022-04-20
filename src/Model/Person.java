@@ -17,12 +17,6 @@ public abstract class Person implements Serializable {
 		this.birthDate = birthDate;
 		this.gender = gender;
 	}
-	public Person(Integer id, String firstName, String lastName) {
-		this (id, firstName, lastName, null, null);
-	}
-	public Person(String firstName) {
-		this (null, firstName, null, null, null);
-	}
 
 	public Integer getId() {
 		return id;
@@ -33,9 +27,12 @@ public abstract class Person implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
+	public String getIdentity() {
+		return firstName + " " + lastName;
+	}
 
 	@Override
 	public String toString() {
-		return getFirstName() + " " + getLastName() + " (#" + getId() + ")";
+		return getIdentity() + " (#" + getId() + ")";
 	}
 }
