@@ -29,9 +29,9 @@ public class DBAccess implements DataAccess {
 
 		try {
 			int nbLinesUpdated;
-			String sqlInstruction = "insert into `match`(location_id, tournament_id, judge_id, date_start, is_final) " +
-									"values(?,?,?,?,?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction, Statement.RETURN_GENERATED_KEYS);
+			String sqlInstruction = "insert into `match`(location_id, tournament_id, referee_id, date_start, is_final) values(?,?,?,?,?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction, PreparedStatement.RETURN_GENERATED_KEYS);
 			preparedStatement.setInt(1, match.getLocation().getId());
 			preparedStatement.setInt(2, match.getTournament().getId());
 			preparedStatement.setInt(3, match.getReferee().getId());
@@ -40,8 +40,8 @@ public class DBAccess implements DataAccess {
 			nbLinesUpdated = preparedStatement.executeUpdate();
 
 			ResultSet data = preparedStatement.getGeneratedKeys();
-			if (data.next())
-				match.setId(data.getInt("1"));
+			data.next();
+			match.setId(data.getInt(1));
 
 			optionalsColumnsMatch(match);
 			return nbLinesUpdated;
@@ -55,9 +55,9 @@ public class DBAccess implements DataAccess {
 	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
 			String sqlInstruction =
-					"select m.*, p.first_name as 'judge', t.name as 'tournament', l.name as 'location'" +
+					"select m.*, p.first_name as 'referee', t.name as 'tournament', l.name as 'location'" +
 					"from `match` m " +
-					"inner join person p on m.judge_id = p.person_id " +
+					"inner join person p on m.referee_id = p.person_id " +
 					"inner join tournament t on m.tournament_id = t.tournament_id " +
 					"inner join location l on m.location_id = l.location_id";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
@@ -77,11 +77,11 @@ public class DBAccess implements DataAccess {
 
 		try {
 			String sqlInstruction =
-					"select m.*, l.name as 'location', t.name as 'tournament', j.first_name as 'judge', r.points " +
+					"select m.*, l.name as 'location', t.name as 'tournament', j.first_name as 'referee', r.points " +
 					"from person p " +
 					"inner join result r on r.player_id = p.person_id " +
 					"inner join `match` m on m.match_id = r.match_id " +
-					"inner join person j on m.judge_id = j.person_id " +
+					"inner join person j on m.referee_id = j.person_id " +
 					"inner join tournament t on m.tournament_id = t.tournament_id " +
 					"inner join location l on m.location_id = l.location_id " +
 					"where p.first_name = (?) and p.last_name = (?) and p.person_id = (?)";
@@ -115,7 +115,7 @@ public class DBAccess implements DataAccess {
 					calendar,
 					data.getBoolean("is_final"),
 					new Tournament(data.getString("tournament")),
-					new Referee(data.getString("judge")),
+					new Referee(data.getString("referee")),
 					new Location(data.getString("location"))
 			);
 
@@ -204,7 +204,7 @@ public class DBAccess implements DataAccess {
 		try {
 			int nbLinesUpdated;
 			String sqlInstruction;
-			sqlInstruction = "update `match` set location_id = ?, tournament_id = ?, judge_id = ?, date_start = ?, is_final = ? " +
+			sqlInstruction = "update `match` set location_id = ?, tournament_id = ?, referee_id = ?, date_start = ?, is_final = ? " +
 							 "where match_id = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, match.getLocation().getId());
