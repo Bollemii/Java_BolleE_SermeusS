@@ -62,3 +62,37 @@ insert into result(player_id, match_id)
 values(101, 3);
 insert into result(player_id, match_id)
 values(102, 3);
+
+-- reservation
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(106, 5, 'parterre', 'B', 23, 52.36);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(107, 4, 'gradin', 'R', 11, 14.53);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(108, 6, 'vip', 'O', 3, 0);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(106, 7, 'gradin', 'T', 1, 12.7);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(106, 1, 'parterre', 'P', 14, 10.09);
+
+-- reward
+insert into reward(name, cost)
+values('Ordinateur', 2123.2);
+insert into reward(name, cost)
+values('Bon cadeau', 50);
+insert into reward(name, cost)
+values('Voyage', 700);
+insert into reward(name, cost)
+values('Porte clé', 2.5);
+
+-- tournament_reward
+insert into tournament_reward(place, tournament_id, reward_id)
+values(1, 1, 1);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(2, 1, 3);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(3, 1, 4);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(1, 2, 2);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(2, 2, 4);
