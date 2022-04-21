@@ -11,7 +11,7 @@ public interface DataAccess {
 	int addMatch(Match match) throws DataException;
 	ArrayList<Match> getAllMatchs() throws DataException;
 	int updateMatch(Match match) throws DataException;
-	int deleteMatch(int... matchID) throws DataException;
+	int deleteMatch(String matchsID) throws DataException;
 
 	// RESEARCHES
 	ArrayList<Player> getPlayersTournament(int tournamentID) throws DataException;

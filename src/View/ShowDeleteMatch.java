@@ -1,24 +1,32 @@
 package View;
 
+import Business.TournamentManagement;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShowDeleteMatch extends JPanel {
-    private JButton submit;
-    private JComboBox comboBox;
-    private JTable table;;
+    private TournamentManagement manager;
     private JLabel title;
+    private JList matchsList;
+    private JButton submit;
+
     //constructor
     public ShowDeleteMatch() {
+        manager = new TournamentManagement();
+
         //gridBagLayout
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         setLayout(layout);
 
-
         //title
-        title = new JLabel("Supprimer un match");
+        title = new JLabel("Supprimer des matchs");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;
@@ -27,48 +35,31 @@ public class ShowDeleteMatch extends JPanel {
         c.weighty = 1;
         add(title, c);
 
-
         c.weighty = 2;
-        //comboBox
-        comboBox = new JComboBox();
-        comboBox.addItem("All");
-        comboBox.addItem("Active");
-        comboBox.addItem("Inactive");
-
-        comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
-
-
-        add(comboBox, c);
-
-        submit = new JButton("Submit");
-        submit.setFont(new Font("Arial", Font.PLAIN, 20));
-
-        add(submit, c);
-
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
         c.insets = new Insets(0, 0, 20, 0);
-        add(comboBox, c);
+        matchsList = new JList(manager.getMatchsList().toArray(new String[0]));
+        matchsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        matchsList.setFont(new Font("Arial", Font.PLAIN, 20));
+        add(matchsList, c);
 
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 2;
         c.insets = new Insets(0, 0, 20, 0);
+        submit = new JButton("Submit");
+        submit.addActionListener(new ButtonListener());
+        submit.setFont(new Font("Arial", Font.PLAIN, 20));
         add(submit, c);
+    }
 
-        table = new JTable();
-
-        String[] tblHead={"Item Name","Price","Qty","Discount"};
-        DefaultTableModel dtm=new DefaultTableModel(tblHead,0);
-        table =new JTable(dtm);
-        String[] item={"A","B","C","D"};
-        dtm.addRow(item);
-        table.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(table, c);
+    private class ButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            manager.deleteMatch(matchsList.getSelectedValuesList());
+            ShowDeleteMatch.this.repaint();
+        }
     }
 }

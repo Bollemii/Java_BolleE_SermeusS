@@ -8,8 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ShowReservationsVisitor extends JPanel {
 	private TournamentManagement manager;
@@ -51,7 +49,7 @@ public class ShowReservationsVisitor extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			tableModel.setRowCount(0);
-			int visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
+			int visitorID = ManagerUtils.getPersonIDFromDescription(visitorBox.getSelectedItem().toString());
 			for (String[] match : manager.getReservationsVisitor(visitorID)) {
 				tableModel.addRow(match);
 			}

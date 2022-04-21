@@ -339,26 +339,15 @@ public class DBAccess implements DataAccess {
 
 	// DELETE
 	@Override
-	public int deleteMatch(int... matchID) throws DataException {
-		if (matchID == null)
+	public int deleteMatch(String matchsID) throws DataException {
+		if (matchsID == null)
 			return 0;
 
 		try {
 			String sqlInstruction = "delete from `match` where match_id in(?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
-			StringBuilder matchList = new StringBuilder();
-			boolean isFirst = true;
-			for (int id : matchID) {
-				if (!isFirst) {
-					matchList.append(",");
-				} else {
-					isFirst = false;
-				}
-				matchList.append(id);
-			}
-
-			preparedStatement.setString(1, matchList.toString());
+			preparedStatement.setString(1, matchsID);
 			return preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());

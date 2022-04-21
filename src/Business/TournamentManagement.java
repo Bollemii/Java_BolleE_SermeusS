@@ -5,8 +5,8 @@ import Model.*;
 import View.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class TournamentManagement {
 	private DataAccess dataAccess;
@@ -27,6 +27,17 @@ public class TournamentManagement {
 		try {
 			for (Tournament tournament : dataAccess.getAllTournaments()) {
 				list.add(tournament.toString());
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return list;
+	}
+	public ArrayList<String> getMatchsList() {
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			for (Match match : dataAccess.getAllMatchs()) {
+				list.add(match.toString());
 			}
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
@@ -121,6 +132,24 @@ public class TournamentManagement {
 		try {
 			userInteraction.displayDataUpdate(dataAccess.addMatch(match));
 		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+	}
+	public void deleteMatch(List matchsID) {
+		StringBuilder matchsList = new StringBuilder();
+		boolean isFirst = true;
+		for (Object match : matchsID) {
+			if (!isFirst) {
+				matchsList.append(",");
+			} else {
+				isFirst = false;
+			}
+			matchsList.append(ManagerUtils.getMatchIDFromDescription(match.toString()));
+		}
+
+		try {
+			userInteraction.displayDataUpdate(dataAccess.deleteMatch(matchsList.toString()));
+		} catch(DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
