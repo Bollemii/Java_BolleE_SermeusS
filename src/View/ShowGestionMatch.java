@@ -1,14 +1,18 @@
 package View;
 
+import Model.Match;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ShowGestionMatch extends JPanel {
     private JButton submit;
     private JComboBox comboBox;
     private JTable table;;
     private JLabel title;
+    private ArrayList<Match> listMatch;
     //constructor
     public ShowGestionMatch() {
         //gridBagLayout
@@ -19,7 +23,7 @@ public class ShowGestionMatch extends JPanel {
 
         //title
         title = new JLabel("Gestion des matchs");
-        title.setFont(new Font("Arial", Font.PLAIN, 40));
+        title.setFont(new Font("Arial", Font.PLAIN, 30));
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
@@ -49,7 +53,7 @@ public class ShowGestionMatch extends JPanel {
         c.gridy = 1;
         c.gridwidth = 1;
         c.insets = new Insets(0, 0, 20, 0);
-        add(comboBox, c);
+        add(comboBox,c);
 
         c.gridx = 1;
         c.gridy = 1;
