@@ -1,20 +1,16 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class Visitor extends Person implements Serializable {
-	private boolean isVIP;
-	private ArrayList<Reservation> reservations;
+	private Boolean isVIP;
 
-	public Visitor(int id, String firstName, String lastName, GregorianCalendar birthDate, char gender, boolean isVIP) {
+	public Visitor(Integer id, String firstName, String lastName, GregorianCalendar birthDate, Character gender, Boolean isVIP) {
 		super(id, firstName, lastName, birthDate, gender);
 		this.isVIP = isVIP;
-		this.reservations = new ArrayList<>();
 	}
-
-	public void addReservation(Reservation reservation) {
-		reservations.add(reservation);
+	public Visitor(Integer id, String firstName, String lastName) {
+		this(id, firstName, lastName, null, null, null);
 	}
 }

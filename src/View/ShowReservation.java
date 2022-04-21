@@ -18,7 +18,7 @@ public class ShowReservation extends JPanel {
 
 
         //title
-        title = new JLabel("Reservation");
+        title = new JLabel("Réservation");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;

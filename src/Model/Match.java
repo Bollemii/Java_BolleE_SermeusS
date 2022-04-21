@@ -1,6 +1,9 @@
 package Model;
 
+import Business.ManagerUtils;
+
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Match implements Serializable {
@@ -28,6 +31,9 @@ public class Match implements Serializable {
 	}
 	public Match(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, Tournament tournament, Referee referee, Location location) {
 		this(null, dateStart, duration, isFinal, comment, tournament, referee, location);
+	}
+	public Match(Integer id, GregorianCalendar dateStart) {
+		this(id, dateStart, null, null, null, null);
 	}
 
 	public Integer getId() {
@@ -63,5 +69,10 @@ public class Match implements Serializable {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return id + " (" + ManagerUtils.getDateString(dateStart) + ")";
 	}
 }

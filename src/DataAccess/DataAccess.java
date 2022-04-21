@@ -14,8 +14,14 @@ public interface DataAccess {
 	int deleteMatch(int... matchID) throws DataException;
 
 	// RESEARCHES
-	ArrayList<Match> getMatchsPlayer(Player player) throws DataException;
+	ArrayList<Player> getPlayersTournament(int tournamentID) throws DataException;
+	ArrayList<Match> getMatchsPlayer(int playerID) throws DataException;
+	ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException;
+
+	// GET LISTS
 	ArrayList<Tournament> getAllTournaments() throws DataException;
+	ArrayList<Player> getAllPlayers() throws DataException;
 	ArrayList<Referee> getAllReferees() throws DataException;
+	ArrayList<Visitor> getAllVisitors() throws DataException;
 	ArrayList<Location> getAllLocations() throws DataException;
 }

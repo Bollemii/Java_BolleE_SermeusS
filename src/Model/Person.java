@@ -21,12 +21,6 @@ public abstract class Person implements Serializable {
 	public Integer getId() {
 		return id;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
 	public String getIdentity() {
 		return firstName + " " + lastName;
 	}

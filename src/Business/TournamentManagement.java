@@ -33,6 +33,17 @@ public class TournamentManagement {
 		}
 		return list;
 	}
+	public ArrayList<String> getPlayersList() {
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			for (Player player : dataAccess.getAllPlayers()) {
+				list.add(player.toString());
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return list;
+	}
 	public ArrayList<String> getRefereesList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -55,15 +66,26 @@ public class TournamentManagement {
 		}
 		return list;
 	}
+	public ArrayList<String> getVisitorsList() {
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			for (Visitor visitor : dataAccess.getAllVisitors()) {
+				list.add(visitor.toString());
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return list;
+	}
 
 	// methods for data operations
 	public ArrayList<String[]> getAllMatchs() {
+		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {
-			ArrayList<String[]> listMatchs = new ArrayList<>();
 			for(Match match : dataAccess.getAllMatchs()) {
 				String[] matchStrings = new String[8];
 				matchStrings[0] = match.getId().toString();
-				matchStrings[1] = match.getDateStart().get(Calendar.DAY_OF_MONTH) + "/" + (match.getDateStart().get(Calendar.MONTH)+1) + "/" + match.getDateStart().get(Calendar.YEAR);
+				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
 				matchStrings[2] = match.getDuration() != null ? match.getDuration() + " minutes" : "";
 				matchStrings[3] = match.isFinal() ? "finale" : "normal";
 				matchStrings[4] = match.getComment() != null ? match.getComment() : "";
@@ -73,13 +95,27 @@ public class TournamentManagement {
 
 				listMatchs.add(matchStrings);
 			}
-			return listMatchs;
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
-			return new ArrayList();
 		}
+		return listMatchs;
 	}
+	public ArrayList<String[]> getReservationsVisitor(int visitorID) {
+		ArrayList<String[]> listReservations = new ArrayList<>();
+		try {
+			for(Reservation reservation : dataAccess.getReservationsVisitor(visitorID)) {
+				String[] reservationStrings = new String[3];
+				reservationStrings[0] = reservation.getMatch().toString();
+				reservationStrings[1] = reservation.getCodeSeat();
+				reservationStrings[2] = reservation.getCost().toString();
 
+				listReservations.add(reservationStrings);
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return listReservations;
+	}
 	public void addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
 		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {

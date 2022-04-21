@@ -1,5 +1,6 @@
 package View;
 
+import Business.ManagerUtils;
 import Business.TournamentManagement;
 
 import javax.swing.*;
@@ -102,14 +103,9 @@ public class ShowAddMatch extends JPanel {
             if (e.getSource() == validate) {
                 GregorianCalendar dateStart = new GregorianCalendar((int)yearBox.getSelectedItem(), monthBox.getSelectedIndex(), (int)dayBox.getSelectedItem());
 
-                Pattern pattern = Pattern.compile(".+\\(#(\\d+)\\)");
-                Matcher matcher = pattern.matcher(tournamentBox.getSelectedItem().toString());
-
-                Integer tournamentID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
-                matcher = pattern.matcher(locationBox.getSelectedItem().toString());
-                Integer locationID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
-                matcher = pattern.matcher(refereeBox.getSelectedItem().toString());
-                Integer refereeID = matcher.find() ? Integer.parseInt(matcher.group(1)) : null;
+                Integer tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
+                Integer locationID = ManagerUtils.getIDFromDescription(locationBox.getSelectedItem().toString());
+                Integer refereeID = ManagerUtils.getIDFromDescription(refereeBox.getSelectedItem().toString());
 
                 int value = (int)durationSpinner.getValue();
                 Integer duration = value == 0 ? null : value;

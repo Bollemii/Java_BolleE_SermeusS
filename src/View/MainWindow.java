@@ -16,7 +16,7 @@ public class MainWindow extends JFrame {
     private JMenu player;
     private JMenuItem showPlayer;
     private JMenu visitor;
-    private JMenuItem reservation;
+    private JMenuItem reservation, showReservation;
 
     public MainWindow() {
         super("Gestion de tournois");
@@ -85,13 +85,17 @@ public class MainWindow extends JFrame {
         visitor.setMnemonic('V');
         menuBar.add(visitor);
 
-        reservation = new JMenuItem("Reservation");
+        reservation = new JMenuItem("Réservation");
         reservation.addActionListener(new HandleShowPanel());
         visitor.add(reservation);
 
+        showReservation = new JMenuItem("Affiche les réservations d'un visiteur");
+        showReservation.addActionListener(new HandleShowPanel());
+        visitor.add(showReservation);
+
         // components
         container = getContentPane();
-        JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournoi");
+        JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournois");
         welcome.setHorizontalAlignment(SwingConstants.CENTER);
         container.add(welcome);
 
@@ -127,6 +131,8 @@ public class MainWindow extends JFrame {
                 return new ShowPlayer();
             } else if (e.getSource() == reservation) {
                 return new ShowReservation();
+            } else if (e.getSource() == showReservation) {
+                return new ShowReservationsVisitor();
             }
             return null;
         }
