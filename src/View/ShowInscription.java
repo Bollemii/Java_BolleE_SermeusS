@@ -7,7 +7,7 @@ import java.awt.*;
 public class ShowInscription extends JPanel {
     private JButton submit;
     private JComboBox comboBox;
-    private JTable table;;
+    private JTable table;
     private JLabel title;
     //constructor
     public ShowInscription() {

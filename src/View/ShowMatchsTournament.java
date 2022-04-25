@@ -1,28 +1,23 @@
 package View;
 
-import Model.Match;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
 
-public class ShowGestionMatch extends JPanel {
+public class ShowMatchsTournament extends JPanel {
     private JButton submit;
     private JComboBox comboBox;
     private JTable table;;
     private JLabel title;
-    private ArrayList<Match> listMatch;
     //constructor
-    public ShowGestionMatch() {
+    public ShowMatchsTournament() {
         //gridBagLayout
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         setLayout(layout);
 
-
         //title
-        title = new JLabel("Gestion des matchs");
+        title = new JLabel("Matchs d'un tournoi");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;
@@ -30,7 +25,6 @@ public class ShowGestionMatch extends JPanel {
         c.anchor = GridBagConstraints.NORTH;
         c.weighty = 1;
         add(title, c);
-
 
         c.weighty = 2;
         //comboBox
@@ -40,7 +34,6 @@ public class ShowGestionMatch extends JPanel {
         comboBox.addItem("Inactive");
 
         comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
-
 
         add(comboBox, c);
 
@@ -53,7 +46,7 @@ public class ShowGestionMatch extends JPanel {
         c.gridy = 1;
         c.gridwidth = 1;
         c.insets = new Insets(0, 0, 20, 0);
-        add(comboBox,c);
+        add(comboBox, c);
 
         c.gridx = 1;
         c.gridy = 1;

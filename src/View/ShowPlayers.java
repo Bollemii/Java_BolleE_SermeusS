@@ -4,20 +4,21 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class ShowAllMatchInfo extends JPanel {
+public class ShowPlayers extends JPanel {
     private JButton submit;
     private JComboBox comboBox;
     private JTable table;;
     private JLabel title;
     //constructor
-    public ShowAllMatchInfo() {
+    public ShowPlayers() {
         //gridBagLayout
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         setLayout(layout);
 
+
         //title
-        title = new JLabel("Match Table");
+        title = new JLabel("Tableau des joueurs");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;
@@ -25,6 +26,7 @@ public class ShowAllMatchInfo extends JPanel {
         c.anchor = GridBagConstraints.NORTH;
         c.weighty = 1;
         add(title, c);
+
 
         c.weighty = 2;
         //comboBox
@@ -34,6 +36,7 @@ public class ShowAllMatchInfo extends JPanel {
         comboBox.addItem("Inactive");
 
         comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
+
 
         add(comboBox, c);
 

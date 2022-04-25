@@ -26,7 +26,7 @@ public class ShowDeleteMatch extends JPanel {
 		setLayout(layout);
 
 		//title
-		title = new JLabel("Supprimer des matchs");
+		title = new JLabel("Suppression de matchs");
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		c.gridx = 0;
 		c.gridy = 0;

@@ -5,7 +5,6 @@ import Exceptions.DataException;
 import Model.*;
 import View.*;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -113,14 +112,52 @@ public class TournamentManagement {
 		}
 		return listMatchs;
 	}
+	public ArrayList<String[]> getMatchsTournament(int tournamentID) {
+		ArrayList<String[]> listMatchs = new ArrayList<>();
+		try {
+			for(Match match : dataAccess.getMatchsTournament(tournamentID)) {
+				String[] matchStrings = new String[5];
+				matchStrings[0] = ManagerUtils.getDateString(match.getDateStart());
+				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
+				matchStrings[2] = match.getLocation().getName();
+				matchStrings[3] = match.getReferee().getIdentity();
+				matchStrings[4] = match.toString(); // points
+
+				listMatchs.add(matchStrings);
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return listMatchs;
+	}
+	public ArrayList<String[]> getMatchsPlayer(int playerID) {
+		ArrayList<String[]> listMatchs = new ArrayList<>();
+		try {
+			for(Match match : dataAccess.getMatchsPlayer(playerID)) {
+				String[] matchStrings = new String[5];
+				matchStrings[0] = match.getTournament().getName();
+				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
+				matchStrings[2] = match.getLocation().getName();
+				matchStrings[3] = match.getReferee().getIdentity();
+				matchStrings[4] = match.toString(); // points
+
+				listMatchs.add(matchStrings);
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return listMatchs;
+	}
 	public ArrayList<String[]> getReservationsVisitor(int visitorID) {
 		ArrayList<String[]> listReservations = new ArrayList<>();
 		try {
 			for(Reservation reservation : dataAccess.getReservationsVisitor(visitorID)) {
-				String[] reservationStrings = new String[3];
-				reservationStrings[0] = reservation.getMatch().toString();
-				reservationStrings[1] = reservation.getCodeSeat();
-				reservationStrings[2] = reservation.getCost().toString();
+				String[] reservationStrings = new String[5];
+				reservationStrings[0] = reservation.getMatch().getTournament().getName();
+				reservationStrings[1] = ManagerUtils.getDateString(reservation.getMatch().getDateStart());
+				reservationStrings[2] = reservation.getCodeSeat();
+				reservationStrings[3] = reservation.getCost().toString() + "€";
+				reservationStrings[4] = reservation.getMatch().getLocation().getName();
 
 				listReservations.add(reservationStrings);
 			}
@@ -137,40 +174,17 @@ public class TournamentManagement {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
-	public void deleteMatch(List matchsID) {
-		StringBuilder matchsList = new StringBuilder();
-		boolean isFirst = true;
-		for (Object match : matchsID) {
-			if (!isFirst) {
-				matchsList.append(",");
-			} else {
-				isFirst = false;
-			}
-			matchsList.append(ManagerUtils.getMatchIDFromDescription(match.toString()));
+	public void deleteMatch(List matchs) {
+		int[] matchsID = new int[matchs.size()];
+		int i = 0;
+		for (Object match : matchs) {
+			matchsID[i] = ManagerUtils.getMatchIDFromDescription(match.toString());
+			i++;
 		}
-
 		try {
-			userInteraction.displayDataUpdate(dataAccess.deleteMatch(matchsList.toString()));
+			userInteraction.displayDataUpdate(dataAccess.deleteMatch(matchsID));
 		} catch(DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
-
-	public ArrayList<String[]> getAllMatchsTournament(int tournamentID) {
-		ArrayList<String[]> listMatchs = new ArrayList<>();
-		try {
-			System.out.println(dataAccess.getPlayersTournament(tournamentID));
-			for(Player player : dataAccess.getPlayersTournament(tournamentID)) {
-				String[] matchStrings = new String[8];
-
-
-				listMatchs.add(matchStrings);
-			}
-		} catch (DataException exception) {
-			userInteraction.displayErrorMessage(exception.getMessage());
-		}
-		return listMatchs;
-	}
-
-
 }

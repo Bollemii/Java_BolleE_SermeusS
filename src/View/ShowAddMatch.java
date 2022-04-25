@@ -14,6 +14,7 @@ public class ShowAddMatch extends JPanel {
     private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
     private TournamentManagement manager;
     private JPanel formPanel, datePanel, buttonsPanel;
+    private JLabel title;
     private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
     private JComboBox<Integer> dayBox, yearBox;
     private JSpinner durationSpinner;
@@ -24,10 +25,14 @@ public class ShowAddMatch extends JPanel {
     public ShowAddMatch() {
         manager = new TournamentManagement();
 
-        setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
         GridBagConstraints c = new GridBagConstraints();
         ButtonListener buttonListener = new ButtonListener();
+
+        title = new JLabel("Ajout d'un match", SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.PLAIN, 40));
+        this.add(title, BorderLayout.NORTH);
 
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(7, 2));
@@ -101,9 +106,9 @@ public class ShowAddMatch extends JPanel {
             if (e.getSource() == validate) {
                 GregorianCalendar dateStart = new GregorianCalendar((int)yearBox.getSelectedItem(), monthBox.getSelectedIndex(), (int)dayBox.getSelectedItem());
 
-                Integer tournamentID = ManagerUtils.getPersonIDFromDescription(tournamentBox.getSelectedItem().toString());
-                Integer locationID = ManagerUtils.getPersonIDFromDescription(locationBox.getSelectedItem().toString());
-                Integer refereeID = ManagerUtils.getPersonIDFromDescription(refereeBox.getSelectedItem().toString());
+                Integer tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
+                Integer locationID = ManagerUtils.getIDFromDescription(locationBox.getSelectedItem().toString());
+                Integer refereeID = ManagerUtils.getIDFromDescription(refereeBox.getSelectedItem().toString());
 
                 int value = (int)durationSpinner.getValue();
                 Integer duration = value == 0 ? null : value;

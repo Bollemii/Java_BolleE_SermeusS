@@ -18,7 +18,7 @@ public class ShowModifyMatch extends JPanel{
 
 
         //title
-        title = new JLabel("Modifier un match");
+        title = new JLabel("Modification d'un match");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         c.gridx = 0;
         c.gridy = 0;

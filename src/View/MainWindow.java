@@ -10,11 +10,11 @@ public class MainWindow extends JFrame {
     private JMenu appMenu;
     private JMenuItem exit;
     private JMenu tournament;
-    private JMenuItem playerInscription, matchManagement;
+    private JMenuItem playerInscription, showMatchsTournament, matchManagement;
     private JMenu match;
-    private JMenuItem addMatch,showMatchTable,showAllMatchInfo,modifyMatch,deleteMatch;
+    private JMenuItem addMatch,showMatchTable,modifyMatch,deleteMatch;
     private JMenu player;
-    private JMenuItem showPlayer;
+    private JMenuItem showPlayer, showMatchsPlayer;
     private JMenu visitor;
     private JMenuItem reservation, showReservation;
 
@@ -45,6 +45,10 @@ public class MainWindow extends JFrame {
         playerInscription.addActionListener(new HandleShowPanel());
         tournament.add(playerInscription);
 
+        showMatchsTournament = new JMenuItem("Afficher matchs d'un tournoi");
+        showMatchsTournament.addActionListener(new HandleShowPanel());
+        tournament.add(showMatchsTournament);
+
         matchManagement = new JMenuItem("Gestion des matchs");
         matchManagement.addActionListener(new HandleShowPanel());
         tournament.add(matchManagement);
@@ -61,10 +65,6 @@ public class MainWindow extends JFrame {
         showMatchTable.addActionListener(new HandleShowPanel());
         match.add(showMatchTable);
 
-        showAllMatchInfo = new JMenuItem("Afficher toutes les informations des matchs");
-        showAllMatchInfo.addActionListener(new HandleShowPanel());
-        match.add(showAllMatchInfo);
-
         modifyMatch = new JMenuItem("Modifier match");
         modifyMatch.addActionListener(new HandleShowPanel());
         match.add(modifyMatch);
@@ -77,9 +77,13 @@ public class MainWindow extends JFrame {
         player.setMnemonic('J');
         menuBar.add(player);
 
-        showPlayer = new JMenuItem("Afficher joueur");
+        showPlayer = new JMenuItem("Afficher tableau des joueurs");
         showPlayer.addActionListener(new HandleShowPanel());
         player.add(showPlayer);
+
+        showMatchsPlayer = new JMenuItem("Afficher matchs d'un joueur");
+        showMatchsPlayer.addActionListener(new HandleShowPanel());
+        player.add(showMatchsPlayer);
 
         visitor = new JMenu("Visiteur");
         visitor.setMnemonic('V');
@@ -89,7 +93,7 @@ public class MainWindow extends JFrame {
         reservation.addActionListener(new HandleShowPanel());
         visitor.add(reservation);
 
-        showReservation = new JMenuItem("Affiche les réservations d'un visiteur");
+        showReservation = new JMenuItem("Afficher réservations d'un visiteur");
         showReservation.addActionListener(new HandleShowPanel());
         visitor.add(showReservation);
 
@@ -115,20 +119,22 @@ public class MainWindow extends JFrame {
         public JPanel getPanel(ActionEvent e) {
             if (e.getSource() == playerInscription) {
                 return new ShowInscription();
+            } else if (e.getSource() == showMatchsTournament) {
+                return new ShowMatchsTournament();
             } else if (e.getSource() == matchManagement) {
                 return new ShowGestionMatch();
             } else if (e.getSource() == addMatch) {
                 return new ShowAddMatch();
             } else if (e.getSource() == showMatchTable) {
-                return new ShowMatchTable();
-            } else if (e.getSource() == showAllMatchInfo) {
-                return new ShowAllMatchInfo();
+                return new ShowAllMatchs();
             } else if (e.getSource() == modifyMatch) {
                 return new ShowModifyMatch();
             } else if (e.getSource() == deleteMatch) {
                 return new ShowDeleteMatch();
             } else if (e.getSource() == showPlayer) {
-                return new ShowPlayer();
+                return new ShowPlayers();
+            } else if (e.getSource() == showMatchsPlayer) {
+                return new ShowMatchsPlayer();
             } else if (e.getSource() == reservation) {
                 return new ShowReservation();
             } else if (e.getSource() == showReservation) {

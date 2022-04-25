@@ -6,17 +6,17 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class ShowMatchTable extends JPanel {
+public class ShowAllMatchs extends JPanel {
 	private TournamentManagement manager;
 	private JTable table;
 	private JLabel title;
 
-	public ShowMatchTable() {
+	public ShowAllMatchs() {
 		manager = new TournamentManagement();
 		setLayout(new BorderLayout());
 
 		// title
-		title = new JLabel("Toutes les infos des matchs", SwingConstants.CENTER);
+		title = new JLabel("Tableau des matchs", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		add(title, BorderLayout.NORTH);
 

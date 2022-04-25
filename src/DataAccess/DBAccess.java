@@ -74,20 +74,28 @@ public class DBAccess implements DataAccess {
 	}
 
 	@Override
-	public ArrayList<Player> getPlayersTournament(int tournamentID) throws DataException {
+	public ArrayList<Match> getMatchsTournament(int tournamentID) throws DataException {
 		try {
-			String sqlInstruction =
-					"select p.*" +
-							"from tournament t " +
-							"inner join `match` m on m.tournament_id = t.tournament_id " +
-							"inner join result r on r.match_id = m.match_id " +
-							"inner join person p on p.person_id = r.player_id " +
-							"where t.tournament_id = (?)";
+			String sqlInstruction = "select m.date_start, p.*, r.points " +
+									"from tournament t " +
+									"inner join `match` m on m.tournament_id = t.tournament_id " +
+									"inner join result r on r.match_id = m.match_id " +
+									"inner join person p on p.person_id = r.player_id " +
+									"where t.tournament_id = (?) " +
+									"order by date_start, points desc";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, tournamentID);
 
-			return getPlayers(preparedStatement.executeQuery());
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Match> list = new ArrayList<>();
+			while (data.next()) {
+				list.add(new Match(
+						data.getInt("date_start"), null, null, null
+				));
+			}
+			return list;
 		} catch(SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -96,15 +104,14 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<Match> getMatchsPlayer(int playerID) throws DataException {
 		try {
-			String sqlInstruction =
-					"select m.*, l.name as 'location', t.name as 'tournament', j.first_name, j.last_name, r.points " +
-					"from person p " +
-					"inner join result r on r.player_id = p.person_id " +
-					"inner join `match` m on m.match_id = r.match_id " +
-					"inner join person j on m.referee_id = j.person_id " +
-					"inner join tournament t on m.tournament_id = t.tournament_id " +
-					"inner join location l on m.location_id = l.location_id " +
-					"where p.person_id = (?)";
+			String sqlInstruction = "select t.name as 'tournament', m.date_start, l.name as 'location', j.first_name, j.last_name, r.points " +
+									"from person p " +
+									"inner join result r on r.player_id = p.person_id " +
+									"inner join `match` m on m.match_id = r.match_id " +
+									"inner join person j on m.referee_id = j.person_id " +
+									"inner join tournament t on m.tournament_id = t.tournament_id " +
+									"inner join location l on m.location_id = l.location_id " +
+									"where p.person_id = (?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, playerID);
@@ -118,12 +125,13 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
 		try {
-			String sqlInstruction =
-					"select r.*, m.date_start " +
-							"from person v " +
-							"inner join reservation r on r.visitor_id = v.person_id " +
-							"inner join `match` m on m.match_id = r.match_id " +
-							"where v.person_id = (?)";
+			String sqlInstruction = "select t.name as 'tournament', m.date_start, r.*, l.name as 'location' " +
+									"from person v " +
+									"inner join reservation r on r.visitor_id = v.person_id " +
+									"inner join `match` m on m.match_id = r.match_id " +
+									"inner join tournament t on t.tournament_id = m.tournament_id " +
+									"inner join location l on l.location_id = m.location_id " +
+									"where v.person_id = (?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, visitorID);
@@ -135,7 +143,7 @@ public class DBAccess implements DataAccess {
 				GregorianCalendar calendar = new GregorianCalendar();
 				calendar.setTime(data.getDate("date_start"));
 				list.add(new Reservation(
-						new Match(data.getInt("match_id"), calendar),
+						new Match(data.getInt("match_id"), calendar, new Tournament(data.getString("tournament")), new Location(data.getString("location"))),
 						data.getString("seat_type"),
 						data.getString("seat_row").charAt(0),
 						data.getInt("seat_number"),
@@ -174,7 +182,18 @@ public class DBAccess implements DataAccess {
 			String sqlInstruction = "select * from person where type_person = 'Player'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
-			return getPlayers(preparedStatement.executeQuery());
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Player> list = new ArrayList<>();
+			while (data.next()) {
+				list.add(new Player(
+						data.getInt("person_id"),
+						data.getString("first_name"),
+						data.getString("last_name")
+				));
+			}
+
+			return list;
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -277,17 +296,6 @@ public class DBAccess implements DataAccess {
 		return list;
 	}
 
-	private ArrayList<Player> getPlayers(ResultSet data) throws SQLException {
-		ArrayList<Player> list = new ArrayList<>();
-		while (data.next()) {
-			list.add(new Player(
-					data.getInt("person_id"),
-					data.getString("first_name"),
-					data.getString("last_name")
-			));
-		}
-		return list;
-	}
 
 	// UPDATE
 	@Override
@@ -342,20 +350,33 @@ public class DBAccess implements DataAccess {
 
 	// DELETE
 	@Override
-	public int deleteMatch(String matchsID) throws DataException {
+	public int deleteMatch(int[] matchsID) throws DataException {
 		if (matchsID == null)
 			return 0;
 
 		try {
-			String sqlInstruction = "delete from `match` where match_id in(?)";
+			boolean first = true;
+			StringBuilder inClause = new StringBuilder("(");
+			for (int i = 0; i < matchsID.length; i++) {
+				if (first)
+					first = false;
+				else
+					inClause.append(",");
+				inClause.append("?");
+			}
+			inClause.append(")");
+			String sqlInstruction = "delete from `match` where match_id in" + inClause;
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
-			preparedStatement.setString(1, matchsID);
+			// ne fonctionne pas !
+			//preparedStatement.setArray(1, connection.createArrayOf("INTEGER", new int[][]{matchsID}));
+			// internet : ajouter autant de '?' que de valeurs puis set ces valeurs
+			for (int i = 0; i < matchsID.length; i++) {
+				preparedStatement.setInt(i+1, matchsID[i]);
+			}
 			return preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
 	}
-
-
 }

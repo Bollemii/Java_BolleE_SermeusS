@@ -9,50 +9,55 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ShowReservationsVisitor extends JPanel {
+public class ShowMatchsPlayer extends JPanel {
 	private TournamentManagement manager;
-	private JPanel visitorPanel;
+	private JPanel tournamentPanel;
 	private JLabel title;
 	private JTable table;
 	private DefaultTableModel tableModel;
-	private JComboBox<String> visitorBox;
+	private JComboBox<String> tournamentBox;
 	private JButton submit;
 
-	public ShowReservationsVisitor() {
+	//constructor
+	public ShowMatchsPlayer() {
+		manager = new TournamentManagement();
+
 		manager = new TournamentManagement();
 		setLayout(new BorderLayout());
 
-		// title
-		title = new JLabel("Réservations d'un visiteur", SwingConstants.CENTER);
+		title = new JLabel("Matchs d'un joueur", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		add(title, BorderLayout.NORTH);
 
-		// table
-		String[] tableHead = {"Tournoi", "Match", "Place", "Coût", "Emplacement"};
+
+		String[] tableHead = {"Match", "Place", "Cout"};
 		tableModel = new DefaultTableModel(tableHead, 0);
 		table = new JTable(tableModel);
 		table.setRowHeight(30);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		add(new JScrollPane(table), BorderLayout.CENTER);
 
-		visitorPanel = new JPanel();
-
-		visitorBox = new JComboBox<>(manager.getVisitorsList().toArray(new String[0]));
-		visitorPanel.add(visitorBox);
+		tournamentPanel = new JPanel();
+		tournamentBox = new JComboBox<>(manager.getTournamentsList().toArray(new String[0]));
+		tournamentPanel.add(tournamentBox);
 		submit = new JButton("Submit");
 		submit.addActionListener(new ButtonListener());
-		visitorPanel.add(submit);
-		add(visitorPanel, BorderLayout.SOUTH);
-	}
 
+		tournamentPanel.add(submit);
+		add(tournamentPanel, BorderLayout.SOUTH);
+
+	}
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//System.out.println(manager.getAllMatchsTournament(ManagerUtils.getIDFromDescription(tournamentList.getSelectedValue().toString())));
 			tableModel.setRowCount(0);
-			int visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
-			for (String[] match : manager.getReservationsVisitor(visitorID)) {
+			int tournamentId = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
+			for (String[] match : manager.getMatchsTournament(tournamentId)) {
 				tableModel.addRow(match);
 			}
+			System.out.println(tableModel.getRowCount());
+			ShowMatchsPlayer.this.repaint();
 		}
 	}
 }
