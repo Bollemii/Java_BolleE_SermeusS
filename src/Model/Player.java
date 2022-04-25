@@ -19,6 +19,9 @@ public class Player extends Person implements Serializable {
 		this(id, firstName, lastName, null, null, null, null);
 	}
 
+	public Boolean isProfessional() {
+		return isProfessional;
+	}
 	public double getElo() {
 		return elo;
 	}

@@ -120,6 +120,26 @@ public class TournamentManagement {
 		}
 		return listMatchs;
 	}
+	public ArrayList<String[]> getAllPlayers() {
+		ArrayList<String[]> listPlayers = new ArrayList<>();
+		try {
+			for(Player player : dataAccess.getAllPlayers()) {
+				String[] playerStrings = new String[7];
+				playerStrings[0] = player.getId().toString();
+				playerStrings[1] = player.getFirstName();
+				playerStrings[2] = player.getLastName();
+				playerStrings[3] = ManagerUtils.getDateString(player.getBirthDate());
+				playerStrings[4] = player.getGender().toString();
+				playerStrings[5] = player.isProfessional() ? "professionel" : "amateur";
+				playerStrings[6] = String.valueOf(player.getElo());
+
+				listPlayers.add(playerStrings);
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return listPlayers;
+	}
 	public ArrayList<String[]> getMatchsTournament(int tournamentID) {
 		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {

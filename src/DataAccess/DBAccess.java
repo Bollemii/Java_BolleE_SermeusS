@@ -204,12 +204,19 @@ public class DBAccess implements DataAccess {
 
 			ResultSet data = preparedStatement.executeQuery();
 
+			GregorianCalendar calendar;
 			ArrayList<Player> list = new ArrayList<>();
 			while (data.next()) {
+				calendar = new GregorianCalendar();
+				calendar.setTime(data.getDate("birth_date"));
 				list.add(new Player(
 						data.getInt("person_id"),
 						data.getString("first_name"),
-						data.getString("last_name")
+						data.getString("last_name"),
+						calendar,
+						data.getString("gender").charAt(0),
+						data.getBoolean("is_professional"),
+						data.getDouble("elo")
 				));
 			}
 

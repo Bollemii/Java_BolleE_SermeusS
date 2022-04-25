@@ -138,7 +138,7 @@ public class MainWindow extends JFrame {
             } else if (e.getSource() == deleteMatch) {
                 return new ShowDeleteMatch();
             } else if (e.getSource() == showPlayer) {
-                return new ShowPlayers();
+                return new ShowAllPlayers();
             } else if (e.getSource() == showMatchsPlayer) {
                 return new ShowMatchsPlayer();
             } else if (e.getSource() == reservation) {

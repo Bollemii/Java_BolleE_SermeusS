@@ -27,6 +27,12 @@ public abstract class Person implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
+	public GregorianCalendar getBirthDate() {
+		return birthDate;
+	}
+	public Character getGender() {
+		return gender;
+	}
 	public String getIdentity() {
 		return firstName + " " + lastName;
 	}
