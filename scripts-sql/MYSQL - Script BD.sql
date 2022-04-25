@@ -61,12 +61,11 @@ CREATE TABLE tournament_reward (
 ALTER TABLE person ADD CONSTRAINT ck_person_253688 CHECK (gender in('M', 'F', 'X'));
 ALTER TABLE person ADD CONSTRAINT ck_person_134641 CHECK (type_person in('Player', 'Referee', 'Visitor'));
 ALTER TABLE result ADD CONSTRAINT fk_result_329181 FOREIGN KEY (player_id) REFERENCES person (person_id);
-ALTER TABLE result ADD CONSTRAINT fk_result_383554 FOREIGN KEY (match_id) REFERENCES `match` (match_id);
+ALTER TABLE result ADD CONSTRAINT fk_result_383554 FOREIGN KEY (match_id) REFERENCES `match` (match_id) ON DELETE CASCADE;
 ALTER TABLE reservation ADD CONSTRAINT fk_reservation_647266 FOREIGN KEY (visitor_id) REFERENCES person (person_id);
-ALTER TABLE reservation ADD CONSTRAINT fk_reservation_964687 FOREIGN KEY (match_id) REFERENCES `match` (match_id);
+ALTER TABLE reservation ADD CONSTRAINT fk_reservation_964687 FOREIGN KEY (match_id) REFERENCES `match` (match_id) ON DELETE CASCADE;
 ALTER TABLE tournament_reward ADD CONSTRAINT fk_tournament_513242 FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id);
 ALTER TABLE tournament_reward ADD CONSTRAINT fk_tournament_298729 FOREIGN KEY (reward_id) REFERENCES reward (reward_id);
 ALTER TABLE `match` ADD CONSTRAINT fk_match_290535 FOREIGN KEY (location_id) REFERENCES location (location_id);
 ALTER TABLE `match` ADD CONSTRAINT fk_match_722680 FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id);
 ALTER TABLE `match` ADD CONSTRAINT fk_match_207413 FOREIGN KEY (referee_id) REFERENCES person (person_id);
-

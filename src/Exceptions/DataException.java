@@ -1,4 +1,4 @@
-package DataAccess;
+package Exceptions;
 
 public class DataException extends Exception {
 	private String message;
@@ -9,6 +9,6 @@ public class DataException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "Erreur lors de la connection à la base de donnée :\n   " + message;
+		return "Erreur lors d'une opération avec la base de données :\n   " + message;
 	}
 }

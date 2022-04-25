@@ -1,5 +1,7 @@
 package DataAccess;
 
+import Exceptions.DataException;
+
 import java.sql.*;
 
 public class SingletonConnexion {

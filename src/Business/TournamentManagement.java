@@ -1,6 +1,7 @@
 package Business;
 
 import DataAccess.*;
+import Exceptions.DataException;
 import Model.*;
 import View.*;
 

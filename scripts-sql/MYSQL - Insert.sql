@@ -65,13 +65,13 @@ values(102, 3);
 
 -- reservation
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(106, 5, 'parterre', 'B', 23, 52.36);
+values(106, 4, 'parterre', 'B', 23, 52.36);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(107, 4, 'gradin', 'R', 11, 14.53);
+values(107, 1, 'gradin', 'R', 11, 14.53);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(108, 6, 'vip', 'O', 3, 0);
+values(108, 3, 'vip', 'O', 3, 0);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(106, 7, 'gradin', 'T', 1, 12.7);
+values(106, 2, 'gradin', 'T', 1, 12.7);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
 values(106, 1, 'parterre', 'P', 14, 10.09);
 

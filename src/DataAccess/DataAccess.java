@@ -1,5 +1,6 @@
 package DataAccess;
 
+import Exceptions.DataException;
 import Model.*;
 
 import java.util.ArrayList;

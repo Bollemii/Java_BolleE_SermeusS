@@ -1,5 +1,6 @@
 package DataAccess;
 
+import Exceptions.DataException;
 import Model.*;
 
 import java.sql.*;
@@ -61,7 +62,8 @@ public class DBAccess implements DataAccess {
 					"from `match` m " +
 					"inner join person p on m.referee_id = p.person_id " +
 					"inner join tournament t on m.tournament_id = t.tournament_id " +
-					"inner join location l on m.location_id = l.location_id";
+					"inner join location l on m.location_id = l.location_id " +
+					"order by m.match_id";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
 			return getMatchs(preparedStatement.executeQuery());

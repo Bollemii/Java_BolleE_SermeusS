@@ -10,7 +10,7 @@ public class MatchAnimationWindow extends JFrame {
 
     public MatchAnimationWindow() {
         super("Match Animation");
-        setSize(1040, 860);
+        setSize(800, 600);
         //exit only this window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
