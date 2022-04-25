@@ -24,6 +24,7 @@ public class ShowMatchTable extends JPanel {
 		String[] tableHead = {"Id", "Date", "Durée", "Finale", "Commentaire", "Tournoi", "Arbitre", "Emplacement"};
 		DefaultTableModel tableModel = new DefaultTableModel(tableHead, 0);
 		table = new JTable(tableModel);
+
 		for (String[] match : manager.getAllMatchs()) {
 			tableModel.addRow(match);
 		}

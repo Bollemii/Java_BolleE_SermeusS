@@ -5,6 +5,7 @@ import Exceptions.DataException;
 import Model.*;
 import View.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -154,4 +155,22 @@ public class TournamentManagement {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
+
+	public ArrayList<String[]> getAllMatchsTournament(int tournamentID) {
+		ArrayList<String[]> listMatchs = new ArrayList<>();
+		try {
+			System.out.println(dataAccess.getPlayersTournament(tournamentID));
+			for(Player player : dataAccess.getPlayersTournament(tournamentID)) {
+				String[] matchStrings = new String[8];
+
+
+				listMatchs.add(matchStrings);
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return listMatchs;
+	}
+
+
 }

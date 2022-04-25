@@ -76,11 +76,11 @@ public class Pong extends JPanel {
 
     public void movePlayer(){
         if(ball != null) {
-            Rectangle rectanglePlayer = ball.getRectangle().x < 450 ? getPlayer(0).getRectangle():getPlayer(1).getRectangle();
+            Rectangle rectanglePlayer = ball.getDeltaX() < 0 ? getPlayer(0).getRectangle():getPlayer(1).getRectangle();
             if(rectanglePlayer.y < ball.getRectangle().y){
-                rectanglePlayer.y += 3;
+                rectanglePlayer.y += 4;
             }else{
-                rectanglePlayer.y -=3;
+                rectanglePlayer.y -=4;
             }
         }
     }

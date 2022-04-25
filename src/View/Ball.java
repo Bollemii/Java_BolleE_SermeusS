@@ -23,7 +23,7 @@ public class Ball{
         else{
             deltaX = -4;
         }
-        deltaY = 2;
+        deltaY = 4;
 
         color = Color.WHITE;
     }

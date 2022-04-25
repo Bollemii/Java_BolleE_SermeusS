@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="library@DESKTOP-G9LT55S" uuid="24eaa67c-e6da-4d88-a80f-304afc28db0d">
+    <data-source source="LOCAL" name="java_project@localhost" uuid="8a27a253-973b-4385-b669-a772427bd451">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://DESKTOP-G9LT55S:3306/library</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="java_project@DESKTOP-G9LT55S" uuid="7575158a-c914-4f6c-a77a-69b19313a301">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://DESKTOP-G9LT55S:3306/java_project</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/java_project</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ManagerUtils {
-	public static Integer getPersonIDFromDescription(String description) {
+	public static Integer getIDFromDescription(String description) {
 		Pattern pattern = Pattern.compile(".+\\(#(\\d+)\\)");
 		Matcher matcher = pattern.matcher(description);
 

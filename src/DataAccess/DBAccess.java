@@ -12,6 +12,7 @@ public class DBAccess implements DataAccess {
 
 	public DBAccess() throws DataException {
 		connection = SingletonConnexion.getConnection();
+
 	}
 
 	public void closeConnection() throws DataException {
@@ -355,4 +356,6 @@ public class DBAccess implements DataAccess {
 			throw new DataException(exception.getMessage());
 		}
 	}
+
+
 }

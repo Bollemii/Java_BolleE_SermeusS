@@ -49,7 +49,7 @@ public class ShowReservationsVisitor extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			tableModel.setRowCount(0);
-			int visitorID = ManagerUtils.getPersonIDFromDescription(visitorBox.getSelectedItem().toString());
+			int visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
 			for (String[] match : manager.getReservationsVisitor(visitorID)) {
 				tableModel.addRow(match);
 			}
