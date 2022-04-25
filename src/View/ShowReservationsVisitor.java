@@ -20,20 +20,20 @@ public class ShowReservationsVisitor extends JPanel {
 
 	public ShowReservationsVisitor() {
 		manager = new TournamentManagement();
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		// title
 		title = new JLabel("Réservations d'un visiteur", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
-		add(title, BorderLayout.NORTH);
+		this.add(title, BorderLayout.NORTH);
 
 		// table
-		String[] tableHead = {"Tournoi", "Match", "Place", "Coût", "Emplacement"};
+		String[] tableHead = {"Tournoi", "Date de début", "Emplacement", "Arbitre", "Résultat"};
 		tableModel = new DefaultTableModel(tableHead, 0);
 		table = new JTable(tableModel);
 		table.setRowHeight(30);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
-		add(new JScrollPane(table), BorderLayout.CENTER);
+		this.add(new JScrollPane(table), BorderLayout.CENTER);
 
 		visitorPanel = new JPanel();
 
@@ -42,7 +42,7 @@ public class ShowReservationsVisitor extends JPanel {
 		submit = new JButton("Submit");
 		submit.addActionListener(new ButtonListener());
 		visitorPanel.add(submit);
-		add(visitorPanel, BorderLayout.SOUTH);
+		this.add(visitorPanel, BorderLayout.SOUTH);
 	}
 
 	private class ButtonListener implements ActionListener {

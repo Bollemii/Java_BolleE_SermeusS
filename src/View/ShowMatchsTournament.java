@@ -1,71 +1,58 @@
 package View;
 
+import Business.ManagerUtils;
+import Business.TournamentManagement;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ShowMatchsTournament extends JPanel {
-    private JButton submit;
-    private JComboBox comboBox;
-    private JTable table;;
+    private TournamentManagement manager;
+    private JPanel tournamentPanel;
     private JLabel title;
-    //constructor
+    private JTable table;
+    private DefaultTableModel tableModel;
+    private JComboBox<String> tournamentBox;
+    private JButton submit;
+
     public ShowMatchsTournament() {
-        //gridBagLayout
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        setLayout(layout);
+        manager = new TournamentManagement();
+        this.setLayout(new BorderLayout());
 
-        //title
-        title = new JLabel("Matchs d'un tournoi");
+        // title
+        title = new JLabel("Matchs et joueurs d'un tournoi", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 40));
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.NORTH;
-        c.weighty = 1;
-        add(title, c);
+        this.add(title, BorderLayout.NORTH);
 
-        c.weighty = 2;
-        //comboBox
-        comboBox = new JComboBox();
-        comboBox.addItem("All");
-        comboBox.addItem("Active");
-        comboBox.addItem("Inactive");
+        // table
+        String[] tableHead = {"Date de début", "Prénom", "Nom", "Elo", "Points"};
+        tableModel = new DefaultTableModel(tableHead, 0);
+        table = new JTable(tableModel);
+        table.setRowHeight(30);
+        table.setFont(new Font("Arial", Font.PLAIN, 15));
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
 
-        comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
+        tournamentPanel = new JPanel();
 
-        add(comboBox, c);
-
+        tournamentBox = new JComboBox<>(manager.getTournamentsList().toArray(new String[0]));
+        tournamentPanel.add(tournamentBox);
         submit = new JButton("Submit");
-        submit.setFont(new Font("Arial", Font.PLAIN, 20));
+        submit.addActionListener(new ButtonListener());
+        tournamentPanel.add(submit);
+        this.add(tournamentPanel, BorderLayout.SOUTH);
+    }
 
-        add(submit, c);
-
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(comboBox, c);
-
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(submit, c);
-
-        table = new JTable();
-
-        String[] tblHead={"Item Name","Price","Qty","Discount"};
-        DefaultTableModel dtm=new DefaultTableModel(tblHead,0);
-        table =new JTable(dtm);
-        String[] item={"A","B","C","D"};
-        dtm.addRow(item);
-        table.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(table, c);
+    private class ButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tableModel.setRowCount(0);
+            int tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
+            for (String[] match : manager.getMatchsTournament(tournamentID)) {
+                tableModel.addRow(match);
+            }
+        }
     }
 }

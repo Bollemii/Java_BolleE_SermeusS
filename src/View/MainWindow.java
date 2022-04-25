@@ -45,7 +45,7 @@ public class MainWindow extends JFrame {
         playerInscription.addActionListener(new HandleShowPanel());
         tournament.add(playerInscription);
 
-        showMatchsTournament = new JMenuItem("Afficher matchs d'un tournoi");
+        showMatchsTournament = new JMenuItem("Afficher matchs et joueurs d'un tournoi");
         showMatchsTournament.addActionListener(new HandleShowPanel());
         tournament.add(showMatchsTournament);
 
