@@ -22,4 +22,13 @@ public class UserInteraction {
 				JOptionPane.INFORMATION_MESSAGE
 		);
 	}
+
+	public int displayConfirmation(String message) {
+		return JOptionPane.showConfirmDialog(
+				null,
+				message,
+				"Confirmation",
+				JOptionPane.YES_NO_OPTION
+		);
+	}
 }

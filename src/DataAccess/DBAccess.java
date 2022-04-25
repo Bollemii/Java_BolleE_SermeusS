@@ -306,14 +306,14 @@ public class DBAccess implements DataAccess {
 		try {
 			int nbLinesUpdated;
 			String sqlInstruction;
-			sqlInstruction = "update `match` set location_id = ?, tournament_id = ?, referee_id = ?, date_start = ?, is_final = ? " +
+			sqlInstruction = "update `match` set date_start = ?, is_final = ?, tournament_id = ?, referee_id = ?, location_id = ? " +
 							 "where match_id = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-			preparedStatement.setInt(1, match.getLocation().getId());
-			preparedStatement.setInt(2, match.getTournament().getId());
-			preparedStatement.setInt(3, match.getReferee().getId());
-			preparedStatement.setDate(4, new java.sql.Date(match.getDateStart().getTimeInMillis()));
-			preparedStatement.setBoolean(5, match.isFinal());
+			preparedStatement.setDate(1, new java.sql.Date(match.getDateStart().getTimeInMillis()));
+			preparedStatement.setBoolean(2, match.isFinal());
+			preparedStatement.setInt(3, match.getTournament().getId());
+			preparedStatement.setInt(4, match.getReferee().getId());
+			preparedStatement.setInt(5, match.getLocation().getId());
 			preparedStatement.setInt(6, match.getId());
 			nbLinesUpdated = preparedStatement.executeUpdate();
 

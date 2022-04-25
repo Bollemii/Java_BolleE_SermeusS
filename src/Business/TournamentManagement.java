@@ -22,6 +22,14 @@ public class TournamentManagement {
 		}
 	}
 
+	public void closeConnection() {
+		try {
+			dataAccess.closeConnection();
+		} catch(DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+	}
+
 	// lists for combobox from forms
 	public ArrayList<String> getTournamentsList() {
 		ArrayList<String> list = new ArrayList<>();
@@ -170,6 +178,14 @@ public class TournamentManagement {
 		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {
 			userInteraction.displayDataUpdate(dataAccess.addMatch(match));
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+	}
+	public void updateMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
+		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
+		try {
+			userInteraction.displayDataUpdate(dataAccess.updateMatch(match));
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}

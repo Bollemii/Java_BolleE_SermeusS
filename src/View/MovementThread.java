@@ -1,10 +1,10 @@
 package View;
 
 public class MovementThread extends Thread{
-
     private Pong pong;
-    public MovementThread(Pong billiard){
-        this.pong = billiard;
+
+    public MovementThread(Pong pong){
+        this.pong = pong;
     }
 
     public void run(){
@@ -13,12 +13,11 @@ public class MovementThread extends Thread{
             pong.movePlayer();
             try{
                 Thread.sleep(10);
-            }catch (InterruptedException io){
-                io.printStackTrace();
+            }catch (InterruptedException exception){
+                exception.printStackTrace();
             }
             pong.repaint();
         }
     }
-
 }
 

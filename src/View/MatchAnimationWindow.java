@@ -4,23 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MatchAnimationWindow extends JFrame {
+    private final static int WIDTH = 500;
+    private final static int HEIGHT = 600;
     private JPanel panel;
     private Container container;
     private Pong pong;
 
     public MatchAnimationWindow() {
         super("Match Animation");
-        setSize(800, 600);
+        this.setSize(WIDTH, HEIGHT);
         //exit only this window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel();
         container = this.getContentPane();
         container.add(panel);
-        pong = new Pong(new Wall(0,0,20,800),new Wall(1000,0,20,820),new Wall(0,0,1000,20),new Wall(0,800,1000,20));
+        pong = new Pong(WIDTH, HEIGHT);
         container.add(pong);
-        setVisible(true);
+        this.setVisible(true);
     }
 
 

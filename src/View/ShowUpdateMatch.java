@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
 
-public class ShowAddMatch extends JPanel {
+public class ShowUpdateMatch extends JPanel{
 	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
 	private TournamentManagement manager;
 	private JPanel formPanel, datePanel, buttonsPanel;
@@ -22,7 +22,7 @@ public class ShowAddMatch extends JPanel {
 	private JCheckBox finalCheck;
 	private JButton validate, reset;
 
-	public ShowAddMatch() {
+	public ShowUpdateMatch() {
 		manager = new TournamentManagement();
 
 		this.setLayout(new BorderLayout());
@@ -30,7 +30,7 @@ public class ShowAddMatch extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		ButtonListener buttonListener = new ButtonListener();
 
-		title = new JLabel("Ajout d'un match", SwingConstants.CENTER);
+		title = new JLabel("Modification d'un match", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		this.add(title, BorderLayout.NORTH);
 
@@ -110,7 +110,7 @@ public class ShowAddMatch extends JPanel {
 				String text = commentText.getText();
 				String comment = text.isBlank() ? null : text;
 
-				manager.addMatch(dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
+				manager.updateMatch(dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
 			} else if (e.getSource() == reset) {
 				dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
 				monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);

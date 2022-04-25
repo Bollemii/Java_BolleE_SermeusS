@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ShowDeleteMatch extends JPanel {
 	private TournamentManagement manager;
+	private UserInteraction userInteraction;
 	private JLabel title;
 	private JList matchsList;
 	private JButton submit;
@@ -19,6 +20,7 @@ public class ShowDeleteMatch extends JPanel {
 	//constructor
 	public ShowDeleteMatch() {
 		manager = new TournamentManagement();
+		userInteraction = new UserInteraction();
 
 		//gridBagLayout
 		GridBagLayout layout = new GridBagLayout();
@@ -58,8 +60,11 @@ public class ShowDeleteMatch extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			manager.deleteMatch(matchsList.getSelectedValuesList());
-			matchsList = new JList(manager.getMatchsList().toArray(new String[0]));
+			int confirmation = userInteraction.displayConfirmation("Êtes-vous sûr de vouloir supprimer ?");
+			if (confirmation == 0) {
+				manager.deleteMatch(matchsList.getSelectedValuesList());
+				matchsList.setListData(manager.getMatchsList().toArray(new String[0]));
+			}
 		}
 	}
 }
