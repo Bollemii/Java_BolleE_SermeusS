@@ -28,7 +28,7 @@ public class ShowMatchsPlayer extends JPanel {
 		this.add(title, BorderLayout.NORTH);
 
 		// table
-		String[] tableHead = {"Date de début", "Prénom", "Nom", "Elo", "Points"};
+		String[] tableHead = {"Tournoi", "Date de début", "Emplacement", "Arbitre", "Points"};
 		tableModel = new DefaultTableModel(tableHead, 0);
 		table = new JTable(tableModel);
 		table.setRowHeight(30);

@@ -123,13 +123,13 @@ public class TournamentManagement {
 	public ArrayList<String[]> getMatchsTournament(int tournamentID) {
 		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {
-			for(Match match : dataAccess.getMatchsTournament(tournamentID)) {
+			for(MatchPlayerResearch match : dataAccess.getMatchsTournament(tournamentID)) {
 				String[] matchStrings = new String[5];
-				matchStrings[0] = ManagerUtils.getDateString(match.getDateStart());
-				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
-				matchStrings[2] = match.getLocation().getName();
-				matchStrings[3] = match.getReferee().getIdentity();
-				matchStrings[4] = match.toString(); // points
+				matchStrings[0] = ManagerUtils.getDateString(match.getMatch().getDateStart());
+				matchStrings[1] = match.getPlayer().getFirstName();
+				matchStrings[2] = match.getPlayer().getLastName();
+				matchStrings[3] = String.valueOf(match.getPlayer().getElo());
+				matchStrings[4] = match.getPoints().toString();
 
 				listMatchs.add(matchStrings);
 			}
@@ -141,13 +141,13 @@ public class TournamentManagement {
 	public ArrayList<String[]> getMatchsPlayer(int playerID) {
 		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {
-			for(Match match : dataAccess.getMatchsPlayer(playerID)) {
+			for(MatchPlayerResearch match : dataAccess.getMatchsPlayer(playerID)) {
 				String[] matchStrings = new String[5];
 				matchStrings[0] = match.getTournament().getName();
-				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
+				matchStrings[1] = ManagerUtils.getDateString(match.getMatch().getDateStart());
 				matchStrings[2] = match.getLocation().getName();
 				matchStrings[3] = match.getReferee().getIdentity();
-				matchStrings[4] = match.toString(); // points
+				matchStrings[4] = match.getPoints().toString();
 
 				listMatchs.add(matchStrings);
 			}
@@ -182,7 +182,7 @@ public class TournamentManagement {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
-	public void updateMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
+	public void updateMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) 	{
 		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {
 			userInteraction.displayDataUpdate(dataAccess.updateMatch(match));

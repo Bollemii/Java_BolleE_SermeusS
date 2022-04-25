@@ -12,7 +12,14 @@ public class Player extends Person implements Serializable {
 		this.isProfessional = isProfessional;
 		this.elo = elo;
 	}
+	public Player(String firstName, String lastName, Double elo) {
+		this(null, firstName, lastName, null, null, null, elo);
+	}
 	public Player(Integer id, String firstName, String lastName) {
 		this(id, firstName, lastName, null, null, null, null);
+	}
+
+	public double getElo() {
+		return elo;
 	}
 }

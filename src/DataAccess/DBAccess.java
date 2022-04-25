@@ -74,7 +74,7 @@ public class DBAccess implements DataAccess {
 	}
 
 	@Override
-	public ArrayList<Match> getMatchsTournament(int tournamentID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException {
 		try {
 			String sqlInstruction = "select m.date_start, p.*, r.points " +
 									"from tournament t " +
@@ -89,10 +89,15 @@ public class DBAccess implements DataAccess {
 
 			ResultSet data = preparedStatement.executeQuery();
 
-			ArrayList<Match> list = new ArrayList<>();
+			GregorianCalendar calendar;
+			ArrayList<MatchPlayerResearch> list = new ArrayList<>();
 			while (data.next()) {
-				list.add(new Match(
-						data.getInt("date_start"), null, null, null
+				calendar = new GregorianCalendar();
+				calendar.setTime(data.getDate("date_start"));
+				list.add(new MatchPlayerResearch(
+						new Match(calendar),
+						new Player(data.getString("first_name"), data.getString("last_name"), data.getDouble("elo")),
+						data.getInt("points")
 				));
 			}
 			return list;
@@ -102,7 +107,7 @@ public class DBAccess implements DataAccess {
 	}
 
 	@Override
-	public ArrayList<Match> getMatchsPlayer(int playerID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
 		try {
 			String sqlInstruction = "select t.name as 'tournament', m.date_start, l.name as 'location', j.first_name, j.last_name, r.points " +
 									"from person p " +
@@ -116,7 +121,22 @@ public class DBAccess implements DataAccess {
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, playerID);
 
-			return getMatchs(preparedStatement.executeQuery());
+			ResultSet data = preparedStatement.executeQuery();
+
+			GregorianCalendar calendar;
+			ArrayList<MatchPlayerResearch> list = new ArrayList<>();
+			while (data.next()) {
+				calendar = new GregorianCalendar();
+				calendar.setTime(data.getDate("date_start"));
+				list.add(new MatchPlayerResearch(
+						new Match(calendar),
+						data.getInt("points"),
+						new Referee(data.getString("first_name"), data.getString("last_name")),
+						new Location(data.getString("location")),
+						new Tournament(data.getString("tournament"))
+				));
+			}
+			return list;
 		} catch(SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
