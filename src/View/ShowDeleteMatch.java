@@ -3,58 +3,46 @@ package View;
 import Business.TournamentManagement;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ShowDeleteMatch extends JPanel {
 	private TournamentManagement manager;
 	private UserInteraction userInteraction;
+	private JPanel mainPanel;
 	private JLabel title;
 	private JList matchsList;
 	private JButton submit;
 
-	//constructor
 	public ShowDeleteMatch() {
 		manager = new TournamentManagement();
 		userInteraction = new UserInteraction();
 
-		//gridBagLayout
-		GridBagLayout layout = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
-		setLayout(layout);
+		this.setLayout(new BorderLayout());
 
-		//title
-		title = new JLabel("Suppression de matchs");
+		title = new JLabel("Suppression de matchs", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 2;
-		c.anchor = GridBagConstraints.NORTH;
-		c.weighty = 1;
-		add(title, c);
+		this.add(title, BorderLayout.NORTH);
 
-		c.weighty = 2;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.insets = new Insets(0, 0, 20, 0);
+		mainPanel = new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints constraints = new GridBagConstraints();
+		mainPanel.setLayout(layout);
+
+		constraints.insets = new Insets(0, 0, 20, 0);
 		matchsList = new JList(manager.getMatchsList().toArray(new String[0]));
 		matchsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		matchsList.setFont(new Font("Arial", Font.PLAIN, 20));
-		add(matchsList, c);
+		mainPanel.add(matchsList, constraints);
 
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 2;
-		c.insets = new Insets(0, 0, 20, 0);
+		constraints.insets = new Insets(0, 20, 20, 0);
 		submit = new JButton("Valider");
 		submit.addActionListener(new ButtonListener());
 		submit.setFont(new Font("Arial", Font.PLAIN, 20));
-		add(submit, c);
+		mainPanel.add(submit, constraints);
+
+		this.add(mainPanel, BorderLayout.CENTER);
 	}
 
 	private class ButtonListener implements ActionListener {

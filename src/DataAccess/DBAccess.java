@@ -59,7 +59,7 @@ public class DBAccess implements DataAccess {
 	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
 			String sqlInstruction =
-					"select m.*, p.first_name, p.last_name, t.name as 'tournament', l.name as 'location'" +
+					"select m.*, p.first_name, p.last_name, t.name, l.name " +
 					"from `match` m " +
 					"inner join person p on m.referee_id = p.person_id " +
 					"inner join tournament t on m.tournament_id = t.tournament_id " +
@@ -109,7 +109,7 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
 		try {
-			String sqlInstruction = "select t.name as 'tournament', m.date_start, l.name as 'location', j.first_name, j.last_name, r.points " +
+			String sqlInstruction = "select t.name, m.date_start, l.name, j.first_name, j.last_name, r.points " +
 									"from person p " +
 									"inner join result r on r.player_id = p.person_id " +
 									"inner join `match` m on m.match_id = r.match_id " +
@@ -132,8 +132,8 @@ public class DBAccess implements DataAccess {
 						new Match(calendar),
 						data.getInt("points"),
 						new Referee(data.getString("first_name"), data.getString("last_name")),
-						new Location(data.getString("location")),
-						new Tournament(data.getString("tournament"))
+						new Location(data.getString("l.name")),
+						new Tournament(data.getString("t.name"))
 				));
 			}
 			return list;
@@ -145,7 +145,7 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
 		try {
-			String sqlInstruction = "select t.name as 'tournament', m.date_start, r.*, l.name as 'location' " +
+			String sqlInstruction = "select t.name, m.date_start, r.*, l.name " +
 									"from person v " +
 									"inner join reservation r on r.visitor_id = v.person_id " +
 									"inner join `match` m on m.match_id = r.match_id " +
@@ -163,7 +163,7 @@ public class DBAccess implements DataAccess {
 				GregorianCalendar calendar = new GregorianCalendar();
 				calendar.setTime(data.getDate("date_start"));
 				list.add(new Reservation(
-						new Match(data.getInt("match_id"), calendar, new Tournament(data.getString("tournament")), new Location(data.getString("location"))),
+						new Match(data.getInt("match_id"), calendar, new Tournament(data.getString("t.name")), new Location(data.getString("l.name"))),
 						data.getString("seat_type"),
 						data.getString("seat_row").charAt(0),
 						data.getInt("seat_number"),
@@ -171,6 +171,48 @@ public class DBAccess implements DataAccess {
 				));
 			}
 			return list;
+		} catch(SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public Match getMatch(int matchID) throws DataException {
+		try {
+			String sqlInstruction = "select * " +
+									"from `match` m " +
+									"inner join tournament t on t.tournament_id = m.tournament_id " +
+									"inner join person r on r.person_id = m.referee_id " +
+									"inner join location l on l.location_id = m.location_id " +
+									"where m.match_id = (?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, matchID);
+
+			ResultSet data = preparedStatement.executeQuery();
+
+			Match match = null;
+			if (data.next()) {
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTime(data.getDate("date_start"));
+				match = new Match(
+						data.getInt("match_id"),
+						calendar,
+						data.getBoolean("is_final"),
+						new Tournament(data.getInt("tournament_id"), data.getString("t.name")),
+						new Referee(data.getInt("referee_id"), data.getString("first_name"), data.getString("last_name")),
+						new Location(data.getInt("location_id"), data.getString("l.name"), data.getInt("nb_rows"), data.getInt("nb_seats_per_row"))
+				);
+
+				int duration = data.getInt("duration");
+				if (!data.wasNull())
+					match.setDuration(duration);
+
+				String comment = data.getString("comment");
+				if (!data.wasNull())
+					match.setComment(comment);
+			}
+			return match;
 		} catch(SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -305,9 +347,9 @@ public class DBAccess implements DataAccess {
 					data.getInt("match_id"),
 					calendar,
 					data.getBoolean("is_final"),
-					new Tournament(data.getString("tournament")),
+					new Tournament(data.getString("t.name")),
 					new Referee(data.getString("first_name"), data.getString("last_name")),
-					new Location(data.getString("location"))
+					new Location(data.getString("l.name"))
 			);
 
 			duration = data.getInt("duration");

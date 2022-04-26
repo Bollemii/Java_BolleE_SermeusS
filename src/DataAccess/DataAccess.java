@@ -25,4 +25,7 @@ public interface DataAccess {
 	ArrayList<Referee> getAllReferees() throws DataException;
 	ArrayList<Visitor> getAllVisitors() throws DataException;
 	ArrayList<Location> getAllLocations() throws DataException;
+
+	// OTHERS
+	Match getMatch(int matchID) throws DataException;
 }

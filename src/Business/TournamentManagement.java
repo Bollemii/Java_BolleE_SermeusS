@@ -194,6 +194,15 @@ public class TournamentManagement {
 		}
 		return listReservations;
 	}
+	public Match getMatch(int matchID) {
+		Match match = null;
+		try {
+			match = dataAccess.getMatch(matchID);
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return match;
+	}
 	public void addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
 		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {
@@ -202,8 +211,8 @@ public class TournamentManagement {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
-	public void updateMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) 	{
-		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
+	public void updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) 	{
+		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {
 			userInteraction.displayDataUpdate(dataAccess.updateMatch(match));
 		} catch (DataException exception) {
