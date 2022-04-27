@@ -7,6 +7,7 @@ Gestion de tournois
 ## Question Duby
 Pour formulaire avec JComboBoxs, faire tests pour février max 28jours ?
 -> sans test, pas d'erreur, juste le 31 février == 3 mars
+Existe aussi un JSpinner spécial pour les dates
 
 3e Design Pattern ? (Singleton, DAO, ???)
 
