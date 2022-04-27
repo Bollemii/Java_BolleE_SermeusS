@@ -1,17 +1,15 @@
 package View;
 
 import Business.ManagerUtils;
-import Business.TournamentManagement;
 import Model.Match;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
 public class ShowUpdateMatch extends JPanel{
-	private TournamentManagement manager;
+	private TournamentFormatter formatter;
 	private JPanel matchChoicePanel;
 	private MatchForm formPanel;
 	private JLabel title;
@@ -20,7 +18,7 @@ public class ShowUpdateMatch extends JPanel{
 	private Match matchSelected;
 
 	public ShowUpdateMatch() {
-		manager = new TournamentManagement();
+		formatter = new TournamentFormatter();
 
 		this.setLayout(new BorderLayout());
 
@@ -34,7 +32,7 @@ public class ShowUpdateMatch extends JPanel{
 		matchChoicePanel.setLayout(layout);
 
 		c.insets = new Insets(0, 0, 20, 0);
-		matchsBox = new JComboBox(manager.getMatchsList().toArray(new String[0]));
+		matchsBox = new JComboBox(formatter.getMatchsList().toArray(new String[0]));
 		matchsBox.setFont(new Font("Arial", Font.PLAIN, 20));
 		matchChoicePanel.add(matchsBox, c);
 
@@ -50,7 +48,7 @@ public class ShowUpdateMatch extends JPanel{
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			matchSelected = manager.getMatch(ManagerUtils.getMatchIDFromDescription(matchsBox.getSelectedItem().toString()));
+			matchSelected = formatter.getMatch(ManagerUtils.getMatchIDFromDescription(matchsBox.getSelectedItem().toString()));
 
 			formPanel = new MatchForm(false, matchSelected);
 

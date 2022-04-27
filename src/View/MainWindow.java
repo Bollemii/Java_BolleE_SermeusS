@@ -1,13 +1,11 @@
 package View;
 
-import Business.TournamentManagement;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame {
-    private TournamentManagement manager;
+    private TournamentFormatter formatter;
     private Container container;
     private JMenuBar menuBar;
     private JMenu appMenu;
@@ -24,7 +22,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         super("Gestion de tournois");
 
-        manager = new TournamentManagement();
+        formatter = new TournamentFormatter();
 
         // set size of window
         this.setSize(1080, 700);
@@ -40,7 +38,8 @@ public class MainWindow extends JFrame {
 
         exit = new JMenuItem("Quitter");
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
-        exit.addActionListener(e -> {manager.closeConnection();System.exit(0);});
+        exit.addActionListener(e -> {
+            formatter.closeConnection();System.exit(0);});
         appMenu.add(exit);
 
         tournament = new JMenu("Tournoi");
@@ -110,7 +109,8 @@ public class MainWindow extends JFrame {
         container.add(welcome);
 
         //when window closed, exit
-        this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {manager.closeConnection();System.exit(0);}});
+        this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {
+            formatter.closeConnection();System.exit(0);}});
 
         this.setVisible(true);
     }

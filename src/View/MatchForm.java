@@ -1,7 +1,6 @@
 package View;
 
 import Business.ManagerUtils;
-import Business.TournamentManagement;
 import Model.Match;
 
 import javax.swing.*;
@@ -14,7 +13,7 @@ import java.util.GregorianCalendar;
 
 public class MatchForm extends JPanel{
 	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
-	private TournamentManagement manager;
+	private TournamentFormatter formatter;
 	private JPanel formPanel, datePanel, buttonsPanel;
 	private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
 	private JComboBox<Integer> dayBox, yearBox;
@@ -26,7 +25,7 @@ public class MatchForm extends JPanel{
 	private Match matchSelected;
 
 	public MatchForm(boolean isNewMatch, Match matchSelected) {
-		manager = new TournamentManagement();
+		formatter = new TournamentFormatter();
 		this.isNewMatch = isNewMatch;
 		this.matchSelected = matchSelected;
 
@@ -57,15 +56,15 @@ public class MatchForm extends JPanel{
 		formPanel.add(datePanel);
 
 		formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));
-		tournamentBox = new JComboBox<>(manager.getTournamentsList().toArray(new String[0]));
+		tournamentBox = new JComboBox<>(formatter.getTournamentsList().toArray(new String[0]));
 		formPanel.add(tournamentBox);
 
 		formPanel.add(new JLabel("Arbitre : ", SwingConstants.RIGHT));
-		refereeBox = new JComboBox<>(manager.getRefereesList().toArray(new String[0]));
+		refereeBox = new JComboBox<>(formatter.getRefereesList().toArray(new String[0]));
 		formPanel.add(refereeBox);
 
 		formPanel.add(new JLabel("Localisation : ", SwingConstants.RIGHT));
-		locationBox = new JComboBox<>(manager.getLocationsList().toArray(new String[0]));
+		locationBox = new JComboBox<>(formatter.getLocationsList().toArray(new String[0]));
 		formPanel.add(locationBox);
 
 		formPanel.add(new JLabel("Durée : ", SwingConstants.RIGHT));
@@ -141,9 +140,9 @@ public class MatchForm extends JPanel{
 				String comment = text.isBlank() ? null : text;
 
 				if (isNewMatch)
-					manager.addMatch(dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
+					formatter.addMatch(dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
 				else
-					manager.updateMatch(matchSelected.getId(), dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
+					formatter.updateMatch(matchSelected.getId(), dateStart, duration, finalCheck.isSelected(), comment, tournamentID, refereeID, locationID);
 			} else if (e.getSource() == reset) {
 				setValues();
 			}

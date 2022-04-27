@@ -1,7 +1,6 @@
 package View;
 
 import Business.ManagerUtils;
-import Business.TournamentManagement;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ShowReservationsVisitor extends JPanel {
-	private TournamentManagement manager;
+	private TournamentFormatter formatter;
 	private JPanel visitorPanel;
 	private JLabel title;
 	private JTable table;
@@ -19,7 +18,7 @@ public class ShowReservationsVisitor extends JPanel {
 	private JButton submit;
 
 	public ShowReservationsVisitor() {
-		manager = new TournamentManagement();
+		formatter = new TournamentFormatter();
 		this.setLayout(new BorderLayout());
 
 		// title
@@ -37,7 +36,7 @@ public class ShowReservationsVisitor extends JPanel {
 
 		visitorPanel = new JPanel();
 
-		visitorBox = new JComboBox<>(manager.getVisitorsList().toArray(new String[0]));
+		visitorBox = new JComboBox<>(formatter.getVisitorsList().toArray(new String[0]));
 		visitorPanel.add(visitorBox);
 		submit = new JButton("Submit");
 		submit.addActionListener(new ButtonListener());
@@ -50,7 +49,7 @@ public class ShowReservationsVisitor extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			tableModel.setRowCount(0);
 			int visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
-			for (String[] match : manager.getReservationsVisitor(visitorID)) {
+			for (String[] match : formatter.getReservationsVisitor(visitorID)) {
 				tableModel.addRow(match);
 			}
 		}

@@ -10,6 +10,7 @@ Pour formulaire avec JComboBoxs, faire tests pour février max 28jours ?
 
 3e Design Pattern ? (Singleton, DAO, ???)
 
+Possible check sur foreign key		player_id reference vers type_person = "Player"
 
 ## Notes à faire
 pour deleteMatch -> règle sql pour mettre foreign key à null

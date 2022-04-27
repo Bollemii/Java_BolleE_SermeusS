@@ -1,18 +1,16 @@
 package View;
 
-import Business.TournamentManagement;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class ShowAllMatchs extends JPanel {
-	private TournamentManagement manager;
+	private TournamentFormatter formatter;
 	private JTable table;
 	private JLabel title;
 
 	public ShowAllMatchs() {
-		manager = new TournamentManagement();
+		formatter = new TournamentFormatter();
 		setLayout(new BorderLayout());
 
 		// title
@@ -25,7 +23,7 @@ public class ShowAllMatchs extends JPanel {
 		DefaultTableModel tableModel = new DefaultTableModel(tableHead, 0);
 		table = new JTable(tableModel);
 
-		for (String[] match : manager.getAllMatchs()) {
+		for (String[] match : formatter.getAllMatchs()) {
 			tableModel.addRow(match);
 		}
 		table.setRowHeight(30);

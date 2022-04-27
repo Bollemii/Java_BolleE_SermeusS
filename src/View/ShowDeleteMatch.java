@@ -1,14 +1,12 @@
 package View;
 
-import Business.TournamentManagement;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ShowDeleteMatch extends JPanel {
-	private TournamentManagement manager;
+	private TournamentFormatter formatter;
 	private UserInteraction userInteraction;
 	private JPanel mainPanel;
 	private JLabel title;
@@ -16,7 +14,7 @@ public class ShowDeleteMatch extends JPanel {
 	private JButton submit;
 
 	public ShowDeleteMatch() {
-		manager = new TournamentManagement();
+		formatter = new TournamentFormatter();
 		userInteraction = new UserInteraction();
 
 		this.setLayout(new BorderLayout());
@@ -31,7 +29,7 @@ public class ShowDeleteMatch extends JPanel {
 		mainPanel.setLayout(layout);
 
 		constraints.insets = new Insets(0, 0, 20, 0);
-		matchsList = new JList(manager.getMatchsList().toArray(new String[0]));
+		matchsList = new JList(formatter.getMatchsList().toArray(new String[0]));
 		matchsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		matchsList.setFont(new Font("Arial", Font.PLAIN, 20));
 		mainPanel.add(matchsList, constraints);
@@ -50,8 +48,8 @@ public class ShowDeleteMatch extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			int confirmation = userInteraction.displayConfirmation("Êtes-vous sûr de vouloir supprimer ?");
 			if (confirmation == 0) {
-				manager.deleteMatch(matchsList.getSelectedValuesList());
-				matchsList.setListData(manager.getMatchsList().toArray(new String[0]));
+				formatter.deleteMatch(matchsList.getSelectedValuesList());
+				matchsList.setListData(formatter.getMatchsList().toArray(new String[0]));
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 package View;
 
 import Business.ManagerUtils;
-import Business.TournamentManagement;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ShowMatchsTournament extends JPanel {
-    private TournamentManagement manager;
+    private TournamentFormatter formatter;
     private JPanel tournamentPanel;
     private JLabel title;
     private JTable table;
@@ -19,7 +18,7 @@ public class ShowMatchsTournament extends JPanel {
     private JButton submit;
 
     public ShowMatchsTournament() {
-        manager = new TournamentManagement();
+        formatter = new TournamentFormatter();
         this.setLayout(new BorderLayout());
 
         // title
@@ -37,7 +36,7 @@ public class ShowMatchsTournament extends JPanel {
 
         tournamentPanel = new JPanel();
 
-        tournamentBox = new JComboBox<>(manager.getTournamentsList().toArray(new String[0]));
+        tournamentBox = new JComboBox<>(formatter.getTournamentsList().toArray(new String[0]));
         tournamentPanel.add(tournamentBox);
         submit = new JButton("Submit");
         submit.addActionListener(new ButtonListener());
@@ -50,7 +49,7 @@ public class ShowMatchsTournament extends JPanel {
         public void actionPerformed(ActionEvent e) {
             tableModel.setRowCount(0);
             int tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
-            for (String[] match : manager.getMatchsTournament(tournamentID)) {
+            for (String[] match : formatter.getMatchsTournament(tournamentID)) {
                 tableModel.addRow(match);
             }
         }

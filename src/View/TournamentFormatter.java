@@ -1,22 +1,22 @@
-package Business;
+package View;
 
-import DataAccess.*;
+import Business.ManagerUtils;
+import Controller.TournamentController;
 import Exceptions.DataException;
 import Model.*;
-import View.*;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class TournamentManagement {
-	private DataAccess dataAccess;
+public class TournamentFormatter {
+	private TournamentController controller;
 	private UserInteraction userInteraction;
 
-	public TournamentManagement() {
-		userInteraction = new UserInteraction();
+	public TournamentFormatter() {
 		try {
-			dataAccess = new DBAccess();
+			userInteraction = new UserInteraction();
+			controller = new TournamentController();
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
@@ -24,17 +24,16 @@ public class TournamentManagement {
 
 	public void closeConnection() {
 		try {
-			dataAccess.closeConnection();
-		} catch(DataException exception) {
+			controller.closeConnection();
+		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
 
-	// lists for combobox from forms
 	public ArrayList<String> getTournamentsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
-			for (Tournament tournament : dataAccess.getAllTournaments()) {
+			for (Tournament tournament : controller.getTournamentsList()) {
 				list.add(tournament.toString());
 			}
 		} catch (DataException exception) {
@@ -45,7 +44,7 @@ public class TournamentManagement {
 	public ArrayList<String> getMatchsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
-			for (Match match : dataAccess.getAllMatchs()) {
+			for (Match match : controller.getMatchsList()) {
 				list.add(match.toString());
 			}
 		} catch (DataException exception) {
@@ -56,7 +55,7 @@ public class TournamentManagement {
 	public ArrayList<String> getPlayersList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
-			for (Player player : dataAccess.getAllPlayers()) {
+			for (Player player : controller.getPlayersList()) {
 				list.add(player.toString());
 			}
 		} catch (DataException exception) {
@@ -67,7 +66,7 @@ public class TournamentManagement {
 	public ArrayList<String> getRefereesList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
-			for (Referee referee : dataAccess.getAllReferees()) {
+			for (Referee referee : controller.getRefereesList()) {
 				list.add(referee.toString());
 			}
 		} catch (DataException exception) {
@@ -78,7 +77,7 @@ public class TournamentManagement {
 	public ArrayList<String> getLocationsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
-			for (Location location : dataAccess.getAllLocations()) {
+			for (Location location : controller.getLocationsList()) {
 				list.add(location.toString());
 			}
 		} catch (DataException exception) {
@@ -89,7 +88,7 @@ public class TournamentManagement {
 	public ArrayList<String> getVisitorsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
-			for (Visitor visitor : dataAccess.getAllVisitors()) {
+			for (Visitor visitor : controller.getVisitorsList()) {
 				list.add(visitor.toString());
 			}
 		} catch (DataException exception) {
@@ -102,7 +101,7 @@ public class TournamentManagement {
 	public ArrayList<String[]> getAllMatchs() {
 		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {
-			for(Match match : dataAccess.getAllMatchs()) {
+			for(Match match : controller.getAllMatchs()) {
 				String[] matchStrings = new String[8];
 				matchStrings[0] = match.getId().toString();
 				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
@@ -123,7 +122,7 @@ public class TournamentManagement {
 	public ArrayList<String[]> getAllPlayers() {
 		ArrayList<String[]> listPlayers = new ArrayList<>();
 		try {
-			for(Player player : dataAccess.getAllPlayers()) {
+			for(Player player : controller.getAllPlayers()) {
 				String[] playerStrings = new String[7];
 				playerStrings[0] = player.getId().toString();
 				playerStrings[1] = player.getFirstName();
@@ -143,7 +142,7 @@ public class TournamentManagement {
 	public ArrayList<String[]> getMatchsTournament(int tournamentID) {
 		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {
-			for(MatchPlayerResearch match : dataAccess.getMatchsTournament(tournamentID)) {
+			for(MatchPlayerResearch match : controller.getMatchsTournament(tournamentID)) {
 				String[] matchStrings = new String[5];
 				matchStrings[0] = ManagerUtils.getDateString(match.getMatch().getDateStart());
 				matchStrings[1] = match.getPlayer().getFirstName();
@@ -161,7 +160,7 @@ public class TournamentManagement {
 	public ArrayList<String[]> getMatchsPlayer(int playerID) {
 		ArrayList<String[]> listMatchs = new ArrayList<>();
 		try {
-			for(MatchPlayerResearch match : dataAccess.getMatchsPlayer(playerID)) {
+			for(MatchPlayerResearch match : controller.getMatchsPlayer(playerID)) {
 				String[] matchStrings = new String[5];
 				matchStrings[0] = match.getTournament().getName();
 				matchStrings[1] = ManagerUtils.getDateString(match.getMatch().getDateStart());
@@ -179,7 +178,7 @@ public class TournamentManagement {
 	public ArrayList<String[]> getReservationsVisitor(int visitorID) {
 		ArrayList<String[]> listReservations = new ArrayList<>();
 		try {
-			for(Reservation reservation : dataAccess.getReservationsVisitor(visitorID)) {
+			for(Reservation reservation : controller.getReservationsVisitor(visitorID)) {
 				String[] reservationStrings = new String[5];
 				reservationStrings[0] = reservation.getMatch().getTournament().getName();
 				reservationStrings[1] = ManagerUtils.getDateString(reservation.getMatch().getDateStart());
@@ -197,37 +196,29 @@ public class TournamentManagement {
 	public Match getMatch(int matchID) {
 		Match match = null;
 		try {
-			match = dataAccess.getMatch(matchID);
+			match = controller.getMatch(matchID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return match;
 	}
 	public void addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
-		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {
-			userInteraction.displayDataUpdate(dataAccess.addMatch(match));
+			userInteraction.displayDataUpdate(controller.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID));
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
 	public void updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) 	{
-		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		try {
-			userInteraction.displayDataUpdate(dataAccess.updateMatch(match));
+			userInteraction.displayDataUpdate(controller.updateMatch(matchID, dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID));
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
 	public void deleteMatch(List matchs) {
-		int[] matchsID = new int[matchs.size()];
-		int i = 0;
-		for (Object match : matchs) {
-			matchsID[i] = ManagerUtils.getMatchIDFromDescription(match.toString());
-			i++;
-		}
 		try {
-			userInteraction.displayDataUpdate(dataAccess.deleteMatch(matchsID));
+			userInteraction.displayDataUpdate(controller.deleteMatch(matchs));
 		} catch(DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}

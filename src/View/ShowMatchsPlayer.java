@@ -1,7 +1,6 @@
 package View;
 
 import Business.ManagerUtils;
-import Business.TournamentManagement;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ShowMatchsPlayer extends JPanel {
-	private TournamentManagement manager;
+	private TournamentFormatter formatter;
 	private JPanel playerPanel;
 	private JLabel title;
 	private JTable table;
@@ -19,7 +18,7 @@ public class ShowMatchsPlayer extends JPanel {
 	private JButton submit;
 
 	public ShowMatchsPlayer() {
-		manager = new TournamentManagement();
+		formatter = new TournamentFormatter();
 		this.setLayout(new BorderLayout());
 
 		// title
@@ -37,7 +36,7 @@ public class ShowMatchsPlayer extends JPanel {
 
 		playerPanel = new JPanel();
 
-		playerBox = new JComboBox<>(manager.getPlayersList().toArray(new String[0]));
+		playerBox = new JComboBox<>(formatter.getPlayersList().toArray(new String[0]));
 		playerPanel.add(playerBox);
 		submit = new JButton("Submit");
 		submit.addActionListener(new ButtonListener());
@@ -50,7 +49,7 @@ public class ShowMatchsPlayer extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			tableModel.setRowCount(0);
 			int playerID = ManagerUtils.getIDFromDescription(playerBox.getSelectedItem().toString());
-			for (String[] match : manager.getMatchsPlayer(playerID)) {
+			for (String[] match : formatter.getMatchsPlayer(playerID)) {
 				tableModel.addRow(match);
 			}
 		}
