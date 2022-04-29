@@ -26,6 +26,10 @@ public interface DataAccess {
 	ArrayList<Visitor> getAllVisitors() throws DataException;
 	ArrayList<Location> getAllLocations() throws DataException;
 
+	// BUSINESS TASK
+	int addResult(Result result) throws DataException;
+	int updateResult(Result result) throws DataException;
+
 	// OTHERS
 	Match getMatch(int matchID) throws DataException;
 }

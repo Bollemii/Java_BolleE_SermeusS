@@ -27,7 +27,7 @@ public class ShowReservationsVisitor extends JPanel {
 		this.add(title, BorderLayout.NORTH);
 
 		// table
-		String[] tableHead = {"Tournoi", "Date de début", "Emplacement", "Arbitre", "Résultat"};
+		String[] tableHead = {"Match", "Date de début", "Place", "Prix", "Emplacement"};
 		tableModel = new DefaultTableModel(tableHead, 0);
 		table = new JTable(tableModel);
 		table.setRowHeight(30);
@@ -38,7 +38,7 @@ public class ShowReservationsVisitor extends JPanel {
 
 		visitorBox = new JComboBox<>(formatter.getVisitorsList().toArray(new String[0]));
 		visitorPanel.add(visitorBox);
-		submit = new JButton("Submit");
+		submit = new JButton("Valider");
 		submit.addActionListener(new ButtonListener());
 		visitorPanel.add(submit);
 		this.add(visitorPanel, BorderLayout.SOUTH);

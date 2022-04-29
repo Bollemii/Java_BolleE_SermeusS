@@ -17,7 +17,8 @@ public class DBAccess implements DataAccess {
 
 	public void closeConnection() throws DataException {
 		try {
-			connection.close();
+			if (connection != null)
+				connection.close();
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -48,6 +49,24 @@ public class DBAccess implements DataAccess {
 
 			optionalsColumnsMatch(match);
 			return nbLinesUpdated;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int addResult(Result result) throws DataException {
+		if (result == null)
+			return 0;
+
+		try {
+			String sqlInstruction;
+			sqlInstruction = "insert into result(player_id, match_id) values(?,?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, result.getPlayer().getId());
+			preparedStatement.setInt(2, result.getMatch().getId());
+			return preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
@@ -412,6 +431,24 @@ public class DBAccess implements DataAccess {
 				preparedStatement.executeUpdate();
 			}
 		} catch(SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int updateResult(Result result) throws DataException {
+		try {
+			int nbLinesUpdated = 0;
+			if (result.getPoints() != null) {
+				String sqlInstruction = "update result set points = ? where player_id = ? and match_id = ?";
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+				preparedStatement.setInt(1, result.getPoints());
+				preparedStatement.setInt(2, result.getPlayer().getId());
+				preparedStatement.setInt(3, result.getMatch().getId());
+				nbLinesUpdated = preparedStatement.executeUpdate();
+			}
+			return nbLinesUpdated;
+		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
 	}

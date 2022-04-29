@@ -1,5 +1,7 @@
 package View;
 
+import Exceptions.DataException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

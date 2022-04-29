@@ -38,7 +38,7 @@ public class ShowMatchsPlayer extends JPanel {
 
 		playerBox = new JComboBox<>(formatter.getPlayersList().toArray(new String[0]));
 		playerPanel.add(playerBox);
-		submit = new JButton("Submit");
+		submit = new JButton("Valider");
 		submit.addActionListener(new ButtonListener());
 		playerPanel.add(submit);
 		this.add(playerPanel, BorderLayout.SOUTH);

@@ -38,7 +38,7 @@ public class ShowMatchsTournament extends JPanel {
 
         tournamentBox = new JComboBox<>(formatter.getTournamentsList().toArray(new String[0]));
         tournamentPanel.add(tournamentBox);
-        submit = new JButton("Submit");
+        submit = new JButton("Valider");
         submit.addActionListener(new ButtonListener());
         tournamentPanel.add(submit);
         this.add(tournamentPanel, BorderLayout.SOUTH);

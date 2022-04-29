@@ -13,22 +13,22 @@ public class ShowReservation extends JPanel {
     public ShowReservation() {
         //gridBagLayout
         GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
         setLayout(layout);
 
 
         //title
         title = new JLabel("Réservation");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.NORTH;
-        c.weighty = 1;
-        add(title, c);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.weighty = 1;
+        add(title, constraints);
 
 
-        c.weighty = 2;
+        constraints.weighty = 2;
         //comboBox
         comboBox = new JComboBox();
         comboBox.addItem("All");
@@ -38,24 +38,24 @@ public class ShowReservation extends JPanel {
         comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
 
 
-        add(comboBox, c);
+        add(comboBox, constraints);
 
         submit = new JButton("Submit");
         submit.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        add(submit, c);
+        add(submit, constraints);
 
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(comboBox, c);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.insets = new Insets(0, 0, 20, 0);
+        add(comboBox, constraints);
 
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(submit, c);
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(0, 0, 20, 0);
+        add(submit, constraints);
 
         table = new JTable();
 
@@ -65,10 +65,10 @@ public class ShowReservation extends JPanel {
         String[] item={"A","B","C","D"};
         dtm.addRow(item);
         table.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.insets = new Insets(0, 0, 20, 0);
-        add(table, c);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(0, 0, 20, 0);
+        add(table, constraints);
     }
 }

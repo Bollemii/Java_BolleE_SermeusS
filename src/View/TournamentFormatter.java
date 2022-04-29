@@ -19,6 +19,7 @@ public class TournamentFormatter {
 			controller = new TournamentController();
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+			System.exit(1);
 		}
 	}
 

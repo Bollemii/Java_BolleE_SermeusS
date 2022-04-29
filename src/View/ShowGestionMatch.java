@@ -1,58 +1,69 @@
 package View;
 
-import Model.Match;
+import Model.Result;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ShowGestionMatch extends JPanel {
-    private JPanel mainPanel;
-    private JButton submit;
-    private JComboBox comboBox;
-    private JTable table;;
-    private JLabel title;
-    private ArrayList<Match> listMatch;
-    //constructor
-    public ShowGestionMatch() {
-        this.setLayout(new BorderLayout());
+	private TournamentFormatter formatter;
+	private UserInteraction userInteraction;
+	private JLabel title, player1, player2;
+	private JPanel mainPanel, choicePanel, buttonPanel;
+	private JComboBox<String> player1Box, player2Box;
+	private JButton submit;
 
-        mainPanel = new JPanel();
-        //gridBagLayout
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        mainPanel.setLayout(layout);
+	public ShowGestionMatch() {
+		formatter = new TournamentFormatter();
+		userInteraction = new UserInteraction();
 
-        //title
-        title = new JLabel("Gestion des matchs", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.PLAIN, 40));
-        this.add(title, BorderLayout.NORTH);
+		this.setLayout(new BorderLayout());
 
-        //comboBox
-        comboBox = new JComboBox();
-        comboBox.addItem("All");
-        comboBox.addItem("Active");
-        comboBox.addItem("Inactive");
-        comboBox.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.insets = new Insets(0, 0, 20, 0);
-        mainPanel.add(comboBox,c);
+		title = new JLabel("Gestion des matchs", SwingConstants.CENTER);
+		title.setFont(new Font("Arial", Font.PLAIN, 40));
+		this.add(title, BorderLayout.NORTH);
 
-        submit = new JButton("Submit");
-        submit.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.insets = new Insets(0, 20, 20, 0);
-        mainPanel.add(submit, c);
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
 
-        table = new JTable();
-        String[] tblHead = {"Item Name","Price","Qty","Discount"};
-        DefaultTableModel dtm = new DefaultTableModel(tblHead,0);
-        table = new JTable(dtm);
-        String[] item = {"A","B","C","D"};
-        dtm.addRow(item);
-        table.setFont(new Font("Arial", Font.PLAIN, 20));
-        c.insets = new Insets(0, 0, 20, 0);
-        mainPanel.add(table, c);
+		choicePanel = new JPanel();
+		choicePanel.setLayout(new GridLayout(2, 2));
+		String[] playerList = formatter.getPlayersList().toArray(new String[0]);
 
-        this.add(mainPanel, BorderLayout.CENTER);
-    }
+		player1 = new JLabel("Joueur 1 :");
+		choicePanel.add(player1);
+		player1Box = new JComboBox<>(playerList);
+		player1Box.setFont(new Font("Arial", Font.PLAIN, 20));
+		choicePanel.add(player1Box);
+
+		player2 = new JLabel("Joueur 2 :");
+		choicePanel.add(player2);
+		player2Box = new JComboBox<>(playerList);
+		player2Box.setFont(new Font("Arial", Font.PLAIN, 20));
+		choicePanel.add(player2Box);
+
+		mainPanel.add(choicePanel, BorderLayout.CENTER);
+
+		buttonPanel = new JPanel();
+		submit = new JButton("Valider");
+		submit.addActionListener(new ButtonListener());
+		submit.setFont(new Font("Arial", Font.PLAIN, 20));
+		buttonPanel.add(submit);
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+		this.add(mainPanel, BorderLayout.CENTER);
+	}
+
+	private class ButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (player1Box.getSelectedItem() == player2Box.getSelectedItem()) {
+				userInteraction.displayErrorMessage("Les joueurs doivent être différents");
+			} else {
+				// créer un nouveau match entre les deux joueurs
+			}
+		}
+	}
 }

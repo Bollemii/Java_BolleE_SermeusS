@@ -7,16 +7,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class MatchForm extends JPanel{
 	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
 	private TournamentFormatter formatter;
-	private JPanel formPanel, datePanel, buttonsPanel;
-	private JComboBox<String> monthBox, tournamentBox, refereeBox, locationBox;
-	private JComboBox<Integer> dayBox, yearBox;
+	private JPanel formPanel, buttonsPanel;
+	private JComboBox<String> tournamentBox, refereeBox, locationBox;
+	private JSpinner dateSpinner;
 	private JSpinner durationSpinner;
 	private JTextArea commentText;
 	private JCheckBox finalCheck;
@@ -38,22 +42,11 @@ public class MatchForm extends JPanel{
 		formPanel.setLayout(new GridLayout(7, 2));
 
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
-		datePanel = new JPanel();
-		datePanel.setLayout(new GridBagLayout());
-		dayBox = new JComboBox<>();
-		for (int i = 1; i <= 31; i++)
-			dayBox.addItem(i);
-		dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
-		datePanel.add(dayBox, c);
-		monthBox = new JComboBox<>(MONTHS);
-		monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue()-1]);
-		datePanel.add(monthBox, c);
-		yearBox = new JComboBox<>();
-		for (int i = 1900; i <= LocalDateTime.now().getYear(); i++)
-			yearBox.addItem(i);
-		yearBox.setSelectedItem(LocalDateTime.now().getYear());
-		datePanel.add(yearBox, c);
-		formPanel.add(datePanel);
+
+		dateSpinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, null, Calendar.YEAR));
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd-MM-yyyy HH:mm");
+		dateSpinner.setEditor(editor);
+		formPanel.add(dateSpinner);
 
 		formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));
 		tournamentBox = new JComboBox<>(formatter.getTournamentsList().toArray(new String[0]));
@@ -98,9 +91,7 @@ public class MatchForm extends JPanel{
 
 	private void setValues() {
 		if (isNewMatch) {
-			dayBox.setSelectedItem(LocalDateTime.now().getDayOfMonth());
-			monthBox.setSelectedItem(MONTHS[LocalDateTime.now().getMonthValue() - 1]);
-			yearBox.setSelectedItem(LocalDateTime.now().getYear());
+			dateSpinner.setValue(Date.from(Instant.now()));
 
 			tournamentBox.setSelectedIndex(0);
 			refereeBox.setSelectedIndex(0);
@@ -110,9 +101,7 @@ public class MatchForm extends JPanel{
 			commentText.setText(null);
 			finalCheck.setSelected(false);
 		} else {
-			dayBox.setSelectedItem(matchSelected.getDateStart().get(Calendar.DAY_OF_MONTH));
-			monthBox.setSelectedIndex(matchSelected.getDateStart().get(Calendar.MONTH));
-			yearBox.setSelectedItem(matchSelected.getDateStart().get(Calendar.YEAR));
+			dateSpinner.setValue(matchSelected.getDateStart().getTime());
 
 			tournamentBox.setSelectedItem(matchSelected.getTournament().toString());
 			refereeBox.setSelectedItem(matchSelected.getReferee().toString());
@@ -128,7 +117,13 @@ public class MatchForm extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == validate) {
-				GregorianCalendar dateStart = new GregorianCalendar((int)yearBox.getSelectedItem(), monthBox.getSelectedIndex(), (int)dayBox.getSelectedItem());
+				GregorianCalendar dateStart = new GregorianCalendar(
+						Integer.parseInt(new SimpleDateFormat("yyyy").format(dateSpinner.getValue())),
+						Integer.parseInt(new SimpleDateFormat("MM").format(dateSpinner.getValue()))-1,
+						Integer.parseInt(new SimpleDateFormat("dd").format(dateSpinner.getValue())),
+						Integer.parseInt(new SimpleDateFormat("HH").format(dateSpinner.getValue())),
+						Integer.parseInt(new SimpleDateFormat("mm").format(dateSpinner.getValue()))
+				);
 
 				Integer tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
 				Integer locationID = ManagerUtils.getIDFromDescription(locationBox.getSelectedItem().toString());
