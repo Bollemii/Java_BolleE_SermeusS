@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 
 public class ShowUpdateMatch extends JPanel{
 	private TournamentFormatter formatter;
-	private JPanel matchChoicePanel;
+	private JPanel matchChoicePanel, mainPanel;
 	private MatchForm formPanel;
 	private JLabel title;
 	private JComboBox matchsBox;
@@ -50,10 +50,14 @@ public class ShowUpdateMatch extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			matchSelected = formatter.getMatch(ManagerUtils.getMatchIDFromDescription(matchsBox.getSelectedItem().toString()));
 
+			mainPanel = new JPanel();
+			mainPanel.setLayout(new GridBagLayout());
+
 			formPanel = new MatchForm(false, matchSelected);
+			mainPanel.add(formPanel);
 
 			ShowUpdateMatch.this.remove(matchChoicePanel);
-			ShowUpdateMatch.this.add(formPanel, BorderLayout.CENTER);
+			ShowUpdateMatch.this.add(mainPanel, BorderLayout.CENTER);
 			ShowUpdateMatch.this.validate();
 		}
 	}

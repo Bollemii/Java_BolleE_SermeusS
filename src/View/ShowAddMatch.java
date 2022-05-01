@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ShowAddMatch extends JPanel {
-	private JPanel formPanel;
+	private JPanel mainPanel;
+	private MatchForm formPanel;
 	private JLabel title;
 
 	public ShowAddMatch() {
@@ -14,7 +15,12 @@ public class ShowAddMatch extends JPanel {
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		this.add(title, BorderLayout.NORTH);
 
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridBagLayout());
+
 		formPanel = new MatchForm(true, null);
-		this.add(formPanel, BorderLayout.CENTER);
+		mainPanel.add(formPanel);
+
+		this.add(mainPanel, BorderLayout.CENTER);
 	}
 }

@@ -1,8 +1,9 @@
 package View;
 
-import Model.Result;
-
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,9 +12,10 @@ public class ShowGestionMatch extends JPanel {
 	private TournamentFormatter formatter;
 	private UserInteraction userInteraction;
 	private JLabel title, player1, player2;
-	private JPanel mainPanel, choicePanel, buttonPanel;
+	private JPanel mainPanel, choicePanel, playersPanel, buttonPanel;
 	private JComboBox<String> player1Box, player2Box;
 	private JButton submit;
+	private Border border, margin;
 
 	public ShowGestionMatch() {
 		formatter = new TournamentFormatter();
@@ -26,32 +28,46 @@ public class ShowGestionMatch extends JPanel {
 		this.add(title, BorderLayout.NORTH);
 
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setLayout(new GridBagLayout());
 
 		choicePanel = new JPanel();
-		choicePanel.setLayout(new GridLayout(2, 2));
-		String[] playerList = formatter.getPlayersList().toArray(new String[0]);
+		choicePanel.setLayout(new BorderLayout());
+		choicePanel.setBackground(new Color(255,250,205));
 
-		player1 = new JLabel("Joueur 1 :");
-		choicePanel.add(player1);
+		playersPanel = new JPanel();
+		playersPanel.setLayout(new GridLayout(2, 2, 10, 10));
+		playersPanel.setOpaque(false);
+
+		String[] playerList = formatter.getPlayersList().toArray(new String[0]);
+		player1 = new JLabel("Joueur 1 :", SwingConstants.RIGHT);
+		player1.setFont(new Font("Arial", Font.PLAIN, 20));
+		playersPanel.add(player1);
 		player1Box = new JComboBox<>(playerList);
 		player1Box.setFont(new Font("Arial", Font.PLAIN, 20));
-		choicePanel.add(player1Box);
+		playersPanel.add(player1Box);
 
-		player2 = new JLabel("Joueur 2 :");
-		choicePanel.add(player2);
+		player2 = new JLabel("Joueur 2 :", SwingConstants.RIGHT);
+		player2.setFont(new Font("Arial", Font.PLAIN, 20));
+		playersPanel.add(player2);
 		player2Box = new JComboBox<>(playerList);
 		player2Box.setFont(new Font("Arial", Font.PLAIN, 20));
-		choicePanel.add(player2Box);
+		playersPanel.add(player2Box);
 
-		mainPanel.add(choicePanel, BorderLayout.CENTER);
+		choicePanel.add(playersPanel, BorderLayout.CENTER);
 
 		buttonPanel = new JPanel();
+		buttonPanel.setOpaque(false);
 		submit = new JButton("Valider");
 		submit.addActionListener(new ButtonListener());
 		submit.setFont(new Font("Arial", Font.PLAIN, 20));
 		buttonPanel.add(submit);
-		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		choicePanel.add(buttonPanel, BorderLayout.SOUTH);
+
+		border = BorderFactory.createRaisedBevelBorder();
+		margin = new EmptyBorder(10,10,10,10);
+		choicePanel.setBorder(new CompoundBorder(border, margin));
+
+		mainPanel.add(choicePanel);
 
 		this.add(mainPanel, BorderLayout.CENTER);
 	}

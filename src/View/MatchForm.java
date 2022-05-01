@@ -4,20 +4,21 @@ import Business.ManagerUtils;
 import Model.Match;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 public class MatchForm extends JPanel{
-	private static final String[] MONTHS = {"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
 	private TournamentFormatter formatter;
+	private Border border, margin;
 	private JPanel formPanel, buttonsPanel;
 	private JComboBox<String> tournamentBox, refereeBox, locationBox;
 	private JSpinner dateSpinner;
@@ -29,17 +30,21 @@ public class MatchForm extends JPanel{
 	private Match matchSelected;
 
 	public MatchForm(boolean isNewMatch, Match matchSelected) {
-		formatter = new TournamentFormatter();
+		this.formatter = new TournamentFormatter();
 		this.isNewMatch = isNewMatch;
 		this.matchSelected = matchSelected;
 
 		this.setLayout(new BorderLayout());
+		this.setBackground(new Color(255,250,205));
+		border = BorderFactory.createRaisedBevelBorder();
+		margin = new EmptyBorder(10,10,10,10);
+		this.setBorder(new CompoundBorder(border, margin));
 
-		GridBagConstraints c = new GridBagConstraints();
 		ButtonListener buttonListener = new ButtonListener();
 
 		formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(7, 2));
+		formPanel.setLayout(new GridLayout(7, 2, 10, 10));
+		formPanel.setOpaque(false);
 
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
 
@@ -68,13 +73,17 @@ public class MatchForm extends JPanel{
 		commentText = new JTextArea();
 		formPanel.add(commentText);
 
-		formPanel.add(new JPanel());
+		JPanel panel = new JPanel();
+		panel.setOpaque(false);
+		formPanel.add(panel);
 		finalCheck = new JCheckBox("est une finale");
+		finalCheck.setOpaque(false);
 		formPanel.add(finalCheck);
 
 		this.add(formPanel, BorderLayout.CENTER);
 
 		buttonsPanel = new JPanel();
+		buttonsPanel.setOpaque(false);
 		validate = new JButton("Validation");
 		validate.setToolTipText("Enregistrer");
 		validate.addActionListener(buttonListener);
@@ -86,6 +95,7 @@ public class MatchForm extends JPanel{
 		buttonsPanel.add(reset);
 
 		this.add(buttonsPanel, BorderLayout.SOUTH);
+
 		setValues();
 	}
 
