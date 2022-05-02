@@ -3,6 +3,7 @@ package Controller;
 import Business.ManagerUtils;
 import Business.TournamentManager;
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.*;
 
 import java.util.ArrayList;
@@ -33,11 +34,11 @@ public class TournamentController {
 	public ArrayList<Referee> getRefereesList() throws DataException {
 		return manager.getRefereesList();
 	}
-	public ArrayList<Location> getLocationsList() throws DataException {
-		return manager.getLocationsList();
-	}
 	public ArrayList<Visitor> getVisitorsList() throws DataException {
 		return manager.getVisitorsList();
+	}
+	public ArrayList<Location> getLocationsList() throws DataException {
+		return manager.getLocationsList();
 	}
 
 	// methods for data operations
@@ -60,20 +61,15 @@ public class TournamentController {
 		return manager.getMatch(matchID);
 	}
 	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
-		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
-		return manager.addMatch(match);
+		return manager.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
 	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
-		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
-		return manager.updateMatch(match);
+		return manager.updateMatch(matchID, dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
 	public int deleteMatch(List matchs) throws DataException {
-		int[] matchsID = new int[matchs.size()];
-		int i = 0;
-		for (Object match : matchs) {
-			matchsID[i] = ManagerUtils.getMatchIDFromDescription(match.toString());
-			i++;
-		}
-		return manager.deleteMatch(matchsID);
+		return manager.deleteMatch(matchs);
+	}
+	public int addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) throws DataException, ValueException {
+		return manager.addReservation(visitorID, matchID, seatType, seatRow, seatNumber, cost);
 	}
 }

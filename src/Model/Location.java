@@ -27,13 +27,19 @@ public class Location implements Serializable {
 	public String getName() {
 		return name;
 	}
+	public Integer getNbRows() {
+		return nbRows;
+	}
+	public Integer getNbSeatsPerRow() {
+		return nbSeatsPerRow;
+	}
 
-	public int nbPlaces() {
+	public int nbSeats() {
 		return nbRows * nbSeatsPerRow;
 	}
 
 	@Override
 	public String toString() {
-		return getName() + " (#" + getId() + ") : " + nbPlaces() + " places";
+		return getName() + " (#" + getId() + ") : " + nbSeats() + " places";
 	}
 }

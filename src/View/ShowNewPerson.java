@@ -1,24 +1,26 @@
 package View;
 
+import View.Forms.PersonForm;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class ShowAddMatch extends JPanel {
+public class ShowNewPerson extends JPanel {
 	private JPanel mainPanel;
-	private MatchForm formPanel;
+	private PersonForm formPanel;
 	private JLabel title;
 
-	public ShowAddMatch() {
+	public ShowNewPerson() {
 		this.setLayout(new BorderLayout());
 
-		title = new JLabel("Ajout d'un match", SwingConstants.CENTER);
+		title = new JLabel("Nouvelle personne", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		this.add(title, BorderLayout.NORTH);
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
 
-		formPanel = new MatchForm(true, null);
+		formPanel = new PersonForm();
 		mainPanel.add(formPanel);
 
 		this.add(mainPanel, BorderLayout.CENTER);

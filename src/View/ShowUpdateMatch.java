@@ -2,6 +2,7 @@ package View;
 
 import Business.ManagerUtils;
 import Model.Match;
+import View.Forms.MatchForm;
 
 import javax.swing.*;
 import java.awt.*;

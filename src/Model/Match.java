@@ -37,6 +37,9 @@ public class Match implements Serializable {
 	public Match(GregorianCalendar dateStart) {
 		this(null, dateStart, null, null);
 	}
+	public Match(Integer id) {
+		this(id, null, null, null);
+	}
 
 	public Integer getId() {
 		return id;

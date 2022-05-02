@@ -1,7 +1,5 @@
 package View;
 
-import Exceptions.DataException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -126,13 +124,13 @@ public class MainWindow extends JFrame {
 
         public JPanel getPanel(ActionEvent e) {
             if (e.getSource() == playerInscription) {
-                return new ShowInscription();
+                return new ShowNewPerson();
             } else if (e.getSource() == showMatchsTournament) {
                 return new ShowMatchsTournament();
             } else if (e.getSource() == matchManagement) {
                 return new ShowGestionMatch();
             } else if (e.getSource() == addMatch) {
-                return new ShowAddMatch();
+                return new ShowNewMatch();
             } else if (e.getSource() == showMatchTable) {
                 return new ShowAllMatchs();
             } else if (e.getSource() == modifyMatch) {
@@ -144,7 +142,7 @@ public class MainWindow extends JFrame {
             } else if (e.getSource() == showMatchsPlayer) {
                 return new ShowMatchsPlayer();
             } else if (e.getSource() == reservation) {
-                return new ShowReservation();
+                return new ShowNewReservation();
             } else if (e.getSource() == showReservation) {
                 return new ShowReservationsVisitor();
             }

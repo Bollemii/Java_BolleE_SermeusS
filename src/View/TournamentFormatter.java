@@ -3,6 +3,7 @@ package View;
 import Business.ManagerUtils;
 import Controller.TournamentController;
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.*;
 
 import java.util.ArrayList;
@@ -53,6 +54,17 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	public ArrayList<String> getLocationsList() {
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			for (Location location : controller.getLocationsList()) {
+				list.add(location.toString());
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return list;
+	}
 	public ArrayList<String> getPlayersList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -69,17 +81,6 @@ public class TournamentFormatter {
 		try {
 			for (Referee referee : controller.getRefereesList()) {
 				list.add(referee.toString());
-			}
-		} catch (DataException exception) {
-			userInteraction.displayErrorMessage(exception.getMessage());
-		}
-		return list;
-	}
-	public ArrayList<String> getLocationsList() {
-		ArrayList<String> list = new ArrayList<>();
-		try {
-			for (Location location : controller.getLocationsList()) {
-				list.add(location.toString());
 			}
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
@@ -221,6 +222,15 @@ public class TournamentFormatter {
 		try {
 			userInteraction.displayDataUpdate(controller.deleteMatch(matchs));
 		} catch(DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+	}
+	public void addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) {
+		try {
+			userInteraction.displayDataUpdate(controller.addReservation(visitorID, matchID, seatType, seatRow, seatNumber, cost));
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}

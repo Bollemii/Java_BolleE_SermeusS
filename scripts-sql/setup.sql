@@ -8,10 +8,10 @@ CREATE TABLE person (
   birth_date       date NOT NULL, 
   gender           char(1) NOT NULL, 
   type_person      varchar(50) NOT NULL, 
-  is_professional  bit(1), 
+  is_professional  bit(1), 						-- player
   elo              int, 
-  level            varchar(50), 
-  is_vip           bit(1)
+  level            varchar(50), 				-- referee
+  is_vip           bit(1)						-- visitor
 );
 
 CREATE TABLE result (
@@ -26,7 +26,7 @@ CREATE TABLE `match` (
   location_id   int NOT NULL, 
   tournament_id int NOT NULL, 
   referee_id    int NOT NULL, 
-  date_start    date NOT NULL, 
+  date_start    datetime NOT NULL, 
   duration      int, 
   is_final      bit(1) NOT NULL, 
   comment       varchar(200)

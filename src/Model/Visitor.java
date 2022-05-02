@@ -13,4 +13,7 @@ public class Visitor extends Person implements Serializable {
 	public Visitor(Integer id, String firstName, String lastName) {
 		this(id, firstName, lastName, null, null, null);
 	}
+	public Visitor(Integer id) {
+		this(id, null, null);
+	}
 }

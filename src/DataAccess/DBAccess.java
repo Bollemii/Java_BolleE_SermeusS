@@ -60,12 +60,33 @@ public class DBAccess implements DataAccess {
 			return 0;
 
 		try {
-			String sqlInstruction;
-			sqlInstruction = "insert into result(player_id, match_id) values(?,?)";
+			String sqlInstruction = "insert into result(player_id, match_id) values(?,?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, result.getPlayer().getId());
 			preparedStatement.setInt(2, result.getMatch().getId());
+			return preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int addReservation(Reservation reservation) throws DataException {
+		if (reservation == null)
+			return 0;
+
+		try {
+			String sqlInstruction = "insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost) values(?,?,?,?,?,?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, reservation.getVisitor().getId());
+			preparedStatement.setInt(2, reservation.getMatch().getId());
+			preparedStatement.setString(3, reservation.getSeatType());
+			preparedStatement.setString(4, reservation.getSeatRow().toString());
+			preparedStatement.setInt(5, reservation.getSeatNumber());
+			preparedStatement.setDouble(6, reservation.getCost());
+
 			return preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());

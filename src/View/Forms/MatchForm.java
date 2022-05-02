@@ -1,7 +1,8 @@
-package View;
+package View.Forms;
 
 import Business.ManagerUtils;
 import Model.Match;
+import View.TournamentFormatter;
 
 import javax.swing.*;
 import javax.swing.border.Border;
