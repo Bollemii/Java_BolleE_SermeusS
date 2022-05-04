@@ -1,4 +1,4 @@
-package View;
+package View.Pong;
 
 import java.awt.*;
 import java.util.Random;

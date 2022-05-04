@@ -20,7 +20,7 @@ public class SingletonConnexion {
 		);*/
 	}
 
-	public static Connection getConnection() throws DataException {
+	public static Connection getInstance() throws DataException {
 		if (connection == null) {
 			try {
 				new SingletonConnexion();

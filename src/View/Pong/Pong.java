@@ -1,4 +1,4 @@
-package View;
+package View.Pong;
 
 import javax.swing.*;
 import java.awt.*;

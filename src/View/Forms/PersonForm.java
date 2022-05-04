@@ -22,10 +22,12 @@ public class PersonForm extends JPanel {
 	private UserInteraction userInteraction;
 	private Border border, margin;
 	private JPanel formPanel, buttonsPanel;
-	private JComboBox<String> visitorBox, matchBox;
-	private JTextField seatTypeText;
-	private JSpinner seatNumberSpinner;
+	private JComboBox<String> typePersonBox, visitorBox, matchBox;
+	private JRadioButton playerRadio, visitorRadio, refereeRadio, manRadio, womanRadio, otherRadio;
+	private JTextField firstNameText, lastNameText, levelText, seatTypeText;
+	private JSpinner birthDateSpinner, eloSpinner, seatNumberSpinner;
 	private JFormattedTextField seatRowText, costText;
+	private JCheckBox professionalCheck, vipCheck;
 	private JButton validate, reset;
 
 	public PersonForm() {
@@ -44,19 +46,19 @@ public class PersonForm extends JPanel {
 		formPanel.setLayout(new GridLayout(7, 2, 10, 10));
 		formPanel.setOpaque(false);
 
-		formPanel.add(new JLabel("Visiteur : ", SwingConstants.RIGHT));
-		visitorBox = new JComboBox<>(formatter.getVisitorsList().toArray(new String[0]));
-		formPanel.add(visitorBox);
+		formPanel.add(new JLabel("Type de personne : ", SwingConstants.RIGHT));
+		typePersonBox = new JComboBox<>(new String[]{"Player", "Visiteur", "Arbitre"});
+		formPanel.add(typePersonBox);
 
-		formPanel.add(new JLabel("Match : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Prénom : ", SwingConstants.RIGHT));
 		matchBox = new JComboBox<>(formatter.getMatchsList().toArray(new String[0]));
 		formPanel.add(matchBox);
 
-		formPanel.add(new JLabel("Type de siège : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Nom : ", SwingConstants.RIGHT));
 		seatTypeText = new JTextField();
 		formPanel.add(seatTypeText);
 
-		formPanel.add(new JLabel("Rangée : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Date de naissance : ", SwingConstants.RIGHT));
 		try {
 			seatRowText = new JFormattedTextField(new MaskFormatter("?"));
 			formPanel.add(seatRowText);
@@ -64,11 +66,11 @@ public class PersonForm extends JPanel {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 
-		formPanel.add(new JLabel("Numéro de siège : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Genre : ", SwingConstants.RIGHT));
 		seatNumberSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 		formPanel.add(seatNumberSpinner);
 
-		formPanel.add(new JLabel("Prix : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("est professionnel : ", SwingConstants.RIGHT));
 		costText = new JFormattedTextField(new DecimalFormat("#0.0#"));
 		formPanel.add(costText);
 

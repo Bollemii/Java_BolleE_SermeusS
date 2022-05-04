@@ -1,7 +1,8 @@
 package View;
 
+import View.TableModels.AllMatchsModel;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class ShowAllMatchs extends JPanel {
@@ -13,19 +14,16 @@ public class ShowAllMatchs extends JPanel {
 		formatter = new TournamentFormatter();
 		setLayout(new BorderLayout());
 
-		// title
 		title = new JLabel("Tableau des matchs", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		add(title, BorderLayout.NORTH);
 
-		// table
-		String[] tableHead = {"Id", "Date", "Durée", "Finale", "Commentaire", "Tournoi", "Arbitre", "Emplacement"};
-		DefaultTableModel tableModel = new DefaultTableModel(tableHead, 0);
-		table = new JTable(tableModel);
+		table = new JTable(new AllMatchsModel(formatter.getAllMatchs()));
+		table.getColumnModel().getColumn(0).setPreferredWidth(5);
+		table.getColumnModel().getColumn(2).setPreferredWidth(30);
+		table.getColumnModel().getColumn(3).setPreferredWidth(10);
+		table.getColumnModel().getColumn(4).setPreferredWidth(200);
 
-		for (String[] match : formatter.getAllMatchs()) {
-			tableModel.addRow(match);
-		}
 		table.setRowHeight(30);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		add(new JScrollPane(table), BorderLayout.CENTER);

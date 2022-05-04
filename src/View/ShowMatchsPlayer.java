@@ -1,9 +1,9 @@
 package View;
 
 import Business.ManagerUtils;
+import View.TableModels.MatchsPlayerModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +13,7 @@ public class ShowMatchsPlayer extends JPanel {
 	private JPanel playerPanel;
 	private JLabel title;
 	private JTable table;
-	private DefaultTableModel tableModel;
+	private MatchsPlayerModel model;
 	private JComboBox<String> playerBox;
 	private JButton submit;
 
@@ -21,15 +21,12 @@ public class ShowMatchsPlayer extends JPanel {
 		formatter = new TournamentFormatter();
 		this.setLayout(new BorderLayout());
 
-		// title
 		title = new JLabel("Matchs d'un joueur", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		this.add(title, BorderLayout.NORTH);
 
-		// table
-		String[] tableHead = {"Tournoi", "Date de début", "Emplacement", "Arbitre", "Points"};
-		tableModel = new DefaultTableModel(tableHead, 0);
-		table = new JTable(tableModel);
+		model = new MatchsPlayerModel();
+		table = new JTable(model);
 		table.setRowHeight(30);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -47,11 +44,10 @@ public class ShowMatchsPlayer extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			tableModel.setRowCount(0);
+			model.clear();
 			int playerID = ManagerUtils.getIDFromDescription(playerBox.getSelectedItem().toString());
-			for (String[] match : formatter.getMatchsPlayer(playerID)) {
-				tableModel.addRow(match);
-			}
+			model.setContents(formatter.getMatchsPlayer(playerID));
+			model.fireTableDataChanged();
 		}
 	}
 }

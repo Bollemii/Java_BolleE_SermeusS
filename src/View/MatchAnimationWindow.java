@@ -1,5 +1,7 @@
 package View;
 
+import View.Pong.Pong;
+
 import javax.swing.*;
 import java.awt.*;
 

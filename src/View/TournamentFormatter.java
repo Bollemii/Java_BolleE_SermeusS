@@ -100,96 +100,46 @@ public class TournamentFormatter {
 	}
 
 	// methods for data operations
-	public ArrayList<String[]> getAllMatchs() {
-		ArrayList<String[]> listMatchs = new ArrayList<>();
+	public ArrayList<Match> getAllMatchs() {
+		ArrayList<Match> listMatchs = new ArrayList<>();
 		try {
-			for(Match match : controller.getAllMatchs()) {
-				String[] matchStrings = new String[8];
-				matchStrings[0] = match.getId().toString();
-				matchStrings[1] = ManagerUtils.getDateString(match.getDateStart());
-				matchStrings[2] = match.getDuration() != null ? match.getDuration() + " minutes" : "";
-				matchStrings[3] = match.isFinal() ? "finale" : "normal";
-				matchStrings[4] = match.getComment() != null ? match.getComment() : "";
-				matchStrings[5] = match.getTournament().getName();
-				matchStrings[6] = match.getReferee().getIdentity();
-				matchStrings[7] = match.getLocation().getName();
-
-				listMatchs.add(matchStrings);
-			}
+			listMatchs = controller.getAllMatchs();
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listMatchs;
 	}
-	public ArrayList<String[]> getAllPlayers() {
-		ArrayList<String[]> listPlayers = new ArrayList<>();
+	public ArrayList<Player> getAllPlayers() {
+		ArrayList<Player> listPlayers = new ArrayList<>();
 		try {
-			for(Player player : controller.getAllPlayers()) {
-				String[] playerStrings = new String[7];
-				playerStrings[0] = player.getId().toString();
-				playerStrings[1] = player.getFirstName();
-				playerStrings[2] = player.getLastName();
-				playerStrings[3] = ManagerUtils.getDateString(player.getBirthDate());
-				playerStrings[4] = player.getGender().toString();
-				playerStrings[5] = player.isProfessional() ? "professionel" : "amateur";
-				playerStrings[6] = String.valueOf(player.getElo());
-
-				listPlayers.add(playerStrings);
-			}
+			listPlayers = controller.getAllPlayers();
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listPlayers;
 	}
-	public ArrayList<String[]> getMatchsTournament(int tournamentID) {
-		ArrayList<String[]> listMatchs = new ArrayList<>();
+	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) {
+		ArrayList<MatchPlayerResearch> listMatchs = new ArrayList<>();
 		try {
-			for(MatchPlayerResearch match : controller.getMatchsTournament(tournamentID)) {
-				String[] matchStrings = new String[5];
-				matchStrings[0] = ManagerUtils.getDateString(match.getMatch().getDateStart());
-				matchStrings[1] = match.getPlayer().getFirstName();
-				matchStrings[2] = match.getPlayer().getLastName();
-				matchStrings[3] = String.valueOf(match.getPlayer().getElo());
-				matchStrings[4] = match.getPoints().toString();
-
-				listMatchs.add(matchStrings);
-			}
+			listMatchs = controller.getMatchsTournament(tournamentID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listMatchs;
 	}
-	public ArrayList<String[]> getMatchsPlayer(int playerID) {
-		ArrayList<String[]> listMatchs = new ArrayList<>();
+	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) {
+		ArrayList<MatchPlayerResearch> listMatchs = new ArrayList<>();
 		try {
-			for(MatchPlayerResearch match : controller.getMatchsPlayer(playerID)) {
-				String[] matchStrings = new String[5];
-				matchStrings[0] = match.getTournament().getName();
-				matchStrings[1] = ManagerUtils.getDateString(match.getMatch().getDateStart());
-				matchStrings[2] = match.getLocation().getName();
-				matchStrings[3] = match.getReferee().getIdentity();
-				matchStrings[4] = match.getPoints().toString();
-
-				listMatchs.add(matchStrings);
-			}
+			listMatchs = controller.getMatchsPlayer(playerID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listMatchs;
 	}
-	public ArrayList<String[]> getReservationsVisitor(int visitorID) {
-		ArrayList<String[]> listReservations = new ArrayList<>();
+	public ArrayList<Reservation> getReservationsVisitor(int visitorID) {
+		ArrayList<Reservation> listReservations = new ArrayList<>();
 		try {
-			for(Reservation reservation : controller.getReservationsVisitor(visitorID)) {
-				String[] reservationStrings = new String[5];
-				reservationStrings[0] = reservation.getMatch().getTournament().getName();
-				reservationStrings[1] = ManagerUtils.getDateString(reservation.getMatch().getDateStart());
-				reservationStrings[2] = reservation.getCodeSeat();
-				reservationStrings[3] = reservation.getCost().toString() + "€";
-				reservationStrings[4] = reservation.getMatch().getLocation().getName();
-
-				listReservations.add(reservationStrings);
-			}
+			listReservations = controller.getReservationsVisitor(visitorID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}

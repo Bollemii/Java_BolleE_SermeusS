@@ -44,7 +44,7 @@ public class MatchForm extends JPanel{
 		ButtonListener buttonListener = new ButtonListener();
 
 		formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(7, 2, 10, 10));
+		formPanel.setLayout(new GridLayout(8, 2, 10, 10));
 		formPanel.setOpaque(false);
 
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));

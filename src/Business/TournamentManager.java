@@ -85,11 +85,16 @@ public class TournamentManager {
 		if (seatNumber > match.getLocation().getNbSeatsPerRow()) {
 			errorMessage += "\n  - Le numéro de siège est supérieur à " + match.getLocation().getNbSeatsPerRow();
 		}
+
 		if (errorMessage != "") {
 			throw new ValueException(errorMessage);
 		} else {
-			Reservation reservation = new Reservation(new Visitor(visitorID), new Match(matchID), seatType, seatRow, seatNumber, cost);
-			return dataAccess.addReservation(reservation);
+			if (dataAccess.isReservationExist(visitorID, matchID)) {
+				throw new ValueException("\n  Ce visiteur a déjà réservé une place pour ce match");
+			} else {
+				Reservation reservation = new Reservation(new Visitor(visitorID), new Match(matchID), seatType, seatRow, seatNumber, cost);
+				return dataAccess.addReservation(reservation);
+			}
 		}
 	}
 }

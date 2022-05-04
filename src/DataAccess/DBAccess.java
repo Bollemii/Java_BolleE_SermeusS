@@ -11,8 +11,7 @@ public class DBAccess implements DataAccess {
 	private Connection connection;
 
 	public DBAccess() throws DataException {
-		connection = SingletonConnexion.getConnection();
-
+		connection = SingletonConnexion.getInstance();
 	}
 
 	public void closeConnection() throws DataException {
@@ -39,7 +38,7 @@ public class DBAccess implements DataAccess {
 			preparedStatement.setInt(1, match.getLocation().getId());
 			preparedStatement.setInt(2, match.getTournament().getId());
 			preparedStatement.setInt(3, match.getReferee().getId());
-			preparedStatement.setDate(4, new java.sql.Date(match.getDateStart().getTimeInMillis()));
+			preparedStatement.setTimestamp(4, new java.sql.Timestamp(match.getDateStart().getTimeInMillis()));
 			preparedStatement.setBoolean(5, match.isFinal());
 			nbLinesUpdated = preparedStatement.executeUpdate();
 
@@ -99,7 +98,7 @@ public class DBAccess implements DataAccess {
 	public ArrayList<Match> getAllMatchs() throws DataException {
 		try {
 			String sqlInstruction =
-					"select m.*, p.first_name, p.last_name, t.name, l.name " +
+					"select * " +
 					"from `match` m " +
 					"inner join person p on m.referee_id = p.person_id " +
 					"inner join tournament t on m.tournament_id = t.tournament_id " +
@@ -149,7 +148,7 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
 		try {
-			String sqlInstruction = "select t.name, m.date_start, l.name, j.first_name, j.last_name, r.points " +
+			String sqlInstruction = "select t.*, m.date_start, l.*, j.*, r.points " +
 									"from person p " +
 									"inner join result r on r.player_id = p.person_id " +
 									"inner join `match` m on m.match_id = r.match_id " +
@@ -168,13 +167,17 @@ public class DBAccess implements DataAccess {
 			while (data.next()) {
 				calendar = new GregorianCalendar();
 				calendar.setTime(data.getDate("date_start"));
-				list.add(new MatchPlayerResearch(
-						new Match(calendar),
-						data.getInt("points"),
-						new Referee(data.getString("first_name"), data.getString("last_name")),
-						new Location(data.getString("l.name")),
-						new Tournament(data.getString("t.name"))
-				));
+				list.add(
+					new MatchPlayerResearch(
+						new Match(
+							calendar,
+							new Tournament(data.getInt("tournament_id"), data.getString("t.name")),
+							new Referee(data.getInt("person_id"), data.getString("first_name"), data.getString("last_name")),
+							new Location(data.getInt("location_id"), data.getString("l.name"), data.getInt("l.nb_rows"), data.getInt("l.nb_seats_per_row"))
+						),
+						data.getInt("points")
+					)
+				);
 			}
 			return list;
 		} catch(SQLException exception) {
@@ -185,7 +188,7 @@ public class DBAccess implements DataAccess {
 	@Override
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
 		try {
-			String sqlInstruction = "select t.name, m.date_start, r.*, l.name " +
+			String sqlInstruction = "select t.*, m.date_start, r.*, l.* " +
 									"from person v " +
 									"inner join reservation r on r.visitor_id = v.person_id " +
 									"inner join `match` m on m.match_id = r.match_id " +
@@ -202,13 +205,28 @@ public class DBAccess implements DataAccess {
 			while (data.next()) {
 				GregorianCalendar calendar = new GregorianCalendar();
 				calendar.setTime(data.getDate("date_start"));
-				list.add(new Reservation(
-						new Match(data.getInt("match_id"), calendar, new Tournament(data.getString("t.name")), new Location(data.getString("l.name"))),
+				list.add(
+					new Reservation(
+						new Match(
+							data.getInt("match_id"),
+							calendar,
+							new Tournament(
+								data.getInt("tournament_id"),
+								data.getString("t.name")
+							),
+							new Location(
+								data.getInt("location_id"),
+								data.getString("l.name"),
+								data.getInt("nb_rows"),
+								data.getInt("nb_seats_per_row")
+							)
+						),
 						data.getString("seat_type"),
 						data.getString("seat_row").charAt(0),
 						data.getInt("seat_number"),
 						data.getDouble("cost")
-				));
+					)
+				);
 			}
 			return list;
 		} catch(SQLException exception) {
@@ -234,7 +252,7 @@ public class DBAccess implements DataAccess {
 			Match match = null;
 			if (data.next()) {
 				GregorianCalendar calendar = new GregorianCalendar();
-				calendar.setTime(data.getDate("date_start"));
+				calendar.setTime(data.getTimestamp("date_start"));
 				match = new Match(
 						data.getInt("match_id"),
 						calendar,
@@ -382,14 +400,15 @@ public class DBAccess implements DataAccess {
 
 		while (data.next()) {
 			calendar = new GregorianCalendar();
-			calendar.setTime(data.getDate("date_start"));
+			calendar.setTime(data.getTimestamp("date_start"));
+
 			match = new Match(
 					data.getInt("match_id"),
 					calendar,
 					data.getBoolean("is_final"),
-					new Tournament(data.getString("t.name")),
-					new Referee(data.getString("first_name"), data.getString("last_name")),
-					new Location(data.getString("l.name"))
+					new Tournament(data.getInt("tournament_id"), data.getString("t.name")),
+					new Referee(data.getInt("person_id"), data.getString("first_name"), data.getString("last_name")),
+					new Location(data.getInt("location_id"), data.getString("l.name"), data.getInt("l.nb_rows"), data.getInt("l.nb_seats_per_row"))
 			);
 
 			duration = data.getInt("duration");
@@ -403,6 +422,21 @@ public class DBAccess implements DataAccess {
 			list.add(match);
 		}
 		return list;
+	}
+
+	@Override
+	public boolean isReservationExist(int visitorID, int matchID) throws DataException {
+		try {
+			String sqlInstruction = "select * from reservation where visitor_id = ? and match_id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, visitorID);
+			preparedStatement.setInt(2, matchID);
+
+			ResultSet data = preparedStatement.executeQuery();
+			return data.next();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
 	}
 
 

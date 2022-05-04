@@ -33,4 +33,5 @@ public interface DataAccess {
 	// OTHERS
 	Match getMatch(int matchID) throws DataException;
 	int addReservation(Reservation reservation) throws DataException;
+	boolean isReservationExist(int visitorID, int matchID) throws DataException;
 }

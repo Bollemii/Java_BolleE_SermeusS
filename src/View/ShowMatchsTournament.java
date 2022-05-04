@@ -1,9 +1,9 @@
 package View;
 
 import Business.ManagerUtils;
+import View.TableModels.MatchsTournamentModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +13,7 @@ public class ShowMatchsTournament extends JPanel {
     private JPanel tournamentPanel;
     private JLabel title;
     private JTable table;
-    private DefaultTableModel tableModel;
+    private MatchsTournamentModel model;
     private JComboBox<String> tournamentBox;
     private JButton submit;
 
@@ -21,15 +21,12 @@ public class ShowMatchsTournament extends JPanel {
         formatter = new TournamentFormatter();
         this.setLayout(new BorderLayout());
 
-        // title
         title = new JLabel("Matchs et joueurs d'un tournoi", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         this.add(title, BorderLayout.NORTH);
 
-        // table
-        String[] tableHead = {"Date de début", "Prénom", "Nom", "Elo", "Points"};
-        tableModel = new DefaultTableModel(tableHead, 0);
-        table = new JTable(tableModel);
+        model = new MatchsTournamentModel();
+        table = new JTable(model);
         table.setRowHeight(30);
         table.setFont(new Font("Arial", Font.PLAIN, 15));
         this.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -47,11 +44,10 @@ public class ShowMatchsTournament extends JPanel {
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            tableModel.setRowCount(0);
+            model.clear();
             int tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
-            for (String[] match : formatter.getMatchsTournament(tournamentID)) {
-                tableModel.addRow(match);
-            }
+            model.setContents(formatter.getMatchsTournament(tournamentID));
+            model.fireTableDataChanged();
         }
     }
 }

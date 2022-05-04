@@ -31,6 +31,9 @@ public class Match implements Serializable {
 	public Match(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, Tournament tournament, Referee referee, Location location) {
 		this(null, dateStart, duration, isFinal, comment, tournament, referee, location);
 	}
+	public Match(GregorianCalendar dateStart, Tournament tournament, Referee referee, Location location) {
+		this(null, dateStart, null, tournament, referee, location);
+	}
 	public Match(Integer id, GregorianCalendar dateStart, Tournament tournament, Location location) {
 		this(id, dateStart, null, tournament, null, location);
 	}

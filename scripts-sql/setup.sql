@@ -1,4 +1,4 @@
-create database java_project;
+-- create database java_project;
 use java_project;
 
 CREATE TABLE person (
@@ -121,13 +121,13 @@ values('terrainGauche', 2, 30);
 
 -- match
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 1, 104, '2022-03-12', false);
+values(1, 1, 104, '2022-03-12 15:03:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(2, 1, 104, '2022-03-15', false);
+values(2, 1, 104, '2022-03-15 09:59:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 2, 105, '2022-04-01', false);
+values(1, 2, 105, '2022-04-01 23:11:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 2, 105, '2022-04-03', true);
+values(1, 2, 105, '2022-04-03 12:02:00', true);
 
 
 -- result

@@ -11,13 +11,18 @@
 
 - Annotation `@NotNull` (/!\\ download intelliJ) ou condition `== null`
 
-### 2. Notes : à faire
+### 2. A faire
 - [x] Refaire mise en page du formulaire Match et du choix des joueurs (gestion matchs)
-  - /!\\ problème ajout Match ne retient pas l'heure de la date
-- [ ] Fenêtre animations matchs
+- [ ] Tâche métier (proposer matchs déjà créés et qui n'ont pas encore de résultats assignés)
+- [ ] Fenêtre animations matchs (thread + gestion fin match)
 - [ ] JavaDoc
 - [ ] Trouver quelque chose pour utiliser les Rewards
   - Affichage des rewards d'un tournoi (tri places)
-###### autres
+
+#### 2.1. Corrections
+- [x] Model abstract JTable (à la main pour type de valeur)
+- [ ] Ajouter valeurs dans BD
+
+##### 2.2. Autres
 - [ ] Réservation d'un visiteur
 - [ ] Ajout d'une nouvelle personne (joueur/visiteur/referee)

@@ -1,9 +1,9 @@
 package View;
 
 import Business.ManagerUtils;
+import View.TableModels.ReservationVisitorModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +13,7 @@ public class ShowReservationsVisitor extends JPanel {
 	private JPanel visitorPanel;
 	private JLabel title;
 	private JTable table;
-	private DefaultTableModel tableModel;
+	private ReservationVisitorModel model;
 	private JComboBox<String> visitorBox;
 	private JButton submit;
 
@@ -21,15 +21,12 @@ public class ShowReservationsVisitor extends JPanel {
 		formatter = new TournamentFormatter();
 		this.setLayout(new BorderLayout());
 
-		// title
 		title = new JLabel("Réservations d'un visiteur", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		this.add(title, BorderLayout.NORTH);
 
-		// table
-		String[] tableHead = {"Match", "Date de début", "Place", "Prix", "Emplacement"};
-		tableModel = new DefaultTableModel(tableHead, 0);
-		table = new JTable(tableModel);
+		model = new ReservationVisitorModel();
+		table = new JTable(model);
 		table.setRowHeight(30);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -47,11 +44,10 @@ public class ShowReservationsVisitor extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			tableModel.setRowCount(0);
+			model.clear();
 			int visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
-			for (String[] match : formatter.getReservationsVisitor(visitorID)) {
-				tableModel.addRow(match);
-			}
+			model.setContents(formatter.getReservationsVisitor(visitorID));
+			model.fireTableDataChanged();
 		}
 	}
 }
