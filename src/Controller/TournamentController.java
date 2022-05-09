@@ -9,6 +9,7 @@ import Model.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TournamentController {
 	private TournamentManager manager;
@@ -39,6 +40,12 @@ public class TournamentController {
 	}
 	public ArrayList<Location> getLocationsList() throws DataException {
 		return manager.getLocationsList();
+	}
+	public ArrayList<Match> getMatchsWithoutResultList() throws DataException {
+		ArrayList<Integer> resultMatchID = (ArrayList<Integer>) manager.getResultList().stream().map(r -> r.getMatch().getId()).collect(Collectors.toList());
+		ArrayList<Match> matchs = manager.getAllMatchs();
+		matchs.removeIf(match -> resultMatchID.contains(match.getId()));
+		return matchs;
 	}
 
 	// methods for data operations

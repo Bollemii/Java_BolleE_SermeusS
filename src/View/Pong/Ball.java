@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Ball{
 	private final static int SIZE = 10;
-	private final static int SPEED = 2;
+	private final static int SPEED = 1;
 	private Rectangle rectangle;
 	private int deltaX;
 	private int deltaY;

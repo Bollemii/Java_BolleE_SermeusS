@@ -39,6 +39,9 @@ public class TournamentManager {
 	public ArrayList<Visitor> getVisitorsList() throws DataException {
 		return dataAccess.getAllVisitors();
 	}
+	public ArrayList<Result> getResultList() throws DataException {
+		return dataAccess.getAllResults();
+	}
 
 	// methods for data operations
 	public ArrayList<Match> getAllMatchs() throws DataException {

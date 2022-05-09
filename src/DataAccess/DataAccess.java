@@ -25,6 +25,7 @@ public interface DataAccess {
 	ArrayList<Referee> getAllReferees() throws DataException;
 	ArrayList<Visitor> getAllVisitors() throws DataException;
 	ArrayList<Location> getAllLocations() throws DataException;
+	ArrayList<Result> getAllResults() throws DataException;
 
 	// BUSINESS TASK
 	int addResult(Result result) throws DataException;

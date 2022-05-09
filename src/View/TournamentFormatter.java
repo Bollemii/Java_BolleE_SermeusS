@@ -98,6 +98,17 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	public ArrayList<String> getMatchsWithoutResultList() {
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			for (Match match : controller.getMatchsWithoutResultList()) {
+				list.add(match.toString());
+			}
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return list;
+	}
 
 	// methods for data operations
 	public ArrayList<Match> getAllMatchs() {

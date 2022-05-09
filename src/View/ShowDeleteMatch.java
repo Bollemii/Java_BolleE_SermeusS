@@ -46,8 +46,7 @@ public class ShowDeleteMatch extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int confirmation = userInteraction.displayConfirmation("Êtes-vous sûr de vouloir supprimer ?");
-			if (confirmation == 0) {
+			if (userInteraction.displayConfirmation("Êtes-vous sûr de vouloir supprimer ?") == 0) {
 				formatter.deleteMatch(matchsList.getSelectedValuesList());
 				matchsList.setListData(formatter.getMatchsList().toArray(new String[0]));
 			}

@@ -1,9 +1,8 @@
 package Model;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public abstract class Person implements Serializable {
+public abstract class Person {
 	private Integer id;
 	private String firstName;
 	private String lastName;

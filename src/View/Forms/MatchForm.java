@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -50,8 +52,7 @@ public class MatchForm extends JPanel{
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
 
 		dateSpinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, null, Calendar.YEAR));
-		JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd-MM-yyyy HH:mm");
-		dateSpinner.setEditor(editor);
+		dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd-MM-yyyy HH:mm"));
 		formPanel.add(dateSpinner);
 
 		formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));

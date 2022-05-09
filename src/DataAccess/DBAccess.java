@@ -390,6 +390,27 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
+	@Override
+	public ArrayList<Result> getAllResults() throws DataException {
+		try {
+			String sqlInstruction = "select * from result";
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Result> list = new ArrayList<>();
+			while (data.next()) {
+				list.add(new Result(
+					new Player(data.getInt("player_id")),
+					new Match(data.getInt("match_id")),
+					data.getInt("points")
+				));
+			}
+			return list;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
 	private ArrayList<Match> getMatchs(ResultSet data) throws SQLException {
 		ArrayList<Match> list = new ArrayList<>();
 

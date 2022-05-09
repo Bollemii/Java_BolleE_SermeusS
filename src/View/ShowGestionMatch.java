@@ -1,5 +1,9 @@
 package View;
 
+import Business.ManagerUtils;
+import Model.Match;
+import Model.Player;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -11,9 +15,10 @@ import java.awt.event.ActionListener;
 public class ShowGestionMatch extends JPanel {
 	private TournamentFormatter formatter;
 	private UserInteraction userInteraction;
-	private JLabel title, player1, player2;
+	private MatchAnimationWindow matchAnimationWindow;
+	private JLabel title, match, player1, player2;
 	private JPanel mainPanel, choicePanel, playersPanel, buttonPanel;
-	private JComboBox<String> player1Box, player2Box;
+	private JComboBox<String> matchBox, player1Box, player2Box;
 	private JButton submit;
 	private Border border, margin;
 
@@ -35,8 +40,15 @@ public class ShowGestionMatch extends JPanel {
 		choicePanel.setBackground(new Color(255,250,205));
 
 		playersPanel = new JPanel();
-		playersPanel.setLayout(new GridLayout(2, 2, 10, 10));
+		playersPanel.setLayout(new GridLayout(3, 2, 10, 10));
 		playersPanel.setOpaque(false);
+
+		match = new JLabel("Match :", SwingConstants.RIGHT);
+		match.setFont(new Font("Arial", Font.PLAIN, 20));
+		playersPanel.add(match);
+		matchBox = new JComboBox<>(formatter.getMatchsWithoutResultList().toArray(new String[0]));
+		matchBox.setFont(new Font("Arial", Font.PLAIN, 20));
+		playersPanel.add(matchBox);
 
 		String[] playerList = formatter.getPlayersList().toArray(new String[0]);
 		player1 = new JLabel("Joueur 1 :", SwingConstants.RIGHT);
@@ -72,13 +84,26 @@ public class ShowGestionMatch extends JPanel {
 		this.add(mainPanel, BorderLayout.CENTER);
 	}
 
+	public void removeMatchAnimationWindow() {
+		this.matchAnimationWindow = null;
+	}
+
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (player1Box.getSelectedItem() == player2Box.getSelectedItem()) {
 				userInteraction.displayErrorMessage("Les joueurs doivent être différents");
+			} else if (matchAnimationWindow != null && matchAnimationWindow.hasMatch(matchBox.getSelectedItem().toString())) {
+				userInteraction.displayErrorMessage("Ce match est déjà en cours");
 			} else {
-				// créer un nouveau match entre les deux joueurs
+				if (matchAnimationWindow == null) {
+					matchAnimationWindow = new MatchAnimationWindow(ShowGestionMatch.this);
+				}
+				matchAnimationWindow.addMatch(
+					matchBox.getSelectedItem().toString(),
+					player1Box.getSelectedItem().toString(),
+					player2Box.getSelectedItem().toString()
+				);
 			}
 		}
 	}

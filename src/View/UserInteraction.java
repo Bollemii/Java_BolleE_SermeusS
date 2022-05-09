@@ -5,6 +5,11 @@ import javax.swing.*;
 public class UserInteraction {
 	public UserInteraction() {}
 
+	/**
+	 *
+	 * @param message to display
+	 * @Display: message in a JOptionPane
+	 */
 	public void displayErrorMessage(String message) {
 		JOptionPane.showMessageDialog(
 				null,
@@ -23,6 +28,11 @@ public class UserInteraction {
 		);
 	}
 
+	/**
+	 *
+	 * @param message
+	 * @return 0 - OK, 1 - Cancel
+	 */
 	public int displayConfirmation(String message) {
 		return JOptionPane.showConfirmDialog(
 				null,

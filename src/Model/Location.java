@@ -1,8 +1,6 @@
 package Model;
 
-import java.io.Serializable;
-
-public class Location implements Serializable {
+public class Location {
 	private Integer id;
 	private String name;
 	private Integer nbRows;
@@ -13,9 +11,6 @@ public class Location implements Serializable {
 		this.name = name;
 		this.nbRows = nbRows;
 		this.nbSeatsPerRow = nbSeatsPerRow;
-	}
-	public Location(String name) {
-		this(null, name, null, null);
 	}
 	public Location(Integer id) {
 		this(id, null, null, null);

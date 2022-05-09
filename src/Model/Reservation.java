@@ -1,8 +1,6 @@
 package Model;
 
-import java.io.Serializable;
-
-public class Reservation implements Serializable {
+public class Reservation {
 	private Visitor visitor;
 	private Match match;
 	private String seatType;

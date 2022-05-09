@@ -1,7 +1,5 @@
 package View.Pong;
 
-import View.Pong.Pong;
-
 public class MovementThread extends Thread{
     private Pong pong;
 

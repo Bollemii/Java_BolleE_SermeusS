@@ -1,9 +1,8 @@
 package Model;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Visitor extends Person implements Serializable {
+public class Visitor extends Person {
 	private Boolean isVIP;
 
 	public Visitor(Integer id, String firstName, String lastName, GregorianCalendar birthDate, Character gender, Boolean isVIP) {

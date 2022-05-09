@@ -1,9 +1,8 @@
 package Model;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Referee extends Person implements Serializable {
+public class Referee extends Person {
 	private String level;
 
 	public Referee(Integer id, String firstName, String lastName, GregorianCalendar birthDate, Character gender, String level) {

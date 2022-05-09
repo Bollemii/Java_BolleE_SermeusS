@@ -39,7 +39,8 @@ public class MainWindow extends JFrame {
         exit = new JMenuItem("Quitter");
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         exit.addActionListener(e -> {
-            formatter.closeConnection();System.exit(0);});
+            formatter.closeConnection();System.exit(0);}
+        );
         appMenu.add(exit);
 
         tournament = new JMenu("Tournoi");
@@ -108,9 +109,11 @@ public class MainWindow extends JFrame {
         welcome.setHorizontalAlignment(SwingConstants.CENTER);
         container.add(welcome);
 
-        //when window closed, exit
+        //when window closed, exit program
         this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {
-            formatter.closeConnection();System.exit(0);}});
+            formatter.closeConnection();
+            System.exit(0);}}
+        );
 
         this.setVisible(true);
     }

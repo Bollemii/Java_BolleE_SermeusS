@@ -2,10 +2,9 @@ package Model;
 
 import Business.ManagerUtils;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Match implements Serializable {
+public class Match {
 	private Integer id;
 	private GregorianCalendar dateStart;
 	private Integer duration;

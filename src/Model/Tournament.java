@@ -1,8 +1,6 @@
 package Model;
 
-import java.io.Serializable;
-
-public class Tournament implements Serializable {
+public class Tournament {
 	private Integer id;
 	private String name;
 	private Boolean isOfficial;
@@ -14,9 +12,6 @@ public class Tournament implements Serializable {
 	}
 	public Tournament(Integer id, String name) {
 		this(id, name, null);
-	}
-	public Tournament(String name) {
-		this(null, name);
 	}
 	public Tournament(Integer id) {
 		this(id, null);

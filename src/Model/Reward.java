@@ -1,8 +1,6 @@
 package Model;
 
-import java.io.Serializable;
-
-public class Reward implements Serializable {
+public class Reward {
 	private String name;
 	private double cost;
 
