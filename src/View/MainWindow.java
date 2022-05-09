@@ -125,6 +125,11 @@ public class MainWindow extends JFrame {
             MainWindow.this.validate();
         }
 
+        /**
+         * Return panel for menu
+         * @param e
+         * @return panel
+         */
         public JPanel getPanel(ActionEvent e) {
             if (e.getSource() == playerInscription) {
                 return new ShowNewPerson();

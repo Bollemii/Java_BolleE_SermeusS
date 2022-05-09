@@ -87,6 +87,10 @@ public class ReservationForm extends JPanel {
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * test if all of required fields have a value
+	 * @return if all of required fields have a value
+	 */
 	private boolean validateRequiredFields() {
 		String errorMessage = "";
 		if (seatTypeText.getText().isBlank()) {

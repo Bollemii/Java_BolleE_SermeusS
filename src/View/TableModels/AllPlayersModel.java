@@ -1,10 +1,10 @@
 package View.TableModels;
 
+import Business.ManagerUtils;
 import Model.Player;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class AllPlayersModel extends AbstractTableModel {
 	private ArrayList<String> columnsNames;
@@ -34,7 +34,6 @@ public class AllPlayersModel extends AbstractTableModel {
 			case 0 :
 			case 6 :
 				return Integer.class;
-			case 3 : return GregorianCalendar.class;
 			case 4 : return Character.class;
 			case 5 : return Boolean.class;
 			default: return String.class;
@@ -60,7 +59,7 @@ public class AllPlayersModel extends AbstractTableModel {
 			case 2 : return player.getLastName();
 			case 3 : {
 				if (player.getBirthDate() != null)
-					return player.getBirthDate().getTime();
+					return ManagerUtils.getDateString(player.getBirthDate());
 				return null;
 			}
 			case 4 : return player.getGender();

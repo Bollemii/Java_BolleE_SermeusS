@@ -132,7 +132,7 @@ public class DBAccess implements DataAccess {
 			ArrayList<MatchPlayerResearch> list = new ArrayList<>();
 			while (data.next()) {
 				calendar = new GregorianCalendar();
-				calendar.setTime(data.getDate("date_start"));
+				calendar.setTime(data.getTimestamp("date_start"));
 				list.add(new MatchPlayerResearch(
 						new Match(calendar),
 						new Player(data.getString("first_name"), data.getString("last_name"), data.getDouble("elo")),
@@ -166,7 +166,7 @@ public class DBAccess implements DataAccess {
 			ArrayList<MatchPlayerResearch> list = new ArrayList<>();
 			while (data.next()) {
 				calendar = new GregorianCalendar();
-				calendar.setTime(data.getDate("date_start"));
+				calendar.setTime(data.getTimestamp("date_start"));
 				list.add(
 					new MatchPlayerResearch(
 						new Match(
@@ -204,7 +204,7 @@ public class DBAccess implements DataAccess {
 			ArrayList<Reservation> list = new ArrayList<>();
 			while (data.next()) {
 				GregorianCalendar calendar = new GregorianCalendar();
-				calendar.setTime(data.getDate("date_start"));
+				calendar.setTime(data.getTimestamp("date_start"));
 				list.add(
 					new Reservation(
 						new Match(

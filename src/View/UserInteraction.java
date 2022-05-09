@@ -6,8 +6,8 @@ public class UserInteraction {
 	public UserInteraction() {}
 
 	/**
-	 *
-	 * @param message to display
+	 * display an error message
+	 * @param message
 	 * @Display: message in a JOptionPane
 	 */
 	public void displayErrorMessage(String message) {
@@ -19,6 +19,11 @@ public class UserInteraction {
 		);
 	}
 
+	/**
+	 * display the number of lines updated in the dataBase
+	 * @param nbLinesUpdated
+	 * @Display: nbLinesUpdated in a JOptionPane
+	 */
 	public void displayDataUpdate(int nbLinesUpdated) {
 		JOptionPane.showMessageDialog(
 				null,
@@ -29,9 +34,10 @@ public class UserInteraction {
 	}
 
 	/**
-	 *
+	 * display the message and ask the user his confirmation
 	 * @param message
-	 * @return 0 - OK, 1 - Cancel
+	 * @Display: message in a JOptionPane with YES or NO options
+	 * @return 0 - YES, 1 - NO
 	 */
 	public int displayConfirmation(String message) {
 		return JOptionPane.showConfirmDialog(

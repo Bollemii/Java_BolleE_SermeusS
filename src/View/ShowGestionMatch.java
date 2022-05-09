@@ -84,6 +84,9 @@ public class ShowGestionMatch extends JPanel {
 		this.add(mainPanel, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Remove the Matchs animations window
+	 */
 	public void removeMatchAnimationWindow() {
 		this.matchAnimationWindow = null;
 	}

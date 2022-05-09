@@ -1,10 +1,10 @@
 package View.TableModels;
 
+import Business.ManagerUtils;
 import Model.MatchPlayerResearch;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class MatchsPlayerModel extends AbstractTableModel {
 	private ArrayList<String> columnsNames;
@@ -40,7 +40,6 @@ public class MatchsPlayerModel extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-			case 1 : return GregorianCalendar.class;
 			case 4 : return Integer.class;
 			default: return String.class;
 		}
@@ -63,7 +62,7 @@ public class MatchsPlayerModel extends AbstractTableModel {
 			case 0 : return match.getMatch().getTournament().toString();
 			case 1 : {
 				if (match.getMatch().getDateStart() != null)
-					return match.getMatch().getDateStart().getTime();
+					return ManagerUtils.getDateHourString(match.getMatch().getDateStart());
 				return null;
 			}
 			case 2 : return match.getMatch().getLocation().toString();

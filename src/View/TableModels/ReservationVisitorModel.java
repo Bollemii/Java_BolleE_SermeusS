@@ -1,10 +1,10 @@
 package View.TableModels;
 
+import Business.ManagerUtils;
 import Model.Reservation;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class ReservationVisitorModel extends AbstractTableModel {
 	private ArrayList<String> columnsNames;
@@ -40,7 +40,6 @@ public class ReservationVisitorModel extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-			case 1 : return GregorianCalendar.class;
 			case 3 : return Double.class;
 			default: return String.class;
 		}
@@ -63,7 +62,7 @@ public class ReservationVisitorModel extends AbstractTableModel {
 			case 0 : return reservation.getMatch().getTournament().toString();
 			case 1 : {
 				if (reservation.getMatch().getDateStart() != null)
-					return reservation.getMatch().getDateStart().getTime();
+					return ManagerUtils.getDateHourString(reservation.getMatch().getDateStart());
 				return null;
 			}
 			case 2 : return reservation.getCodeSeat();

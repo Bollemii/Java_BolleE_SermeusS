@@ -80,6 +80,6 @@ public class Match {
 
 	@Override
 	public String toString() {
-		return id + " (" + ManagerUtils.getDateString(dateStart) + ")";
+		return id + " (" + ManagerUtils.getDateHourString(dateStart) + ")";
 	}
 }

@@ -101,6 +101,9 @@ public class MatchForm extends JPanel{
 		setValues();
 	}
 
+	/**
+	 * set default values from the form
+	 */
 	private void setValues() {
 		if (isNewMatch) {
 			dateSpinner.setValue(Date.from(Instant.now()));

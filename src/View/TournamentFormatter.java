@@ -24,6 +24,9 @@ public class TournamentFormatter {
 		}
 	}
 
+	/**
+	 * Close dataBase connection
+	 */
 	public void closeConnection() {
 		try {
 			controller.closeConnection();
@@ -32,6 +35,10 @@ public class TournamentFormatter {
 		}
 	}
 
+	/**
+	 * get the descriptions list from all tournaments
+	 * @return tournaments descriptions list
+	 */
 	public ArrayList<String> getTournamentsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -43,6 +50,10 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	/**
+	 * get the descriptions list from all matchs
+	 * @return matchs descriptions list
+	 */
 	public ArrayList<String> getMatchsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -54,6 +65,10 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	/**
+	 * get the descriptions list from all locations
+	 * @return locations descriptions list
+	 */
 	public ArrayList<String> getLocationsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -65,6 +80,10 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	/**
+	 * get the descriptions list from all players
+	 * @return players descriptions list
+	 */
 	public ArrayList<String> getPlayersList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -76,6 +95,10 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	/**
+	 * get the descriptions list from all referees
+	 * @return referees descriptions list
+	 */
 	public ArrayList<String> getRefereesList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -87,6 +110,10 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	/**
+	 * get the descriptions list from all visitors
+	 * @return visitors descriptions list
+	 */
 	public ArrayList<String> getVisitorsList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -98,6 +125,10 @@ public class TournamentFormatter {
 		}
 		return list;
 	}
+	/**
+	 * get the descriptions list from all matchs that haven't result
+	 * @return matchs that haven't result descriptions list
+	 */
 	public ArrayList<String> getMatchsWithoutResultList() {
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -110,7 +141,11 @@ public class TournamentFormatter {
 		return list;
 	}
 
-	// methods for data operations
+	//methods for data operations
+	/**
+	 * get all information of all matchs
+	 * @return matchs list
+	 */
 	public ArrayList<Match> getAllMatchs() {
 		ArrayList<Match> listMatchs = new ArrayList<>();
 		try {
@@ -120,6 +155,10 @@ public class TournamentFormatter {
 		}
 		return listMatchs;
 	}
+	/**
+	 * get all information of all matchs
+	 * @return players list
+	 */
 	public ArrayList<Player> getAllPlayers() {
 		ArrayList<Player> listPlayers = new ArrayList<>();
 		try {
@@ -129,6 +168,12 @@ public class TournamentFormatter {
 		}
 		return listPlayers;
 	}
+
+	/**
+	 * get all information of all matchs of a tournament
+	 * @param tournamentID
+	 * @return all matchs of a tournament
+	 */
 	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) {
 		ArrayList<MatchPlayerResearch> listMatchs = new ArrayList<>();
 		try {
@@ -138,6 +183,12 @@ public class TournamentFormatter {
 		}
 		return listMatchs;
 	}
+
+	/**
+	 * get all information of all matchs of a player
+	 * @param playerID
+	 * @return all matchs of a player
+	 */
 	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) {
 		ArrayList<MatchPlayerResearch> listMatchs = new ArrayList<>();
 		try {
@@ -147,6 +198,12 @@ public class TournamentFormatter {
 		}
 		return listMatchs;
 	}
+
+	/**
+	 * get all information of all reservations of a visitor
+	 * @param visitorID
+	 * @return all reservations of a visitor
+	 */
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) {
 		ArrayList<Reservation> listReservations = new ArrayList<>();
 		try {
@@ -156,6 +213,12 @@ public class TournamentFormatter {
 		}
 		return listReservations;
 	}
+
+	/**
+	 * get all information of a match
+	 * @param matchID
+	 * @return match
+	 */
 	public Match getMatch(int matchID) {
 		Match match = null;
 		try {
@@ -165,6 +228,17 @@ public class TournamentFormatter {
 		}
 		return match;
 	}
+
+	/**
+	 * add a new match to the dataBase
+	 * @param dateStart
+	 * @param duration
+	 * @param isFinal
+	 * @param comment
+	 * @param tournamentID
+	 * @param refereeID
+	 * @param locationID
+	 */
 	public void addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
 		try {
 			userInteraction.displayDataUpdate(controller.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID));
@@ -172,6 +246,18 @@ public class TournamentFormatter {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
+
+	/**
+	 * update a match into the dataBase
+	 * @param matchID
+	 * @param dateStart
+	 * @param duration
+	 * @param isFinal
+	 * @param comment
+	 * @param tournamentID
+	 * @param refereeID
+	 * @param locationID
+	 */
 	public void updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) 	{
 		try {
 			userInteraction.displayDataUpdate(controller.updateMatch(matchID, dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID));
@@ -179,6 +265,11 @@ public class TournamentFormatter {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
+
+	/**
+	 * delete matchs from the list in the dataBase
+	 * @param matchs
+	 */
 	public void deleteMatch(List matchs) {
 		try {
 			userInteraction.displayDataUpdate(controller.deleteMatch(matchs));
@@ -186,6 +277,16 @@ public class TournamentFormatter {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
+
+	/**
+	 * add a new reservation in the dataBase
+	 * @param visitorID
+	 * @param matchID
+	 * @param seatType
+	 * @param seatRow
+	 * @param seatNumber
+	 * @param cost
+	 */
 	public void addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) {
 		try {
 			userInteraction.displayDataUpdate(controller.addReservation(visitorID, matchID, seatType, seatRow, seatNumber, cost));

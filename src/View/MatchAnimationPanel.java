@@ -20,6 +20,7 @@ public class MatchAnimationPanel extends JPanel {
 		this.playersDescription = new String[] {player1, player2};
 		this.matchDescription = match;
 
+		this.setSize(225, 500);
 		this.setLayout(new GridLayout(4, 1));
 
 		matchLabel = new JLabel("Match " + this.matchDescription);
@@ -30,11 +31,16 @@ public class MatchAnimationPanel extends JPanel {
 		pong = new Pong();
 		this.add(pong);
 
+		JPanel buttonPanel = new JPanel();
 		finish = new JButton("Terminer");
 		finish.addActionListener(new ButtonListener());
-		this.add(finish);
+		buttonPanel.add(finish);
+		this.add(buttonPanel);
 	}
 
+	/**
+	 * @return description of the match
+	 */
 	public String getMatchDescription() {
 		return matchDescription;
 	}

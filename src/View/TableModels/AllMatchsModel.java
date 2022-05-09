@@ -1,10 +1,10 @@
 package View.TableModels;
 
+import Business.ManagerUtils;
 import Model.Match;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class AllMatchsModel extends AbstractTableModel {
 	private ArrayList<String> columnsNames;
@@ -35,7 +35,6 @@ public class AllMatchsModel extends AbstractTableModel {
 			case 0 :
 			case 2 :
 				return Integer.class;
-			case 1 : return GregorianCalendar.class;
 			case 3 : return Boolean.class;
 			default: return String.class;
 		}
@@ -58,7 +57,7 @@ public class AllMatchsModel extends AbstractTableModel {
 			case 0 : return match.getId();
 			case 1 : {
 				if (match.getDateStart() != null)
-					return match.getDateStart().getTime();
+					return ManagerUtils.getDateHourString(match.getDateStart());
 				return null;
 			}
 			case 2 : return match.getDuration();
