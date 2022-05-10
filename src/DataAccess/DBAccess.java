@@ -92,6 +92,78 @@ public class DBAccess implements DataAccess {
 		}
 	}
 
+	@Override
+	public int addPlayer(Player player) throws DataException {
+		if (player == null) {
+			return 0;
+		}
+
+		try {
+			String sqlInstruction =
+				"insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo) " +
+				"values(?,?,?,?,'Player',?,?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement = setPersonValues(preparedStatement, player);
+			preparedStatement.setBoolean(5, player.isProfessional());
+			preparedStatement.setInt(6, player.getElo());
+
+			return preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int addVisitor(Visitor visitor) throws DataException {
+		if (visitor == null) {
+			return 0;
+		}
+
+		try {
+			String sqlInstruction =
+				"insert into person(first_name, last_name, birth_date, gender, type_person, is_vip) " +
+				"values(?,?,?,?,'Visitor',?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement = setPersonValues(preparedStatement, visitor);
+			preparedStatement.setBoolean(5, visitor.isVIP());
+
+			return preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int addReferee(Referee referee) throws DataException {
+		if (referee == null) {
+			return 0;
+		}
+
+		try {
+			String sqlInstruction =
+				"insert into person(first_name, last_name, birth_date, gender, type_person, level) " +
+				"values(?,?,?,?,'Referee',?)";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement = setPersonValues(preparedStatement, referee);
+			preparedStatement.setString(5, referee.getLevel());
+
+			return preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	private PreparedStatement setPersonValues(PreparedStatement preparedStatement, Person person) throws SQLException {
+		preparedStatement.setString(1, person.getFirstName());
+		preparedStatement.setString(2, person.getLastName());
+		preparedStatement.setDate(3, new java.sql.Date(person.getBirthDate().getTimeInMillis()));
+		preparedStatement.setString(4, person.getGender().toString());
+
+		return preparedStatement;
+	}
 
 	// GET
 	@Override
@@ -135,7 +207,7 @@ public class DBAccess implements DataAccess {
 				calendar.setTime(data.getTimestamp("date_start"));
 				list.add(new MatchPlayerResearch(
 						new Match(calendar),
-						new Player(data.getString("first_name"), data.getString("last_name"), data.getDouble("elo")),
+						new Player(data.getString("first_name"), data.getString("last_name"), data.getInt("elo")),
 						data.getInt("points")
 				));
 			}
@@ -316,7 +388,7 @@ public class DBAccess implements DataAccess {
 						calendar,
 						data.getString("gender").charAt(0),
 						data.getBoolean("is_professional"),
-						data.getDouble("elo")
+						data.getInt("elo")
 				));
 			}
 

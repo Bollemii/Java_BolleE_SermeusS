@@ -79,4 +79,7 @@ public class TournamentController {
 	public int addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) throws DataException, ValueException {
 		return manager.addReservation(visitorID, matchID, seatType, seatRow, seatNumber, cost);
 	}
+	public int addPerson(String type, String firstName, String lastName, Character gender, GregorianCalendar birthDate, Boolean isProfessional, Integer elo, Boolean isVIP, String level) throws DataException, ValueException {
+		return manager.addPerson(type, firstName, lastName, gender, birthDate, isProfessional, elo, isVIP, level);
+	}
 }

@@ -296,4 +296,26 @@ public class TournamentFormatter {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
+
+	/**
+	 * add a new Person : Player, Referee or Visitor
+	 * @param type
+	 * @param firstName
+	 * @param lastName
+	 * @param gender
+	 * @param birthDate
+	 * @param isProfessional
+	 * @param elo
+	 * @param isVIP
+	 * @param level
+	 */
+	public void addPerson(String type, String firstName, String lastName, Character gender, GregorianCalendar birthDate, Boolean isProfessional, Integer elo, Boolean isVIP, String level) {
+		try {
+			userInteraction.displayDataUpdate(controller.addPerson(type, firstName, lastName, gender, birthDate, isProfessional, elo, isVIP, level));
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+	}
 }

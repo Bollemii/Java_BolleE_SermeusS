@@ -5,7 +5,10 @@ import Exceptions.DataException;
 import Exceptions.ValueException;
 import Model.*;
 
+import java.sql.Ref;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -98,6 +101,23 @@ public class TournamentManager {
 				Reservation reservation = new Reservation(new Visitor(visitorID), new Match(matchID), seatType, seatRow, seatNumber, cost);
 				return dataAccess.addReservation(reservation);
 			}
+		}
+	}
+	public int addPerson(String type, String firstName, String lastName, Character gender, GregorianCalendar birthDate, Boolean isProfessional, Integer elo, Boolean isVIP, String level) throws DataException, ValueException {
+		if (birthDate.getTime().compareTo(Date.from(Instant.now())) > 0)
+			throw new ValueException("  La date d'anniversaire est incorrecte");
+
+		switch(type) {
+			case "Player" :
+				Player player = new Player(firstName, lastName, birthDate, gender, isProfessional, elo);
+				return dataAccess.addPlayer(player);
+			case "Visitor" :
+				Visitor visitor = new Visitor(firstName, lastName, birthDate, gender, isVIP);
+				return dataAccess.addVisitor(visitor);
+			case "Referee" :
+				Referee referee = new Referee(firstName, lastName, birthDate, gender, level);
+				return dataAccess.addReferee(referee);
+			default : return -1;
 		}
 	}
 }

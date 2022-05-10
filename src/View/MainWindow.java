@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
         tournament.setMnemonic('T');
         menuBar.add(tournament);
 
-        playerInscription = new JMenuItem("Inscription joueur");
+        playerInscription = new JMenuItem("Nouvelle personne");
         playerInscription.addActionListener(new HandleShowPanel());
         tournament.add(playerInscription);
 

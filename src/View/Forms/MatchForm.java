@@ -50,7 +50,6 @@ public class MatchForm extends JPanel{
 		formPanel.setOpaque(false);
 
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
-
 		dateSpinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, null, Calendar.YEAR));
 		dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd-MM-yyyy HH:mm"));
 		formPanel.add(dateSpinner);
