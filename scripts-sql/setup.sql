@@ -70,15 +70,24 @@ CREATE TABLE tournament_reward (
 
 ALTER TABLE person ADD CONSTRAINT ck_person_253688 CHECK (gender in('M', 'F', 'X'));
 ALTER TABLE person ADD CONSTRAINT ck_person_134641 CHECK (type_person in('Player', 'Referee', 'Visitor'));
+ALTER TABLE person ADD CONSTRAINT ck_person_554343 CHECK (elo >= 0);
 ALTER TABLE result ADD CONSTRAINT fk_result_329181 FOREIGN KEY (player_id) REFERENCES person (person_id);
 ALTER TABLE result ADD CONSTRAINT fk_result_383554 FOREIGN KEY (match_id) REFERENCES `match` (match_id) ON DELETE CASCADE;
+ALTER TABLE result ADD CONSTRAINT ck_result_687546 CHECK (points >= 0);
 ALTER TABLE reservation ADD CONSTRAINT fk_reservation_647266 FOREIGN KEY (visitor_id) REFERENCES person (person_id);
 ALTER TABLE reservation ADD CONSTRAINT fk_reservation_964687 FOREIGN KEY (match_id) REFERENCES `match` (match_id) ON DELETE CASCADE;
+ALTER TABLE reservation ADD CONSTRAINT ck_reservation_354543 CHECK (cost >= 0);
+ALTER TABLE reservation ADD CONSTRAINT ck_reservation_355435 CHECK (seat_number >= 0);
+ALTER TABLE location ADD CONSTRAINT ck_location_335434 CHECK (nb_rows >= 0);
+ALTER TABLE location ADD CONSTRAINT ck_location_413465 CHECK (nb_seats_per_row >= 0);
+ALTER TABLE reward ADD CONSTRAINT ck_reward_535443 CHECK (cost >= 0);
 ALTER TABLE tournament_reward ADD CONSTRAINT fk_tournament_513242 FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id);
 ALTER TABLE tournament_reward ADD CONSTRAINT fk_tournament_298729 FOREIGN KEY (reward_id) REFERENCES reward (reward_id);
+ALTER TABLE tournament_reward ADD CONSTRAINT ck_tournament_reward_454645 CHECK (place >= 1);
 ALTER TABLE `match` ADD CONSTRAINT fk_match_290535 FOREIGN KEY (location_id) REFERENCES location (location_id);
 ALTER TABLE `match` ADD CONSTRAINT fk_match_722680 FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id);
 ALTER TABLE `match` ADD CONSTRAINT fk_match_207413 FOREIGN KEY (referee_id) REFERENCES person (person_id);
+ALTER TABLE `match` ADD CONSTRAINT ck_match_876467 CHECK (duration >= 0);
 
 
 -- person
@@ -86,15 +95,48 @@ ALTER TABLE `match` ADD CONSTRAINT fk_match_207413 FOREIGN KEY (referee_id) REFE
 insert into person
 values(101, 'Emilien', 'Bolle', '2002-03-29', 'M', 'Player', false, 1523, null, null);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
-values('Tissia', 'Migeot', '2003-02-21', 'F', 'Player', false, 596);
+values('Melvin', 'LaGrosseMerde', '2020-02-21', 'X', 'Player', false, 0);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
 values('Steven', 'Sermeus', '2001-05-23', 'M', 'Player', true, 2003);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Archibald', 'Bernard', '1961-08-22', 'M', 'Player', true, 4990);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Quentin', 'Jacques', '1962-03-22', 'M', 'Player', false, 8052);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Florian', 'Van Damme', '1990-08-06', 'M', 'Player', false, 128);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Eline', 'Aerts', '1975-12-28', 'F', 'Player', true, 1262);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Eloïse', 'Vervoort', '1994-02-22', 'F', 'Player', true, 7592);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Giulia', 'De Coninck', '2002-09-21', 'X', 'Player', false, 52);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Yana', 'Henry', '1963-03-05', 'F', 'Player', false, 4346);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
+values('Léa', 'Bogaerts', '1985-04-10', 'F', 'Player', true, 3742);
+
 
     -- referee
 insert into person(first_name, last_name, birth_date, gender, type_person, level)
 values('Michel', 'Sardou', '1956-12-02', 'M', 'Referee', 'LigueA');
 insert into person(first_name, last_name, birth_date, gender, type_person, level)
 values('Toulp', 'Atou', '2000-01-30', 'M', 'Referee', 'LigueC');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Lisa', 'Wouters', '1977-11-30', 'F', 'Referee', 'Sous-ligue');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Linde', 'Remy', '1965-10-12', 'F', 'Referee', 'Régional');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Mehdi', 'Bodart', '1979-09-03', 'M', 'Referee', 'LigueE');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Eloïse', 'Roland', '1996-03-29', 'X', 'Referee', 'LigueA');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Océane', 'De Meyer', '1966-05-09', 'F', 'Referee', 'Sous-ligue');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Rayan', 'Amrani', '1973-05-17', 'M', 'Referee', 'LigueB');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Inès', 'Poncelet', '1973-04-11', 'X', 'Referee', 'Régional');
+insert into person(first_name, last_name, birth_date, gender, type_person, level)
+values('Jaspert', 'Vervoort', '1974-03-17', 'X', 'Referee', 'LigueZ');
 
 
     -- visitor
@@ -103,20 +145,47 @@ values('Fabrice', 'Perpète', '1953-10-12', 'M', 'Visitor', true);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
 values('Margot', 'Larivière', '1998-01-17', 'F', 'Visitor', false);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
-values('Simon', 'Albicocco', '2002-09-21', 'M', 'Visitor', true);
+values('Alexis', 'De Winter', '2002-06-12', 'M', 'Visitor', false);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Zoé', 'Romedenne', '2003-05-22', 'F', 'Visitor', true);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Robin', 'Léonard', '2002-01-01', 'X', 'Visitor', false);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Siebe', 'Luyten', '2003-08-26', 'M', 'Visitor', false);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Clémence', 'Van Hoof', '1968-11-10', 'F', 'Visitor', false);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Lukas', 'Evrard', '2001-01-10', 'M', 'Visitor', true);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Maxim', 'Jacobs', '1962-11-19', 'X', 'Visitor', false);
+insert into person(first_name, last_name, birth_date, gender, type_person, is_vip)
+values('Laura', 'Smet', '1985-08-20', 'F', 'Visitor', true);
+
 
 -- tournament
 insert into tournament(name, is_official)
 values('Ping2022', true);
 insert into tournament(name, is_official)
 values('Foot2015', false);
+insert into tournament(name, is_official)
+values('Raquette2006', true);
+insert into tournament(name, is_official)
+values('Echec1998', false);
+insert into tournament(name, is_official)
+values('Hackaton2022', true);
 
 
 -- location
 insert into location(name, nb_rows, nb_seats_per_row)
-values('table3A5', 5, 20);
+values('Table3A5', 5, 20);
 insert into location(name, nb_rows, nb_seats_per_row)
-values('terrainGauche', 2, 30);
+values('TerrainGauche', 2, 30);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('CôtéDroit', 9, 7);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('Salle18965', 13, 10);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('PetitSalle', 2, 5);
 
 
 -- match
@@ -167,6 +236,18 @@ insert into reward(name, cost)
 values('Voyage', 700);
 insert into reward(name, cost)
 values('Porte clé', 2.5);
+insert into reward(name, cost)
+values('Bon cadeau', 200);
+insert into reward(name, cost)
+values('Restaurant', 85);
+insert into reward(name, cost)
+values('Chocolats', 20);
+insert into reward(name, cost)
+values('Bières', 35);
+insert into reward(name, cost)
+values('Ami', 1);
+insert into reward(name, cost)
+values('Maison', 100000);
 
 
 -- tournament_reward
