@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,7 +44,7 @@ public class MatchForm extends JPanel{
 		ButtonListener buttonListener = new ButtonListener();
 
 		formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(8, 2, 10, 10));
+		formPanel.setLayout(new GridLayout(7, 2, 10, 10));
 		formPanel.setOpaque(false);
 
 		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
