@@ -11,6 +11,7 @@
 - [ ] (en cours) Tâche métier (proposer matchs déjà créés et qui n'ont pas encore de résultats assignés)
 - [ ] (en cours) Fenêtre animations matchs (thread + gestion fin match)
 - [ ] (en cours) JavaDoc
+- [x] Tests unitaires
 - [ ] Trouver quelque chose pour utiliser les Rewards
   - Affichage des rewards d'un tournoi (tri places)
 - [ ] Recherche avec deux dates (période) en entrées
