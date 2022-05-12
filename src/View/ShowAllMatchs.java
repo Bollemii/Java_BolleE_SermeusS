@@ -12,11 +12,11 @@ public class ShowAllMatchs extends JPanel {
 
 	public ShowAllMatchs() {
 		formatter = new TournamentFormatter();
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		title = new JLabel("Tableau des matchs", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
-		add(title, BorderLayout.NORTH);
+		this.add(title, BorderLayout.NORTH);
 
 		table = new JTable(new AllMatchsModel(formatter.getAllMatchs()));
 		table.getColumnModel().getColumn(0).setPreferredWidth(5);
@@ -26,6 +26,6 @@ public class ShowAllMatchs extends JPanel {
 
 		table.setRowHeight(30);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
-		add(new JScrollPane(table), BorderLayout.CENTER);
+		this.add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 }

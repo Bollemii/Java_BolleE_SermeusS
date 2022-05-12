@@ -3,7 +3,6 @@ import View.*;
 public class Main {
 	public static void main(String[] args) {
 		new MainWindow();
-		//new MatchAnimationWindow();
 
 //commandes docker si Modif
 		//docker container rm projet

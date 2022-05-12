@@ -14,9 +14,22 @@ import java.util.List;
 
 public class TournamentManager {
 	private DataAccess dataAccess;
+	private LocationDataAccess locationDataAccess;
+	private MatchDataAccess matchDataAccess;
+	private PersonDataAccess personDataAccess;
+	private ReservationDataAccess reservationDataAccess;
+	private	ResultDataAccess resultDataAccess;
+	private TournamentDataAccess tournamentDataAccess;
 
 	public TournamentManager() throws DataException {
 		dataAccess = new DBAccess();
+
+		locationDataAccess = new LocationDB();
+		matchDataAccess = new MatchDB();
+		personDataAccess = new PersonDB();
+		reservationDataAccess = new ReservationDB();
+		resultDataAccess = new ResultDB();
+		tournamentDataAccess = new TournamentDB();
 	}
 
 	public void closeConnection() throws DataException {
@@ -25,53 +38,53 @@ public class TournamentManager {
 
 	// lists for combobox from forms
 	public ArrayList<Tournament> getTournamentsList() throws DataException {
-		return dataAccess.getAllTournaments();
+		return tournamentDataAccess.getAllTournaments();
 	}
 	public ArrayList<Match> getMatchsList() throws DataException {
-		return dataAccess.getAllMatchs();
+		return matchDataAccess.getAllMatchs();
 	}
 	public ArrayList<Player> getPlayersList() throws DataException {
-		return dataAccess.getAllPlayers();
+		return personDataAccess.getAllPlayers();
 	}
 	public ArrayList<Referee> getRefereesList() throws DataException {
-		return dataAccess.getAllReferees();
+		return personDataAccess.getAllReferees();
 	}
 	public ArrayList<Location> getLocationsList() throws DataException {
-		return dataAccess.getAllLocations();
+		return locationDataAccess.getAllLocations();
 	}
 	public ArrayList<Visitor> getVisitorsList() throws DataException {
-		return dataAccess.getAllVisitors();
+		return personDataAccess.getAllVisitors();
 	}
 	public ArrayList<Result> getResultList() throws DataException {
-		return dataAccess.getAllResults();
+		return resultDataAccess.getAllResults();
 	}
 
 	// methods for data operations
 	public ArrayList<Match> getAllMatchs() throws DataException {
-		return dataAccess.getAllMatchs();
+		return matchDataAccess.getAllMatchs();
 	}
 	public ArrayList<Player> getAllPlayers() throws DataException {
-		return dataAccess.getAllPlayers();
+		return personDataAccess.getAllPlayers();
 	}
 	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException {
-		return dataAccess.getMatchsTournament(tournamentID);
+		return tournamentDataAccess.getMatchsTournament(tournamentID);
 	}
 	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
-		return dataAccess.getMatchsPlayer(playerID);
+		return personDataAccess.getMatchsPlayer(playerID);
 	}
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
-		return dataAccess.getReservationsVisitor(visitorID);
+		return personDataAccess.getReservationsVisitor(visitorID);
 	}
 	public Match getMatch(int matchID) throws DataException {
-		return dataAccess.getMatch(matchID);
+		return matchDataAccess.getMatch(matchID);
 	}
 	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
 		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
-		return dataAccess.addMatch(match);
+		return matchDataAccess.addMatch(match);
 	}
 	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
 		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
-		return dataAccess.updateMatch(match);
+		return matchDataAccess.updateMatch(match);
 	}
 	public int deleteMatch(List matchs) throws DataException {
 		int[] matchsID = new int[matchs.size()];
@@ -80,11 +93,11 @@ public class TournamentManager {
 			matchsID[i] = ManagerUtils.getMatchIDFromDescription(match.toString());
 			i++;
 		}
-		return dataAccess.deleteMatch(matchsID);
+		return matchDataAccess.deleteMatch(matchsID);
 	}
 	public int addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) throws DataException, ValueException {
 		String errorMessage = "";
-		Match match = dataAccess.getMatch(matchID);
+		Match match = matchDataAccess.getMatch(matchID);
 		if ((seatRow-'A') >= match.getLocation().getNbRows()) {
 			errorMessage += "\n  - La rangée est supérieure à " + (char)(match.getLocation().getNbRows() + 'A' - 1);
 		}
@@ -95,11 +108,11 @@ public class TournamentManager {
 		if (errorMessage != "") {
 			throw new ValueException(errorMessage);
 		} else {
-			if (dataAccess.isReservationExist(visitorID, matchID)) {
+			if (reservationDataAccess.isReservationExist(visitorID, matchID)) {
 				throw new ValueException("\n  Ce visiteur a déjà réservé une place pour ce match");
 			} else {
 				Reservation reservation = new Reservation(new Visitor(visitorID), new Match(matchID), seatType, seatRow, seatNumber, cost);
-				return dataAccess.addReservation(reservation);
+				return reservationDataAccess.addReservation(reservation);
 			}
 		}
 	}
@@ -110,13 +123,13 @@ public class TournamentManager {
 		switch(type) {
 			case "Player" :
 				Player player = new Player(firstName, lastName, birthDate, gender, isProfessional, elo);
-				return dataAccess.addPlayer(player);
+				return personDataAccess.addPlayer(player);
 			case "Visitor" :
 				Visitor visitor = new Visitor(firstName, lastName, birthDate, gender, isVIP);
-				return dataAccess.addVisitor(visitor);
+				return personDataAccess.addVisitor(visitor);
 			case "Referee" :
 				Referee referee = new Referee(firstName, lastName, birthDate, gender, level);
-				return dataAccess.addReferee(referee);
+				return personDataAccess.addReferee(referee);
 			default : return -1;
 		}
 	}

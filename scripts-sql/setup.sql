@@ -186,17 +186,39 @@ insert into location(name, nb_rows, nb_seats_per_row)
 values('Salle18965', 13, 10);
 insert into location(name, nb_rows, nb_seats_per_row)
 values('PetitSalle', 2, 5);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('SalleRouge', 9, 3);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('SalleBleue', 5, 5);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('TableRonde', 9, 9);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('TableH2F', 7, 3);
+insert into location(name, nb_rows, nb_seats_per_row)
+values('SalleConcert', 4, 6);
 
 
 -- match
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 1, 104, '2022-03-12 15:03:00', false);
+values(1, 1, 112, '2022-03-12 15:03:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(2, 1, 104, '2022-03-15 09:59:00', false);
+values(2, 1, 121, '2022-03-15 09:59:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 2, 105, '2022-04-01 23:11:00', false);
+values(3, 2, 115, '2022-04-01 23:11:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 2, 105, '2022-04-03 12:02:00', true);
+values(4, 2, 120, '2022-04-03 12:02:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(5, 3, 117, '2036-12-27 01:13:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(6, 3, 112, '1927-12-27 12:36:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(2, 4, 119, '1944-03-30 17:57:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(3, 4, 121, '1968-03-26 17:14:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(8, 5, 116, '2019-06-04 22:26:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(9, 5, 117, '1992-04-03 18:48:00', true);
 
 
 -- result

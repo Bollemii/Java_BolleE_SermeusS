@@ -24,11 +24,9 @@ public class MainWindow extends JFrame {
 
         formatter = new TournamentFormatter();
 
-        // set size of window
         this.setSize(1080, 700);
         this.setLocationRelativeTo(null);
 
-        // menu
         menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
@@ -103,13 +101,11 @@ public class MainWindow extends JFrame {
         showReservation.addActionListener(new HandleShowPanel());
         visitor.add(showReservation);
 
-        // components
         container = getContentPane();
         JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournois");
         welcome.setHorizontalAlignment(SwingConstants.CENTER);
         container.add(welcome);
 
-        //when window closed, exit program
         this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {
             formatter.closeConnection();
             System.exit(0);}}
