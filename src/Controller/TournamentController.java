@@ -1,6 +1,5 @@
 package Controller;
 
-import Business.ManagerUtils;
 import Business.TournamentManager;
 import Exceptions.DataException;
 import Exceptions.ValueException;
@@ -8,7 +7,6 @@ import Model.*;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class TournamentController {
@@ -64,6 +62,10 @@ public class TournamentController {
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
 		return manager.getReservationsVisitor(visitorID);
 	}
+	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) throws DataException, ValueException {
+		// tests sur les dates dans la business
+		return manager.getPersonsBirthdays(date1, date2);
+	}
 	public Match getMatch(int matchID) throws DataException {
 		return manager.getMatch(matchID);
 	}
@@ -73,7 +75,7 @@ public class TournamentController {
 	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
 		return manager.updateMatch(matchID, dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
-	public int deleteMatch(List matchs) throws DataException {
+	public int deleteMatch(ArrayList<Match> matchs) throws DataException {
 		return manager.deleteMatch(matchs);
 	}
 	public int addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) throws DataException, ValueException {

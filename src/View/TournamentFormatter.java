@@ -1,6 +1,5 @@
 package View;
 
-import Business.ManagerUtils;
 import Controller.TournamentController;
 import Exceptions.DataException;
 import Exceptions.ValueException;
@@ -8,7 +7,6 @@ import Model.*;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class TournamentFormatter {
 	private TournamentController controller;
@@ -215,6 +213,24 @@ public class TournamentFormatter {
 	}
 
 	/**
+	 * get all persons who have her birthdays between the dates
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) {
+		ArrayList<Person> listPersons = new ArrayList<>();
+		try {
+			listPersons = controller.getPersonsBirthdays(date1, date2);
+		} catch(DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch(ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return listPersons;
+	}
+
+	/**
 	 * get all information of a match
 	 * @param matchID
 	 * @return match
@@ -270,7 +286,7 @@ public class TournamentFormatter {
 	 * delete matchs from the list in the dataBase
 	 * @param matchs
 	 */
-	public void deleteMatch(List matchs) {
+	public void deleteMatch(ArrayList<Match> matchs) {
 		try {
 			userInteraction.displayDataUpdate(controller.deleteMatch(matchs));
 		} catch(DataException exception) {

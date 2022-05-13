@@ -1,10 +1,12 @@
 package View.TableModels;
 
 import Business.ManagerUtils;
-import Model.Match;
+import Model.*;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class AllMatchsModel extends AbstractTableModel {
 	private ArrayList<String> columnsNames;
@@ -24,6 +26,10 @@ public class AllMatchsModel extends AbstractTableModel {
 		this.contents = contents;
 	}
 
+	public void setContents(ArrayList<Match> contents) {
+		this.contents = contents;
+	}
+
 	@Override
 	public String getColumnName(int column) {
 		return columnsNames.get(column);
@@ -35,6 +41,7 @@ public class AllMatchsModel extends AbstractTableModel {
 			case 0 :
 			case 2 :
 				return Integer.class;
+			case 1 : return Date.class;
 			case 3 : return Boolean.class;
 			default: return String.class;
 		}
@@ -50,6 +57,10 @@ public class AllMatchsModel extends AbstractTableModel {
 		return columnsNames.size();
 	}
 
+	public Match getValuesRow(int rowIndex) {
+		return contents.get(rowIndex);
+	}
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Match match = contents.get(rowIndex);
@@ -57,7 +68,7 @@ public class AllMatchsModel extends AbstractTableModel {
 			case 0 : return match.getId();
 			case 1 : {
 				if (match.getDateStart() != null)
-					return ManagerUtils.getDateHourString(match.getDateStart());
+					return match.getDateStart().getTime();
 				return null;
 			}
 			case 2 : return match.getDuration();

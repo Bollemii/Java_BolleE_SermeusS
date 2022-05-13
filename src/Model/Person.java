@@ -8,13 +8,18 @@ public abstract class Person {
 	private String lastName;
 	private GregorianCalendar birthDate;
 	private Character gender;
+	private String typePerson;
 
-	public Person(Integer id, String firstName, String lastName, GregorianCalendar birthDate, Character gender) {
+	public Person(Integer id, String firstName, String lastName, GregorianCalendar birthDate, Character gender, String typePerson) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDate = birthDate;
 		this.gender = gender;
+		this.typePerson = typePerson;
+	}
+	public Person(Integer id, String firstName, String lastName, GregorianCalendar birthDate, Character gender) {
+		this(id, firstName, lastName, birthDate, gender, null);
 	}
 
 	public Integer getId() {
@@ -31,6 +36,9 @@ public abstract class Person {
 	}
 	public Character getGender() {
 		return gender;
+	}
+	public String getTypePerson() {
+		return typePerson;
 	}
 	public String getIdentity() {
 		return firstName + " " + lastName;

@@ -1,16 +1,20 @@
 package View;
 
+import Model.Match;
+import View.TableModels.AllMatchsModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ShowDeleteMatch extends JPanel {
 	private TournamentFormatter formatter;
 	private UserInteraction userInteraction;
-	private JPanel mainPanel;
 	private JLabel title;
-	private JList matchsList;
+	private JTable matchsTable;
+	private AllMatchsModel model;
 	private JButton submit;
 
 	public ShowDeleteMatch() {
@@ -23,32 +27,31 @@ public class ShowDeleteMatch extends JPanel {
 		title.setFont(new Font("Arial", Font.PLAIN, 40));
 		this.add(title, BorderLayout.NORTH);
 
-		mainPanel = new JPanel();
-		GridBagLayout layout = new GridBagLayout();
-		GridBagConstraints constraints = new GridBagConstraints();
-		mainPanel.setLayout(layout);
+		model = new AllMatchsModel(formatter.getAllMatchs());
+		matchsTable = new JTable(model);
+		matchsTable.setRowHeight(30);
+		matchsTable.setFont(new Font("Arial", Font.PLAIN, 15));
+		this.add(new JScrollPane(matchsTable), BorderLayout.CENTER);
 
-		constraints.insets = new Insets(0, 0, 20, 0);
-		matchsList = new JList(formatter.getMatchsList().toArray(new String[0]));
-		matchsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		matchsList.setFont(new Font("Arial", Font.PLAIN, 20));
-		mainPanel.add(matchsList, constraints);
-
-		constraints.insets = new Insets(0, 20, 20, 0);
+		JPanel buttonPanel = new JPanel();
 		submit = new JButton("Valider");
 		submit.addActionListener(new ButtonListener());
 		submit.setFont(new Font("Arial", Font.PLAIN, 20));
-		mainPanel.add(submit, constraints);
-
-		this.add(mainPanel, BorderLayout.CENTER);
+		buttonPanel.add(submit);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (userInteraction.displayConfirmation("Êtes-vous sûr de vouloir supprimer ?") == 0) {
-				formatter.deleteMatch(matchsList.getSelectedValuesList());
-				matchsList.setListData(formatter.getMatchsList().toArray(new String[0]));
+				ArrayList<Match> matchs = new ArrayList<>();
+				for (int iRow : matchsTable.getSelectedRows()) {
+					matchs.add(model.getValuesRow(iRow));
+				}
+				formatter.deleteMatch(matchs);
+				model.setContents(formatter.getAllMatchs());
+				model.fireTableDataChanged();
 			}
 		}
 	}

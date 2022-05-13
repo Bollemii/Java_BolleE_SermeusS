@@ -15,7 +15,7 @@ public class MainWindow extends JFrame {
     private JMenu match;
     private JMenuItem addMatch,showMatchTable,modifyMatch,deleteMatch;
     private JMenu player;
-    private JMenuItem showPlayer, showMatchsPlayer;
+    private JMenuItem showPlayer, showMatchsPlayer, showPersonsDates;
     private JMenu visitor;
     private JMenuItem reservation, showReservation;
 
@@ -89,6 +89,10 @@ public class MainWindow extends JFrame {
         showMatchsPlayer.addActionListener(new HandleShowPanel());
         player.add(showMatchsPlayer);
 
+        showPersonsDates = new JMenuItem("Afficher personnes selon anniversaire");
+        showPersonsDates.addActionListener(new HandleShowPanel());
+        player.add(showPersonsDates);
+
         visitor = new JMenu("Visiteur");
         visitor.setMnemonic('V');
         menuBar.add(visitor);
@@ -145,6 +149,8 @@ public class MainWindow extends JFrame {
                 return new ShowAllPlayers();
             } else if (e.getSource() == showMatchsPlayer) {
                 return new ShowMatchsPlayer();
+            } else if (e.getSource() == showPersonsDates) {
+                return new ShowPersonsDates();
             } else if (e.getSource() == reservation) {
                 return new ShowNewReservation();
             } else if (e.getSource() == showReservation) {

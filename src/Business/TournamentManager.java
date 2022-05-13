@@ -5,12 +5,10 @@ import Exceptions.DataException;
 import Exceptions.ValueException;
 import Model.*;
 
-import java.sql.Ref;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class TournamentManager {
 	private DataAccess dataAccess;
@@ -86,11 +84,11 @@ public class TournamentManager {
 		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		return matchDataAccess.updateMatch(match);
 	}
-	public int deleteMatch(List matchs) throws DataException {
+	public int deleteMatch(ArrayList<Match> matchs) throws DataException {
 		int[] matchsID = new int[matchs.size()];
 		int i = 0;
-		for (Object match : matchs) {
-			matchsID[i] = ManagerUtils.getMatchIDFromDescription(match.toString());
+		for (Match match : matchs) {
+			matchsID[i] = match.getId();
 			i++;
 		}
 		return matchDataAccess.deleteMatch(matchsID);
