@@ -64,7 +64,8 @@ public class ShowPersonsDates extends JPanel {
 					Integer.parseInt(new SimpleDateFormat("MM").format(date2Spinner.getValue()))-1,
 					Integer.parseInt(new SimpleDateFormat("dd").format(date2Spinner.getValue()))
 			);
-			formatter.getPersonsBirthdays(date1, date2);
+			model.setContents(formatter.getPersonsBirthdays(date1, date2));
+			model.fireTableDataChanged();
 		}
 	}
 }

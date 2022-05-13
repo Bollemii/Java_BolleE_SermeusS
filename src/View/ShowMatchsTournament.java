@@ -44,7 +44,6 @@ public class ShowMatchsTournament extends JPanel {
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            model.clear();
             int tournamentID = ManagerUtils.getIDFromDescription(tournamentBox.getSelectedItem().toString());
             model.setContents(formatter.getMatchsTournament(tournamentID));
             model.fireTableDataChanged();

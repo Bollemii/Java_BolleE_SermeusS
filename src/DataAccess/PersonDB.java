@@ -25,8 +25,8 @@ public class PersonDB implements PersonDataAccess {
 
 		try {
 			String sqlInstruction =
-					"insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo) " +
-							"values(?,?,?,?,'Player',?,?)";
+				"insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo) " +
+				"values(?,?,?,?,'Player',?,?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement = setPersonValues(preparedStatement, player);
@@ -247,6 +247,39 @@ public class PersonDB implements PersonDataAccess {
 			}
 			return list;
 		} catch(SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public ArrayList<Person> getByBirthday(GregorianCalendar date1, GregorianCalendar date2) throws DataException {
+		try {
+			String sqlInstruction =
+				"select person_id, first_name, last_name, birth_date, gender, type_person " +
+				"from person " +
+				"where birth_date between ? and ? " +
+				"order by birth_date";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setDate(1, new java.sql.Date(date1.getTimeInMillis()));
+			preparedStatement.setDate(2, new java.sql.Date(date2.getTimeInMillis()));
+			ResultSet data = preparedStatement.executeQuery();
+
+			ArrayList<Person> list = new ArrayList<>();
+			while(data.next()) {
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTime(data.getDate("birth_date"));
+				list.add(new Person(
+					data.getInt("person_id"),
+					data.getString("first_name"),
+					data.getString("last_name"),
+					calendar,
+					data.getString("gender").charAt(0),
+					data.getString("type_person")
+				));
+			}
+			return list;
+		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}
 	}

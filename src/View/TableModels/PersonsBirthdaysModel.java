@@ -12,6 +12,7 @@ public class PersonsBirthdaysModel extends AbstractTableModel {
 
 	public PersonsBirthdaysModel(ArrayList<Person> contents) {
 		this.columnsNames = new ArrayList<>();
+		this.columnsNames.add("Id");
 		this.columnsNames.add("Prénom");
 		this.columnsNames.add("Nom");
 		this.columnsNames.add("Anniversaire");
@@ -28,10 +29,6 @@ public class PersonsBirthdaysModel extends AbstractTableModel {
 		this.contents = contents;
 	}
 
-	public void clear() {
-		contents.clear();
-	}
-
 	@Override
 	public String getColumnName(int column) {
 		return columnsNames.get(column);
@@ -40,8 +37,9 @@ public class PersonsBirthdaysModel extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-			case 2 : return Date.class;
-			case 3 : return Character.class;
+			case 0 : return Integer.class;
+			case 3 : return Date.class;
+			case 4 : return Character.class;
 			default: return String.class;
 		}
 	}
@@ -60,11 +58,12 @@ public class PersonsBirthdaysModel extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Person person = contents.get(rowIndex);
 		switch (columnIndex) {
-			case 0 : return person.getFirstName();
-			case 1 : return person.getLastName();
-			case 2 : return person.getBirthDate().getTime();
-			case 3 : return person.getGender();
-			case 4 : return person.getTypePerson();
+			case 0 : return person.getId();
+			case 1 : return person.getFirstName();
+			case 2 : return person.getLastName();
+			case 3 : return person.getBirthDate().getTime();
+			case 4 : return person.getGender();
+			case 5 : return person.getTypePerson();
 			default: return null;
 		}
 	}

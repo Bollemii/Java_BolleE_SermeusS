@@ -28,10 +28,6 @@ public class MatchsTournamentModel extends AbstractTableModel {
 		this.contents = contents;
 	}
 
-	public void clear() {
-		contents.clear();
-	}
-
 	@Override
 	public String getColumnName(int column) {
 		return columnsNames.get(column);

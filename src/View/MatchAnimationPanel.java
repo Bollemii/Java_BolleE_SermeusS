@@ -11,20 +11,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MatchAnimationPanel extends JPanel {
+	private final static int WIDTH = 250;
+	private final static int HEIGHT = 380;
 	private MatchAnimationWindow parentWindow;
 	private Border border, margin;
 	private String[] playersDescription;
 	private String matchDescription;
-	private JLabel matchLabel, playersLabel;
 	private Pong pong;
 	private JButton finish;
 
-	public MatchAnimationPanel(MatchAnimationWindow parentWindow, String match, String player1, String player2) {
+	public MatchAnimationPanel(MatchAnimationWindow parentWindow, int x, int y, String match, String player1, String player2) {
 		this.parentWindow = parentWindow;
 		this.playersDescription = new String[] {player1, player2};
 		this.matchDescription = match;
 
-		this.setSize(225, 500);
+		this.setBounds(x, y, WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
 
 		border = BorderFactory.createRaisedBevelBorder();
@@ -32,14 +33,14 @@ public class MatchAnimationPanel extends JPanel {
 		this.setBorder(new CompoundBorder(border, margin));
 
 		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout(new BorderLayout());
-		matchLabel = new JLabel("Match " + this.matchDescription, SwingConstants.CENTER);
-		labelPanel.add(matchLabel, BorderLayout.NORTH);
-		playersLabel = new JLabel(this.playersDescription[0] + " VS " + this.playersDescription[1], SwingConstants.CENTER);
-		labelPanel.add(playersLabel, BorderLayout.SOUTH);
+		labelPanel.setLayout(new GridLayout(4, 1));
+		labelPanel.add(new JLabel("Match " + this.matchDescription, SwingConstants.CENTER));
+		labelPanel.add(new JLabel(this.playersDescription[0], SwingConstants.CENTER));
+		labelPanel.add(new JLabel("VS", SwingConstants.CENTER));
+		labelPanel.add(new JLabel(this.playersDescription[1], SwingConstants.CENTER));
 		this.add(labelPanel, BorderLayout.NORTH);
 
-		pong = new Pong();
+		pong = new Pong(WIDTH-25);
 		this.add(pong, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();
@@ -47,6 +48,13 @@ public class MatchAnimationPanel extends JPanel {
 		finish.addActionListener(new ButtonListener());
 		buttonPanel.add(finish);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	public static int getWIDTH() {
+		return WIDTH;
+	}
+	public static int getHEIGHT() {
+		return HEIGHT;
 	}
 
 	/**

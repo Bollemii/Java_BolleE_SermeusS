@@ -96,7 +96,7 @@ public class PersonForm extends JPanel {								// A FAIRE
 		formPanel.add(lastNameText);
 
 		formPanel.add(new JLabel("Date de naissance : ", SwingConstants.RIGHT));
-		birthDateSpinner = new JSpinner(new SpinnerDateModel(new GregorianCalendar(2000, 01, 01).getTime(), null, null, Calendar.YEAR));
+		birthDateSpinner = new JSpinner(new SpinnerDateModel(new GregorianCalendar(2000, 01, 01).getTime(), null, Date.from(Instant.now()), Calendar.YEAR));
 		birthDateSpinner.setEditor(new JSpinner.DateEditor(birthDateSpinner, "dd-MM-yyyy"));
 		formPanel.add(birthDateSpinner);
 

@@ -44,7 +44,6 @@ public class ShowReservationsVisitor extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			model.clear();
 			int visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
 			model.setContents(formatter.getReservationsVisitor(visitorID));
 			model.fireTableDataChanged();

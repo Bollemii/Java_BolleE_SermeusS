@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 public class ShowGestionMatch extends JPanel {
 	private TournamentFormatter formatter;
 	private UserInteraction userInteraction;
-	private MatchAnimationWindow matchAnimationWindow;
+	private static MatchAnimationWindow matchAnimationWindow;
 	private JLabel title, match, player1, player2;
 	private JPanel mainPanel, choicePanel, playersPanel, buttonPanel;
 	private JComboBox<String> matchBox, player1Box, player2Box;

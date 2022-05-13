@@ -2,7 +2,7 @@ package Model;
 
 import java.util.GregorianCalendar;
 
-public abstract class Person {
+public class Person {
 	private Integer id;
 	private String firstName;
 	private String lastName;

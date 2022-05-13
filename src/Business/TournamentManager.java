@@ -73,6 +73,12 @@ public class TournamentManager {
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
 		return personDataAccess.getReservationsVisitor(visitorID);
 	}
+	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) throws DataException, ValueException {
+		if (date1.compareTo(date2) > 0)
+			throw new ValueException("  La première date doit être inférieure à la deuxième");
+
+		return personDataAccess.getByBirthday(date1, date2);
+	}
 	public Match getMatch(int matchID) throws DataException {
 		return matchDataAccess.getMatch(matchID);
 	}

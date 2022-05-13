@@ -63,7 +63,6 @@ public class TournamentController {
 		return manager.getReservationsVisitor(visitorID);
 	}
 	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) throws DataException, ValueException {
-		// tests sur les dates dans la business
 		return manager.getPersonsBirthdays(date1, date2);
 	}
 	public Match getMatch(int matchID) throws DataException {

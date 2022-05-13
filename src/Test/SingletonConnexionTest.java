@@ -10,9 +10,9 @@ class SingletonConnexionTest {
 
     @Test
     void getInstance() {
-        //assert for the exeption
-        assertThrows(DataException.class, () -> {
-            SingletonConnexion.getInstance();
-        });
+        //assert for the exception
+        assertThrows(DataException.class,
+                () -> SingletonConnexion.getInstance()
+        );
     }
 }

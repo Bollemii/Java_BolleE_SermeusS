@@ -44,7 +44,6 @@ public class ShowMatchsPlayer extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			model.clear();
 			int playerID = ManagerUtils.getIDFromDescription(playerBox.getSelectedItem().toString());
 			model.setContents(formatter.getMatchsPlayer(playerID));
 			model.fireTableDataChanged();

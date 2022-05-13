@@ -230,10 +230,38 @@ insert into result(player_id, match_id, points)
 values(102, 4, 105);
 insert into result(player_id, match_id, points)
 values(103, 4, 92);
+insert into result(player_id, match_id, points)
+values(111, 7, 35);
+insert into result(player_id, match_id, points)
+values(105, 7, 20);
+insert into result(player_id, match_id, points)
+values(107, 6, 0);
+insert into result(player_id, match_id, points)
+values(102, 6, 6);
+insert into result(player_id, match_id, points)
+values(109, 5, 19);
+insert into result(player_id, match_id, points)
+values(101, 5, 23);
 insert into result(player_id, match_id)
-values(101, 3);
+values(104, 3);
 insert into result(player_id, match_id)
-values(102, 3);
+values(111, 3);
+insert into result(player_id, match_id)
+values(105, 1);
+insert into result(player_id, match_id)
+values(106, 1);
+insert into result(player_id, match_id)
+values(110, 9);
+insert into result(player_id, match_id)
+values(108, 9);
+insert into result(player_id, match_id)
+values(105, 8);
+insert into result(player_id, match_id)
+values(106, 8);
+insert into result(player_id, match_id)
+values(110, 10);
+insert into result(player_id, match_id)
+values(101, 10);
 
 
 -- reservation
