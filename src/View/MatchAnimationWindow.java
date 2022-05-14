@@ -100,8 +100,8 @@ public class MatchAnimationWindow extends JFrame {
 		if (iCell != -1) {
 			matchs[iCell / 10][iCell % 10] = new MatchAnimationPanel(
 				this,
-				10 + (iCell % 10) * (MatchAnimationPanel.getWIDTH() + MATCH_PADDING),
-				10 + (iCell / 10) * (MatchAnimationPanel.getHEIGHT() + MATCH_PADDING),
+				MATCH_PADDING + (iCell % 10) * (MatchAnimationPanel.getWIDTH() + MATCH_PADDING),
+				MATCH_PADDING + (iCell / 10) * (MatchAnimationPanel.getHEIGHT() + MATCH_PADDING),
 				match,
 				player1,
 				player2

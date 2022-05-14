@@ -95,7 +95,7 @@ ALTER TABLE `match` ADD CONSTRAINT ck_match_876467 CHECK (duration >= 0);
 insert into person
 values(101, 'Emilien', 'Bolle', '2002-03-29', 'M', 'Player', false, 1523, null, null);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
-values('Melvin', 'LaGrosseMerde', '2020-02-21', 'X', 'Player', false, 0);
+values('Melvin', 'Parache', '2020-02-21', 'X', 'Player', false, 0);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
 values('Steven', 'Sermeus', '2001-05-23', 'M', 'Player', true, 2003);
 insert into person(first_name, last_name, birth_date, gender, type_person, is_professional, elo)
@@ -170,9 +170,9 @@ values('Foot2015', false);
 insert into tournament(name, is_official)
 values('Raquette2006', true);
 insert into tournament(name, is_official)
-values('Echec1998', false);
+values('Échec1998', false);
 insert into tournament(name, is_official)
-values('Hackaton2022', true);
+values('Hackathon2022', true);
 
 
 -- location
@@ -199,26 +199,42 @@ values('SalleConcert', 4, 6);
 
 
 -- match
-insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(1, 1, 112, '2022-03-12 15:03:00', false);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(1, 1, 112, '2022-03-12 15:03:00', 36, false, 'Match de qualification');
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
 values(2, 1, 121, '2022-03-15 09:59:00', false);
-insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(3, 2, 115, '2022-04-01 23:11:00', false);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(3, 2, 115, '2022-04-01 23:11:00', 75, false, 'Match de haut niveau');
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
 values(4, 2, 120, '2022-04-03 12:02:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(5, 3, 117, '2036-12-27 01:13:00', 126, true, 'Finale du tournoi de la Raquette en 2006');
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(5, 3, 117, '2036-12-27 01:13:00', true);
-insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(6, 3, 112, '1927-12-27 12:36:00', true);
+values(6, 3, 112, '1927-10-27 12:36:00', true);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
 values(2, 4, 119, '1944-03-30 17:57:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(3, 4, 121, '1968-03-26 17:14:00', 97, true, 'Finale du tournoi d\'échec en 1998');
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(8, 5, 116, '2019-06-04 22:26:00', 64, true, 'Finale du tournoi Hackathon en 2022');
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(3, 4, 121, '1968-03-26 17:14:00', true);
+values(9, 5, 117, '1992-04-03 18:48:00', false);
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(8, 5, 116, '2019-06-04 22:26:00', true);
+values(1, 3, 112, '1972-04-08 11:12:00', false);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(3, 2, 115, '2019-06-20 12:11:00', 301, false, 'Match beaucoup trop long');
 insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
-values(9, 5, 117, '1992-04-03 18:48:00', true);
+values(5, 4, 117, '1903-08-02 08:56:00', false);
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(9, 1, 114, '1965-05-27 10:22:00', true);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(6, 5, 120, '1991-03-19 23:32:00', 69, false, 'Match retour');
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(2, 4, 113, '1996-12-06 11:50:00', false);
+insert into `match`(location_id, tournament_id, referee_id, date_start, duration, is_final, comment)
+values(7, 2, 119, '1931-01-08 06:37:00', 56, false, 'L\'arbitre à été malade');
+insert into `match`(location_id, tournament_id, referee_id, date_start, is_final)
+values(4, 1, 116, '2016-10-03 16:25:00', true);
 
 
 -- result
@@ -266,15 +282,21 @@ values(101, 10);
 
 -- reservation
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(106, 4, 'parterre', 'B', 23, 52.36);
+values(122, 4, 'parterre', 'B', 9, 52.36);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(107, 1, 'gradin', 'R', 11, 14.53);
+values(129, 1, 'gradin', 'D', 11, 14.53);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(108, 3, 'vip', 'O', 3, 0);
+values(131, 3, 'vip', 'G', 3, 0);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(106, 2, 'gradin', 'T', 1, 12.7);
+values(125, 2, 'gradin', 'E', 1, 12.7);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(106, 1, 'parterre', 'P', 14, 10.09);
+values(123, 1, 'parterre', 'C', 14, 10.09);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(126, 7, 'gradin', 'A', 14, 5.36);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(127, 9, 'vip', 'F', 5, 100.95);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(130, 10, 'vip', 'A', 2, 2);
 
 
 -- reward
@@ -302,12 +324,22 @@ values('Maison', 100000);
 
 -- tournament_reward
 insert into tournament_reward(place, tournament_id, reward_id)
-values(1, 1, 1);
+values(1, 1, 5);
 insert into tournament_reward(place, tournament_id, reward_id)
 values(2, 1, 3);
 insert into tournament_reward(place, tournament_id, reward_id)
-values(3, 1, 4);
+values(3, 2, 4);
 insert into tournament_reward(place, tournament_id, reward_id)
-values(1, 2, 2);
+values(1, 2, 9);
 insert into tournament_reward(place, tournament_id, reward_id)
-values(2, 2, 4);
+values(2, 3, 2);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(3, 3, 1);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(1, 4, 10);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(2, 4, 8);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(3, 5, 6);
+insert into tournament_reward(place, tournament_id, reward_id)
+values(1, 5, 7);

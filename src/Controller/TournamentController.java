@@ -68,7 +68,7 @@ public class TournamentController {
 	public Match getMatch(int matchID) throws DataException {
 		return manager.getMatch(matchID);
 	}
-	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
+	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
 		return manager.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
 	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {

@@ -106,8 +106,8 @@ public class MainWindow extends JFrame {
         visitor.add(showReservation);
 
         container = getContentPane();
-        JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournois");
-        welcome.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournois", SwingConstants.CENTER);
+        welcome.setFont(new Font("Arial", Font.PLAIN, 25));
         container.add(welcome);
 
         this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {

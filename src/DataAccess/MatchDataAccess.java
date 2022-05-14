@@ -4,6 +4,7 @@ import Exceptions.DataException;
 import Model.Match;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public interface MatchDataAccess {
 	// CRUD
@@ -13,4 +14,7 @@ public interface MatchDataAccess {
 	int deleteMatch(int[] matchsID) throws DataException;
 
 	Match getMatch(int matchID) throws DataException;
+
+	boolean isRefereeAvailable(int refereeID, GregorianCalendar date) throws DataException;
+	boolean isLocationAvailable(int locationID, GregorianCalendar date) throws DataException;
 }

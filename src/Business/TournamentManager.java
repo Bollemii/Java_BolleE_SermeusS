@@ -82,9 +82,20 @@ public class TournamentManager {
 	public Match getMatch(int matchID) throws DataException {
 		return matchDataAccess.getMatch(matchID);
 	}
-	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
-		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
-		return matchDataAccess.addMatch(match);
+	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
+		String errorMessage = "";
+		if (!matchDataAccess.isRefereeAvailable(refereeID, dateStart)) {
+			errorMessage += "\n  - Cet arbitre est déjà occupé à ce moment";
+		}
+		if (!matchDataAccess.isLocationAvailable(locationID, dateStart)) {
+			errorMessage += "\n  - Cet emplacement est déjà occupé à ce moment";
+		}
+		if (errorMessage != "") {
+			throw new ValueException(errorMessage);
+		} else {
+			Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
+			return matchDataAccess.addMatch(match);
+		}
 	}
 	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
 		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));

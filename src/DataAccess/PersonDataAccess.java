@@ -13,7 +13,6 @@ public interface PersonDataAccess {
 	ArrayList<Person> getByBirthday(GregorianCalendar date1, GregorianCalendar date2) throws DataException;
 
 	ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException;
-
 	ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException;
 
 	int addPlayer(Player player) throws DataException;

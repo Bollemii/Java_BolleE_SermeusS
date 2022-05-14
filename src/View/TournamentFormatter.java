@@ -260,6 +260,8 @@ public class TournamentFormatter {
 			userInteraction.displayDataUpdate(controller.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID));
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
 

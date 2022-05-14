@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class MatchDB implements MatchDataAccess {
@@ -189,6 +190,52 @@ public class MatchDB implements MatchDataAccess {
 			list.add(match);
 		}
 		return list;
+	}
+
+	@Override
+	public boolean isRefereeAvailable(int refereeID, GregorianCalendar date) throws DataException {
+		try {
+			String sqlInstruction = "select * from `match` where referee_id = ? and date_start between ? and ?";
+
+			ResultSet data = isAvailableQuery(sqlInstruction, refereeID, date);
+			return !data.next();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public boolean isLocationAvailable(int locationID, GregorianCalendar date) throws DataException {
+		try {
+			String sqlInstruction = "select * from `match` where location_id = ? and date_start between ? and ?";
+
+			ResultSet data = isAvailableQuery(sqlInstruction, locationID, date);
+			return !data.next();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	private ResultSet isAvailableQuery(String sqlInstruction, int id, GregorianCalendar date) throws SQLException {
+		GregorianCalendar dateStart = new GregorianCalendar(
+				date.get(Calendar.YEAR),
+				date.get(Calendar.MONTH),
+				date.get(Calendar.DAY_OF_MONTH),
+				0,
+				0
+		);
+		GregorianCalendar dateEnd = new GregorianCalendar(
+				date.get(Calendar.YEAR),
+				date.get(Calendar.MONTH),
+				date.get(Calendar.DAY_OF_MONTH),
+				23,
+				59
+		);
+		PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+		preparedStatement.setInt(1, id);
+		preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateStart.getTimeInMillis()));
+		preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateEnd.getTimeInMillis()));
+		return preparedStatement.executeQuery();
 	}
 
 	@Override
