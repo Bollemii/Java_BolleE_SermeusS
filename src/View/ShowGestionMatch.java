@@ -1,9 +1,5 @@
 package View;
 
-import Business.ManagerUtils;
-import Model.Match;
-import Model.Player;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -19,6 +15,7 @@ public class ShowGestionMatch extends JPanel {
 	private JLabel title, match, player1, player2;
 	private JPanel mainPanel, choicePanel, playersPanel, buttonPanel;
 	private JComboBox<String> matchBox, player1Box, player2Box;
+	private DefaultComboBoxModel matchBoxModel;
 	private JButton submit;
 	private Border border, margin;
 
@@ -46,7 +43,8 @@ public class ShowGestionMatch extends JPanel {
 		match = new JLabel("Match :", SwingConstants.RIGHT);
 		match.setFont(new Font("Arial", Font.PLAIN, 20));
 		playersPanel.add(match);
-		matchBox = new JComboBox<>(formatter.getMatchsWithoutResultList().toArray(new String[0]));
+		matchBoxModel = new DefaultComboBoxModel(formatter.getMatchsWithoutResultList().toArray(new String[0]));
+		matchBox = new JComboBox<>(matchBoxModel);
 		matchBox.setFont(new Font("Arial", Font.PLAIN, 20));
 		playersPanel.add(matchBox);
 
@@ -82,6 +80,12 @@ public class ShowGestionMatch extends JPanel {
 		mainPanel.add(choicePanel);
 
 		this.add(mainPanel, BorderLayout.CENTER);
+	}
+
+	public void updateMatchs() {
+		matchBox.setSelectedIndex(0);
+		matchBoxModel = new DefaultComboBoxModel(formatter.getMatchsWithoutResultList().toArray(new String[0]));
+		matchBox.setModel(matchBoxModel);
 	}
 
 	/**

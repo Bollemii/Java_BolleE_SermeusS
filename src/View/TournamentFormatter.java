@@ -246,6 +246,21 @@ public class TournamentFormatter {
 	}
 
 	/**
+	 * get all information of a player
+	 * @param playerID
+	 * @return player
+	 */
+	public Player getPlayer(int playerID) {
+		Player player = null;
+		try {
+			player = controller.getPlayer(playerID);
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return player;
+	}
+
+	/**
 	 * add a new match to the dataBase
 	 * @param dateStart
 	 * @param duration
@@ -335,5 +350,24 @@ public class TournamentFormatter {
 		} catch (ValueException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
+	}
+
+	/**
+	 * add results of player and calc their new elo
+	 * @param player1Result
+	 * @param player2Result
+	 * @return if everything is ok
+	 */
+	public boolean addResult(Result player1Result, Result player2Result) {
+		try {
+			int nbLinesUpdated = controller.addResults(player1Result, player2Result);
+			userInteraction.displayDataUpdate(nbLinesUpdated);
+			return nbLinesUpdated == 2;
+		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		}
+		return false;
 	}
 }

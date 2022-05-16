@@ -5,10 +5,7 @@ import Model.Match;
 import Model.Player;
 import Model.Result;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ResultDB implements ResultDataAccess {
@@ -24,30 +21,13 @@ public class ResultDB implements ResultDataAccess {
 			return 0;
 
 		try {
-			String sqlInstruction = "insert into result(player_id, match_id) values(?,?)";
+			String sqlInstruction = "insert into result(player_id, match_id, points) values(?,?,?)";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 			preparedStatement.setInt(1, result.getPlayer().getId());
 			preparedStatement.setInt(2, result.getMatch().getId());
+			preparedStatement.setInt(3, result.getPoints());
 			return preparedStatement.executeUpdate();
-		} catch (SQLException exception) {
-			throw new DataException(exception.getMessage());
-		}
-	}
-
-	@Override
-	public int updateResult(Result result) throws DataException {
-		try {
-			int nbLinesUpdated = 0;
-			if (result.getPoints() != null) {
-				String sqlInstruction = "update result set points = ? where player_id = ? and match_id = ?";
-				PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-				preparedStatement.setInt(1, result.getPoints());
-				preparedStatement.setInt(2, result.getPlayer().getId());
-				preparedStatement.setInt(3, result.getMatch().getId());
-				nbLinesUpdated = preparedStatement.executeUpdate();
-			}
-			return nbLinesUpdated;
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}

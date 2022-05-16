@@ -7,10 +7,10 @@
 - Location ou Referee occupés pour un match, quelle durée par défaut si match sans durée ? (1 match par jour, 5h, ...)
 
 ### 2. A faire
-- [ ] Tâche métier
-  - [ ] fenêtre des points
-  - [ ] ajout nouveaux results
-  - [ ] calcul elo joueurs
+- [x] Tâche métier
+  - [x] fenêtre des points
+  - [x] ajout nouveaux results
+  - [x] calcul elo joueurs
 - [x] Vérification ajout Match si Location et Referee libres pour la date
 - [x] Fenêtre animations matchs (thread + gestion fin match)
 - [x] Refaire mise en page du formulaire Match et du choix des joueurs (gestion matchs)

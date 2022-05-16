@@ -68,6 +68,9 @@ public class TournamentController {
 	public Match getMatch(int matchID) throws DataException {
 		return manager.getMatch(matchID);
 	}
+	public Player getPlayer(int playerID) throws DataException {
+		return manager.getPlayer(playerID);
+	}
 	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
 		return manager.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
@@ -82,5 +85,8 @@ public class TournamentController {
 	}
 	public int addPerson(String type, String firstName, String lastName, Character gender, GregorianCalendar birthDate, Boolean isProfessional, Integer elo, Boolean isVIP, String level) throws DataException, ValueException {
 		return manager.addPerson(type, firstName, lastName, gender, birthDate, isProfessional, elo, isVIP, level);
+	}
+	public int addResults(Result player1Result, Result player2Result) throws DataException, ValueException {
+		return manager.addResult(player1Result, player2Result);
 	}
 }

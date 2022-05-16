@@ -91,6 +91,21 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
+	public int updateEloPlayer(int playerID, int elo) throws DataException {
+		try {
+			String sqlInstruction = "update person set elo = ? where person_id = ?";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, elo);
+			preparedStatement.setInt(2, playerID);
+
+			return preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
 	public ArrayList<Player> getAllPlayers() throws DataException {
 		try {
 			String sqlInstruction = "select * from person where type_person = 'Player'";
@@ -279,6 +294,29 @@ public class PersonDB implements PersonDataAccess {
 				));
 			}
 			return list;
+		} catch (SQLException exception) {
+			throw new DataException(exception.getMessage());
+		}
+	}
+
+	@Override
+	public Player getPlayerById(int playerID) throws DataException {
+		try {
+			String sqlInstruction =
+				"select * from person where person_id = ?";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+			preparedStatement.setInt(1, playerID);
+			ResultSet data = preparedStatement.executeQuery();
+
+			data.next();
+
+			return new Player(
+				data.getInt("person_id"),
+				data.getString("first_name"),
+				data.getString("last_name"),
+				data.getInt("elo")
+			);
 		} catch (SQLException exception) {
 			throw new DataException(exception.getMessage());
 		}

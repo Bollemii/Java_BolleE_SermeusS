@@ -6,6 +6,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MatchAnimationWindow extends JFrame {
+	private final static int WIDTH = 1065;
+	private final static int HEIGHT = 820;
 	private final static int NB_MATCHS_WIDTH = 4;
 	private final static int NB_MATCHS_HEIGHT = 2;
 	private final static int MATCH_PADDING = 10;
@@ -23,7 +25,7 @@ public class MatchAnimationWindow extends JFrame {
 		this.gestionMatch = gestionMatch;
 		this.matchs = new MatchAnimationPanel[NB_MATCHS_HEIGHT][NB_MATCHS_WIDTH];
 
-		this.setSize(1065, 820);
+		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
 
@@ -138,6 +140,7 @@ public class MatchAnimationWindow extends JFrame {
 			}
 		}
 		mainPanel.remove(match);
+		gestionMatch.updateMatchs();
 		if (nbMatchs() == 0) {
 			this.dispose();
 			gestionMatch.removeMatchAnimationWindow();

@@ -9,5 +9,4 @@ public interface ResultDataAccess {
 	ArrayList<Result> getAllResults() throws DataException;
 
 	int addResult(Result result) throws DataException;
-	int updateResult(Result result) throws DataException;
 }

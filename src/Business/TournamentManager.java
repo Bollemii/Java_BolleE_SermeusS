@@ -82,6 +82,9 @@ public class TournamentManager {
 	public Match getMatch(int matchID) throws DataException {
 		return matchDataAccess.getMatch(matchID);
 	}
+	public Player getPlayer(int playerID) throws DataException {
+		return personDataAccess.getPlayerById(playerID);
+	}
 	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
 		String errorMessage = "";
 		if (!matchDataAccess.isRefereeAvailable(refereeID, dateStart)) {
@@ -90,12 +93,12 @@ public class TournamentManager {
 		if (!matchDataAccess.isLocationAvailable(locationID, dateStart)) {
 			errorMessage += "\n  - Cet emplacement est déjà occupé à ce moment";
 		}
-		if (errorMessage != "") {
+		if (!errorMessage.equals("")) {
 			throw new ValueException(errorMessage);
-		} else {
-			Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
-			return matchDataAccess.addMatch(match);
 		}
+
+		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
+		return matchDataAccess.addMatch(match);
 	}
 	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
 		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
@@ -119,16 +122,15 @@ public class TournamentManager {
 		if (seatNumber > match.getLocation().getNbSeatsPerRow()) {
 			errorMessage += "\n  - Le numéro de siège est supérieur à " + match.getLocation().getNbSeatsPerRow();
 		}
-
-		if (errorMessage != "") {
+		if (!errorMessage.equals("")) {
 			throw new ValueException(errorMessage);
+		}
+
+		if (reservationDataAccess.isReservationExist(visitorID, matchID)) {
+			throw new ValueException("\n  Ce visiteur a déjà réservé une place pour ce match");
 		} else {
-			if (reservationDataAccess.isReservationExist(visitorID, matchID)) {
-				throw new ValueException("\n  Ce visiteur a déjà réservé une place pour ce match");
-			} else {
-				Reservation reservation = new Reservation(new Visitor(visitorID), new Match(matchID), seatType, seatRow, seatNumber, cost);
-				return reservationDataAccess.addReservation(reservation);
-			}
+			Reservation reservation = new Reservation(new Visitor(visitorID), new Match(matchID), seatType, seatRow, seatNumber, cost);
+			return reservationDataAccess.addReservation(reservation);
 		}
 	}
 	public int addPerson(String type, String firstName, String lastName, Character gender, GregorianCalendar birthDate, Boolean isProfessional, Integer elo, Boolean isVIP, String level) throws DataException, ValueException {
@@ -147,5 +149,52 @@ public class TournamentManager {
 				return personDataAccess.addReferee(referee);
 			default : return -1;
 		}
+	}
+	public int addResult(Result player1Result, Result player2Result) throws DataException, ValueException {
+		String errorMessage = "";
+		if (player1Result.getPoints() < 0)
+			errorMessage += "\n  - les points du 1er joueur doivent être positifs";
+		if (player2Result.getPoints() < 0)
+			errorMessage += "\n  - les points du 2e joueur doivent être positifs";
+		if (!errorMessage.equals(""))
+			throw new ValueException(errorMessage);
+
+		int nbLinesUpdated = 0;
+		nbLinesUpdated += resultDataAccess.addResult(player1Result);
+		nbLinesUpdated += resultDataAccess.addResult(player2Result);
+
+		int oldElo1 = player1Result.getPlayer().getElo();
+		int oldElo2 = player2Result.getPlayer().getElo();
+		int points1 = player1Result.getPoints();
+		int points2 = player2Result.getPoints();
+		personDataAccess.updateEloPlayer(player1Result.getPlayer().getId(), calcElo(oldElo1, oldElo2, points1, points2));
+		personDataAccess.updateEloPlayer(player2Result.getPlayer().getId(), calcElo(oldElo2, oldElo1, points1, points2));
+
+		return nbLinesUpdated;
+	}
+
+	// calculations
+	private int calcElo(int elo1, int points1, int elo2, int points2) {
+		// Formules :	P(D) = 1 / (1 + 10 ^ (-D / 400))
+		// 				E(n+1) = E(n) + K * (W - P(D))
+
+		int d = Math.min(Math.abs(elo1 - elo2), 400);
+		if (elo1 - elo2 < 0)
+			d *= -1;
+
+		double pD = 1 / (1 + Math.pow(10, -d / 400.));
+
+		double w;
+		if (points1 == points2) {
+			w = 0.5;
+		} else if (points1 > points2) {
+			w = 1;
+		} else {
+			w = 0;
+		}
+
+		int k = elo1 < 2400 ? 30 : 10;
+
+		return Math.max((int)Math.round(elo1 + k * (w - pD)), 0);
 	}
 }

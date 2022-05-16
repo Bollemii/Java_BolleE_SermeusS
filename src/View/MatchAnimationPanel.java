@@ -67,7 +67,13 @@ public class MatchAnimationPanel extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			parentWindow.removeMatch(MatchAnimationPanel.this);
+			new PointsWindow(
+				parentWindow,
+				MatchAnimationPanel.this,
+				matchDescription,
+				playersDescription[0],
+				playersDescription[1]
+			);
 		}
 	}
 }

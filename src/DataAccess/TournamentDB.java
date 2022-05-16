@@ -42,9 +42,14 @@ public class TournamentDB implements TournamentDataAccess {
 				calendar = new GregorianCalendar();
 				calendar.setTime(data.getTimestamp("date_start"));
 				list.add(new MatchPlayerResearch(
-						new Match(calendar),
-						new Player(data.getString("first_name"), data.getString("last_name"), data.getInt("elo")),
-						data.getInt("points")
+					new Match(calendar),
+					new Player(
+						data.getInt("person_id"),
+						data.getString("first_name"),
+						data.getString("last_name"),
+						data.getInt("elo")
+					),
+					data.getInt("points")
 				));
 			}
 			return list;
@@ -63,8 +68,8 @@ public class TournamentDB implements TournamentDataAccess {
 			ArrayList<Tournament> list = new ArrayList<>();
 			while (data.next()) {
 				list.add(new Tournament(
-						data.getInt("tournament_id"),
-						data.getString("name")
+					data.getInt("tournament_id"),
+					data.getString("name")
 				));
 			}
 			return list;
