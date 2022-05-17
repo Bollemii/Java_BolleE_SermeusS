@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.Match;
 import Model.MatchPlayerResearch;
 import Model.Player;
@@ -21,7 +22,7 @@ public class TournamentDB implements TournamentDataAccess {
 	}
 
 	@Override
-	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select m.date_start, p.*, r.points " +
 					"from tournament t " +

@@ -1,18 +1,14 @@
 package DataAccess;
 
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.Location;
 import Model.Match;
 import Model.Referee;
 import Model.Tournament;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.sql.*;
+import java.util.*;
 
 public class MatchDB implements MatchDataAccess {
 	private Connection connection;
@@ -99,7 +95,7 @@ public class MatchDB implements MatchDataAccess {
 	}
 
 	@Override
-	public ArrayList<Match> getAllMatchs() throws DataException {
+	public ArrayList<Match> getAllMatchs() throws DataException, ValueException {
 		try {
 			String sqlInstruction =
 					"select * " +
@@ -117,7 +113,7 @@ public class MatchDB implements MatchDataAccess {
 	}
 
 	@Override
-	public Match getMatch(int matchID) throws DataException {
+	public Match getMatch(int matchID) throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select * " +
 					"from `match` m " +
@@ -158,7 +154,7 @@ public class MatchDB implements MatchDataAccess {
 		}
 	}
 
-	private ArrayList<Match> getMatchs(ResultSet data) throws SQLException {
+	private ArrayList<Match> getMatchs(ResultSet data) throws SQLException, ValueException {
 		ArrayList<Match> list = new ArrayList<>();
 
 		Match match;

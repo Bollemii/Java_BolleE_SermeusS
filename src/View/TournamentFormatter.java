@@ -75,6 +75,8 @@ public class TournamentFormatter {
 			}
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return list;
 	}
@@ -89,6 +91,8 @@ public class TournamentFormatter {
 				list.add(player.toString());
 			}
 		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return list;
@@ -105,6 +109,8 @@ public class TournamentFormatter {
 			}
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return list;
 	}
@@ -119,6 +125,8 @@ public class TournamentFormatter {
 				list.add(visitor.toString());
 			}
 		} catch (DataException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return list;
@@ -135,6 +143,8 @@ public class TournamentFormatter {
 			}
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return list;
 	}
@@ -150,6 +160,8 @@ public class TournamentFormatter {
 			listMatchs = controller.getAllMatchs();
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listMatchs;
 	}
@@ -163,13 +175,15 @@ public class TournamentFormatter {
 			listPlayers = controller.getAllPlayers();
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listPlayers;
 	}
 
 	/**
 	 * get all information of all matchs of a tournament
-	 * @param tournamentID
+	 * @param tournamentID id of tournament
 	 * @return all matchs of a tournament
 	 */
 	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) {
@@ -178,13 +192,15 @@ public class TournamentFormatter {
 			listMatchs = controller.getMatchsTournament(tournamentID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listMatchs;
 	}
 
 	/**
 	 * get all information of all matchs of a player
-	 * @param playerID
+	 * @param playerID id of player
 	 * @return all matchs of a player
 	 */
 	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) {
@@ -193,13 +209,15 @@ public class TournamentFormatter {
 			listMatchs = controller.getMatchsPlayer(playerID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listMatchs;
 	}
 
 	/**
 	 * get all information of all reservations of a visitor
-	 * @param visitorID
+	 * @param visitorID id of visitor
 	 * @return all reservations of a visitor
 	 */
 	public ArrayList<Reservation> getReservationsVisitor(int visitorID) {
@@ -208,15 +226,17 @@ public class TournamentFormatter {
 			listReservations = controller.getReservationsVisitor(visitorID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return listReservations;
 	}
 
 	/**
 	 * get all persons who have her birthdays between the dates
-	 * @param date1
-	 * @param date2
-	 * @return
+	 * @param date1 date start of period
+	 * @param date2 date end of period
+	 * @return persons list who have their birthday in the period
 	 */
 	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) {
 		ArrayList<Person> listPersons = new ArrayList<>();
@@ -232,7 +252,7 @@ public class TournamentFormatter {
 
 	/**
 	 * get all information of a match
-	 * @param matchID
+	 * @param matchID id of match
 	 * @return match
 	 */
 	public Match getMatch(int matchID) {
@@ -241,13 +261,15 @@ public class TournamentFormatter {
 			match = controller.getMatch(matchID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return match;
 	}
 
 	/**
 	 * get all information of a player
-	 * @param playerID
+	 * @param playerID id of player
 	 * @return player
 	 */
 	public Player getPlayer(int playerID) {
@@ -256,19 +278,21 @@ public class TournamentFormatter {
 			player = controller.getPlayer(playerID);
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 		return player;
 	}
 
 	/**
 	 * add a new match to the dataBase
-	 * @param dateStart
-	 * @param duration
-	 * @param isFinal
-	 * @param comment
-	 * @param tournamentID
-	 * @param refereeID
-	 * @param locationID
+	 * @param dateStart date of match
+	 * @param duration duration of match
+	 * @param isFinal if is a final
+	 * @param comment comment of match
+	 * @param tournamentID id of tournament
+	 * @param refereeID id of referee
+	 * @param locationID id of location
 	 */
 	public void addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) {
 		try {
@@ -282,26 +306,28 @@ public class TournamentFormatter {
 
 	/**
 	 * update a match into the dataBase
-	 * @param matchID
-	 * @param dateStart
-	 * @param duration
-	 * @param isFinal
-	 * @param comment
-	 * @param tournamentID
-	 * @param refereeID
-	 * @param locationID
+	 * @param matchID id of match
+	 * @param dateStart date of match
+	 * @param duration duration of match
+	 * @param isFinal if is a final
+	 * @param comment comment of match
+	 * @param tournamentID id of tournament
+	 * @param refereeID id of referee
+	 * @param locationID id of location
 	 */
 	public void updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) 	{
 		try {
 			userInteraction.displayDataUpdate(controller.updateMatch(matchID, dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID));
 		} catch (DataException exception) {
 			userInteraction.displayErrorMessage(exception.getMessage());
+		} catch (ValueException exception) {
+			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 	}
 
 	/**
-	 * delete matchs from the list in the dataBase
-	 * @param matchs
+	 * delete matchs of the list in the dataBase
+	 * @param matchs matchs list
 	 */
 	public void deleteMatch(ArrayList<Match> matchs) {
 		try {
@@ -313,12 +339,12 @@ public class TournamentFormatter {
 
 	/**
 	 * add a new reservation in the dataBase
-	 * @param visitorID
-	 * @param matchID
-	 * @param seatType
-	 * @param seatRow
-	 * @param seatNumber
-	 * @param cost
+	 * @param visitorID id of visitor
+	 * @param matchID id of match
+	 * @param seatType type of seat
+	 * @param seatRow the row of seat
+	 * @param seatNumber number in row of seat
+	 * @param cost cost of seat
 	 */
 	public void addReservation(int visitorID, int matchID, String seatType, char seatRow, int seatNumber, double cost) {
 		try {
@@ -332,15 +358,15 @@ public class TournamentFormatter {
 
 	/**
 	 * add a new Person : Player, Referee or Visitor
-	 * @param type
-	 * @param firstName
-	 * @param lastName
-	 * @param gender
-	 * @param birthDate
-	 * @param isProfessional
-	 * @param elo
-	 * @param isVIP
-	 * @param level
+	 * @param type type of person
+	 * @param firstName first name of person
+	 * @param lastName last name of person
+	 * @param gender gender of person
+	 * @param birthDate birthdate of person
+	 * @param isProfessional if is a professional player
+	 * @param elo elo of player
+	 * @param isVIP if is a vip visitor
+	 * @param level level of referee
 	 */
 	public void addPerson(String type, String firstName, String lastName, Character gender, GregorianCalendar birthDate, Boolean isProfessional, Integer elo, Boolean isVIP, String level) {
 		try {
@@ -354,8 +380,8 @@ public class TournamentFormatter {
 
 	/**
 	 * add results of player and calc their new elo
-	 * @param player1Result
-	 * @param player2Result
+	 * @param player1Result result of first player in the match
+	 * @param player2Result result of second player in the match
 	 * @return if everything is ok
 	 */
 	public boolean addResult(Result player1Result, Result player2Result) {

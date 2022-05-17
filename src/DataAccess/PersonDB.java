@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.*;
 
 import java.sql.Connection;
@@ -106,7 +107,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public ArrayList<Player> getAllPlayers() throws DataException {
+	public ArrayList<Player> getAllPlayers() throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select * from person where type_person = 'Player'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
@@ -136,7 +137,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public ArrayList<Referee> getAllReferees() throws DataException {
+	public ArrayList<Referee> getAllReferees() throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select * from person where type_person = 'Referee'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
@@ -157,7 +158,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public ArrayList<Visitor> getAllVisitors() throws DataException {
+	public ArrayList<Visitor> getAllVisitors() throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select * from person where type_person = 'Visitor'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
@@ -178,7 +179,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select t.*, m.date_start, l.*, j.*, r.points " +
 					"from person p " +
@@ -218,7 +219,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
+	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select t.*, m.date_start, r.*, l.* " +
 					"from person v " +
@@ -267,7 +268,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public ArrayList<Person> getByBirthday(GregorianCalendar date1, GregorianCalendar date2) throws DataException {
+	public ArrayList<Person> getByBirthday(GregorianCalendar date1, GregorianCalendar date2) throws DataException, ValueException {
 		try {
 			String sqlInstruction =
 				"select person_id, first_name, last_name, birth_date, gender, type_person " +
@@ -300,7 +301,7 @@ public class PersonDB implements PersonDataAccess {
 	}
 
 	@Override
-	public Player getPlayerById(int playerID) throws DataException {
+	public Player getPlayerById(int playerID) throws DataException, ValueException {
 		try {
 			String sqlInstruction =
 				"select * from person where person_id = ?";

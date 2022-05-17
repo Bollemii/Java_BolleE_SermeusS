@@ -27,19 +27,19 @@ public class TournamentController {
 	public ArrayList<Match> getMatchsList() throws DataException {
 		return manager.getMatchsList();
 	}
-	public ArrayList<Player> getPlayersList() throws DataException {
+	public ArrayList<Player> getPlayersList() throws DataException, ValueException {
 		return manager.getPlayersList();
 	}
-	public ArrayList<Referee> getRefereesList() throws DataException {
+	public ArrayList<Referee> getRefereesList() throws DataException, ValueException {
 		return manager.getRefereesList();
 	}
-	public ArrayList<Visitor> getVisitorsList() throws DataException {
+	public ArrayList<Visitor> getVisitorsList() throws DataException, ValueException {
 		return manager.getVisitorsList();
 	}
-	public ArrayList<Location> getLocationsList() throws DataException {
+	public ArrayList<Location> getLocationsList() throws DataException, ValueException {
 		return manager.getLocationsList();
 	}
-	public ArrayList<Match> getMatchsWithoutResultList() throws DataException {
+	public ArrayList<Match> getMatchsWithoutResultList() throws DataException, ValueException {
 		ArrayList<Integer> resultMatchID = (ArrayList<Integer>) manager.getResultList().stream().map(r -> r.getMatch().getId()).collect(Collectors.toList());
 		ArrayList<Match> matchs = manager.getAllMatchs();
 		matchs.removeIf(match -> resultMatchID.contains(match.getId()));
@@ -47,34 +47,34 @@ public class TournamentController {
 	}
 
 	// methods for data operations
-	public ArrayList<Match> getAllMatchs() throws DataException {
+	public ArrayList<Match> getAllMatchs() throws DataException, ValueException {
 		return manager.getAllMatchs();
 	}
-	public ArrayList<Player> getAllPlayers() throws DataException {
+	public ArrayList<Player> getAllPlayers() throws DataException, ValueException {
 		return manager.getAllPlayers();
 	}
-	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException, ValueException {
 		return manager.getMatchsTournament(tournamentID);
 	}
-	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException, ValueException {
 		return manager.getMatchsPlayer(playerID);
 	}
-	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
+	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException, ValueException {
 		return manager.getReservationsVisitor(visitorID);
 	}
 	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) throws DataException, ValueException {
 		return manager.getPersonsBirthdays(date1, date2);
 	}
-	public Match getMatch(int matchID) throws DataException {
+	public Match getMatch(int matchID) throws DataException, ValueException {
 		return manager.getMatch(matchID);
 	}
-	public Player getPlayer(int playerID) throws DataException {
+	public Player getPlayer(int playerID) throws DataException, ValueException {
 		return manager.getPlayer(playerID);
 	}
 	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
 		return manager.addMatch(dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
-	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
+	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
 		return manager.updateMatch(matchID, dateStart, duration, isFinal, comment, tournamentID, refereeID, locationID);
 	}
 	public int deleteMatch(ArrayList<Match> matchs) throws DataException {

@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ManagerUtils {
+public abstract class ManagerUtils {
 	/**
 	 * get the id from description
 	 * @Format: text (id)

@@ -9,6 +9,6 @@ public class ValueException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "Valeur erronée :" + message;
+		return "Valeur erronée : " + message;
 	}
 }

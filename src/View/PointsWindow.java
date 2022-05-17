@@ -1,6 +1,7 @@
 package View;
 
 import Business.ManagerUtils;
+import Exceptions.ValueException;
 import Model.Match;
 import Model.Player;
 import Model.Result;
@@ -79,16 +80,20 @@ public class PointsWindow extends JFrame {
 			if (e.getSource() == cancel) {
 				PointsWindow.this.dispose();
 			} else if (e.getSource() == validate) {
-				Match match = new Match(ManagerUtils.getMatchIDFromDescription(matchDescription));
-				Player player1 = formatter.getPlayer(ManagerUtils.getIDFromDescription(player1Description));
-				Player player2 = formatter.getPlayer(ManagerUtils.getIDFromDescription(player2Description));
-				boolean isOK = formatter.addResult(
-					new Result(player1, match, (int)player1Points.getValue()),
-					new Result(player2, match, (int)player2Points.getValue())
-				);
-				if (isOK) {
-					PointsWindow.this.dispose();
-					parentWindow.removeMatch(parentPanel);
+				try {
+					Match match = new Match(ManagerUtils.getMatchIDFromDescription(matchDescription));
+					Player player1 = formatter.getPlayer(ManagerUtils.getIDFromDescription(player1Description));
+					Player player2 = formatter.getPlayer(ManagerUtils.getIDFromDescription(player2Description));
+					boolean isOK = formatter.addResult(
+						new Result(player1, match, (int) player1Points.getValue()),
+						new Result(player2, match, (int) player2Points.getValue())
+					);
+					if (isOK) {
+						PointsWindow.this.dispose();
+						parentWindow.removeMatch(parentPanel);
+					}
+				} catch (ValueException exception) {
+					userInteraction.displayErrorMessage(exception.getMessage());
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.Location;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ public class LocationDB implements LocationDataAccess {
 	}
 
 	@Override
-	public ArrayList<Location> getAllLocations() throws DataException {
+	public ArrayList<Location> getAllLocations() throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select * from location";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);

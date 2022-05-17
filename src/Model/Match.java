@@ -1,6 +1,7 @@
 package Model;
 
 import Business.ManagerUtils;
+import Exceptions.ValueException;
 
 import java.util.GregorianCalendar;
 
@@ -14,32 +15,32 @@ public class Match {
 	private Referee referee;
 	private Location location;
 
-	public Match(Integer id, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, Tournament tournament, Referee referee, Location location) {
+	public Match(Integer id, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, Tournament tournament, Referee referee, Location location) throws ValueException {
 		this.id = id;
 		this.dateStart = dateStart;
-		this.duration = duration;
+		setDuration(duration);
 		this.isFinal = isFinal;
 		this.comment = comment;
 		this.tournament = tournament;
 		this.referee = referee;
 		this.location = location;
 	}
-	public Match(Integer id, GregorianCalendar dateStart, Boolean isFinal, Tournament tournament, Referee referee, Location location) {
+	public Match(Integer id, GregorianCalendar dateStart, Boolean isFinal, Tournament tournament, Referee referee, Location location) throws ValueException {
 		this(id, dateStart, null, isFinal, null, tournament, referee, location);
 	}
-	public Match(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, Tournament tournament, Referee referee, Location location) {
+	public Match(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, Tournament tournament, Referee referee, Location location) throws ValueException {
 		this(null, dateStart, duration, isFinal, comment, tournament, referee, location);
 	}
-	public Match(GregorianCalendar dateStart, Tournament tournament, Referee referee, Location location) {
+	public Match(GregorianCalendar dateStart, Tournament tournament, Referee referee, Location location) throws ValueException {
 		this(null, dateStart, null, tournament, referee, location);
 	}
-	public Match(Integer id, GregorianCalendar dateStart, Tournament tournament, Location location) {
+	public Match(Integer id, GregorianCalendar dateStart, Tournament tournament, Location location) throws ValueException {
 		this(id, dateStart, null, tournament, null, location);
 	}
-	public Match(GregorianCalendar dateStart) {
+	public Match(GregorianCalendar dateStart) throws ValueException {
 		this(null, dateStart, null, null);
 	}
-	public Match(Integer id) {
+	public Match(Integer id) throws ValueException {
 		this(id, null, null, null);
 	}
 
@@ -68,13 +69,15 @@ public class Match {
 		return location;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(Integer duration) throws ValueException {
+		if (duration != null && duration < 0)
+			throw new ValueException("La durée d'un match doit être positive");
 		this.duration = duration;
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

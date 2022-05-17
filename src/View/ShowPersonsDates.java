@@ -38,10 +38,10 @@ public class ShowPersonsDates extends JPanel {
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
 
 		JPanel choicePanel = new JPanel();
-		date1Spinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, null, Calendar.YEAR));
+		date1Spinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, Date.from(Instant.now()), Calendar.YEAR));
 		date1Spinner.setEditor(new JSpinner.DateEditor(date1Spinner, "dd-MM-yyyy"));
 		choicePanel.add(date1Spinner);
-		date2Spinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, null, Calendar.YEAR));
+		date2Spinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, Date.from(Instant.now()), Calendar.YEAR));
 		date2Spinner.setEditor(new JSpinner.DateEditor(date2Spinner, "dd-MM-yyyy"));
 		choicePanel.add(date2Spinner);
 		submit = new JButton("Valider");

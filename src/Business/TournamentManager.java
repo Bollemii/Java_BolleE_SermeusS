@@ -39,38 +39,42 @@ public class TournamentManager {
 		return tournamentDataAccess.getAllTournaments();
 	}
 	public ArrayList<Match> getMatchsList() throws DataException {
-		return matchDataAccess.getAllMatchs();
+		try {
+			return matchDataAccess.getAllMatchs();
+		} catch (ValueException exception) {
+			throw new RuntimeException(exception);
+		}
 	}
-	public ArrayList<Player> getPlayersList() throws DataException {
+	public ArrayList<Player> getPlayersList() throws DataException, ValueException {
 		return personDataAccess.getAllPlayers();
 	}
-	public ArrayList<Referee> getRefereesList() throws DataException {
+	public ArrayList<Referee> getRefereesList() throws DataException, ValueException {
 		return personDataAccess.getAllReferees();
 	}
-	public ArrayList<Location> getLocationsList() throws DataException {
+	public ArrayList<Location> getLocationsList() throws DataException, ValueException {
 		return locationDataAccess.getAllLocations();
 	}
-	public ArrayList<Visitor> getVisitorsList() throws DataException {
+	public ArrayList<Visitor> getVisitorsList() throws DataException, ValueException {
 		return personDataAccess.getAllVisitors();
 	}
-	public ArrayList<Result> getResultList() throws DataException {
+	public ArrayList<Result> getResultList() throws DataException, ValueException {
 		return resultDataAccess.getAllResults();
 	}
 
 	// methods for data operations
-	public ArrayList<Match> getAllMatchs() throws DataException {
+	public ArrayList<Match> getAllMatchs() throws DataException, ValueException {
 		return matchDataAccess.getAllMatchs();
 	}
-	public ArrayList<Player> getAllPlayers() throws DataException {
+	public ArrayList<Player> getAllPlayers() throws DataException, ValueException {
 		return personDataAccess.getAllPlayers();
 	}
-	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsTournament(int tournamentID) throws DataException, ValueException {
 		return tournamentDataAccess.getMatchsTournament(tournamentID);
 	}
-	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException {
+	public ArrayList<MatchPlayerResearch> getMatchsPlayer(int playerID) throws DataException, ValueException {
 		return personDataAccess.getMatchsPlayer(playerID);
 	}
-	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException {
+	public ArrayList<Reservation> getReservationsVisitor(int visitorID) throws DataException, ValueException {
 		return personDataAccess.getReservationsVisitor(visitorID);
 	}
 	public ArrayList<Person> getPersonsBirthdays(GregorianCalendar date1, GregorianCalendar date2) throws DataException, ValueException {
@@ -79,10 +83,10 @@ public class TournamentManager {
 
 		return personDataAccess.getByBirthday(date1, date2);
 	}
-	public Match getMatch(int matchID) throws DataException {
+	public Match getMatch(int matchID) throws DataException, ValueException {
 		return matchDataAccess.getMatch(matchID);
 	}
-	public Player getPlayer(int playerID) throws DataException {
+	public Player getPlayer(int playerID) throws DataException, ValueException {
 		return personDataAccess.getPlayerById(playerID);
 	}
 	public int addMatch(GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
@@ -100,7 +104,7 @@ public class TournamentManager {
 		Match match = new Match(dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		return matchDataAccess.addMatch(match);
 	}
-	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException {
+	public int updateMatch(int matchID, GregorianCalendar dateStart, Integer duration, Boolean isFinal, String comment, int tournamentID, int refereeID, int locationID) throws DataException, ValueException {
 		Match match = new Match(matchID, dateStart, duration, isFinal, comment, new Tournament(tournamentID), new Referee(refereeID), new Location(locationID));
 		return matchDataAccess.updateMatch(match);
 	}

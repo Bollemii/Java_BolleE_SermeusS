@@ -1,22 +1,17 @@
 package View;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class MainWindow extends JFrame {
 	private final static int WIDTH = 1080;
 	private final static int HEIGHT = 700;
 	private TournamentFormatter formatter;
-	private UserInteraction userInteraction;
 	private Container container;
 	private JMenuBar menuBar;
 	private JMenu appMenu;
-	private JMenuItem exit;
+	private JMenuItem welcome, exit;
 	private JMenu tournament;
 	private JMenuItem playerInscription, showMatchsTournament, matchManagement;
 	private JMenu match;
@@ -25,16 +20,18 @@ public class MainWindow extends JFrame {
 	private JMenuItem showPlayer, showMatchsPlayer, showPersonsDates;
 	private JMenu visitor;
 	private JMenuItem reservation, showReservation;
-	private BufferedImage image;
 
 	public MainWindow() {
 		super("Gestion de tournois");
 
 		formatter = new TournamentFormatter();
-		userInteraction = new UserInteraction();
 
 		this.setSize(WIDTH, HEIGHT);
 		this.setLocationRelativeTo(null);
+
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("pictures/Trophy.png"));
+
+		HandleShowPanel handleShowPanel = new HandleShowPanel();
 
 		menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);
@@ -42,6 +39,10 @@ public class MainWindow extends JFrame {
 		appMenu = new JMenu("Application");
 		appMenu.setMnemonic('F');
 		menuBar.add(appMenu);
+
+		welcome = new JMenuItem("Accueil");
+		welcome.addActionListener(handleShowPanel);
+		appMenu.add(welcome);
 
 		exit = new JMenuItem("Quitter");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
@@ -55,15 +56,15 @@ public class MainWindow extends JFrame {
 		menuBar.add(tournament);
 
 		playerInscription = new JMenuItem("Nouvelle personne");
-		playerInscription.addActionListener(new HandleShowPanel());
+		playerInscription.addActionListener(handleShowPanel);
 		tournament.add(playerInscription);
 
 		showMatchsTournament = new JMenuItem("Afficher matchs et joueurs d'un tournoi");
-		showMatchsTournament.addActionListener(new HandleShowPanel());
+		showMatchsTournament.addActionListener(handleShowPanel);
 		tournament.add(showMatchsTournament);
 
 		matchManagement = new JMenuItem("Gestion des matchs");
-		matchManagement.addActionListener(new HandleShowPanel());
+		matchManagement.addActionListener(handleShowPanel);
 		tournament.add(matchManagement);
 
 		match = new JMenu("Match");
@@ -71,19 +72,19 @@ public class MainWindow extends JFrame {
 		menuBar.add(match);
 
 		addMatch = new JMenuItem("Ajouter match");
-		addMatch.addActionListener(new HandleShowPanel());
+		addMatch.addActionListener(handleShowPanel);
 		match.add(addMatch);
 
 		showMatchTable = new JMenuItem("Afficher tableau des matchs");
-		showMatchTable.addActionListener(new HandleShowPanel());
+		showMatchTable.addActionListener(handleShowPanel);
 		match.add(showMatchTable);
 
 		modifyMatch = new JMenuItem("Modifier match");
-		modifyMatch.addActionListener(new HandleShowPanel());
+		modifyMatch.addActionListener(handleShowPanel);
 		match.add(modifyMatch);
 
 		deleteMatch = new JMenuItem("Supprimer match");
-		deleteMatch.addActionListener(new HandleShowPanel());
+		deleteMatch.addActionListener(handleShowPanel);
 		match.add(deleteMatch);
 
 		player = new JMenu("Joueur");
@@ -91,15 +92,15 @@ public class MainWindow extends JFrame {
 		menuBar.add(player);
 
 		showPlayer = new JMenuItem("Afficher tableau des joueurs");
-		showPlayer.addActionListener(new HandleShowPanel());
+		showPlayer.addActionListener(handleShowPanel);
 		player.add(showPlayer);
 
 		showMatchsPlayer = new JMenuItem("Afficher matchs d'un joueur");
-		showMatchsPlayer.addActionListener(new HandleShowPanel());
+		showMatchsPlayer.addActionListener(handleShowPanel);
 		player.add(showMatchsPlayer);
 
 		showPersonsDates = new JMenuItem("Afficher personnes selon anniversaire");
-		showPersonsDates.addActionListener(new HandleShowPanel());
+		showPersonsDates.addActionListener(handleShowPanel);
 		player.add(showPersonsDates);
 
 		visitor = new JMenu("Visiteur");
@@ -107,22 +108,15 @@ public class MainWindow extends JFrame {
 		menuBar.add(visitor);
 
 		reservation = new JMenuItem("Réservation");
-		reservation.addActionListener(new HandleShowPanel());
+		reservation.addActionListener(handleShowPanel);
 		visitor.add(reservation);
 
 		showReservation = new JMenuItem("Afficher réservations d'un visiteur");
-		showReservation.addActionListener(new HandleShowPanel());
+		showReservation.addActionListener(handleShowPanel);
 		visitor.add(showReservation);
 
 		container = getContentPane();
-		JLabel welcome = new JLabel("Bienvenue dans l'application de gestion de tournois", SwingConstants.CENTER);
-		welcome.setFont(new Font("Arial", Font.PLAIN, 25));
-		container.add(welcome);
-		try {
-			image = ImageIO.read(new File("pictures/gagnant-podium.png"));
-		} catch (IOException exception) {
-			userInteraction.displayErrorMessage(exception.getMessage());
-		}
+		container.add(new ShowWelcome());
 
 		this.addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) {
 			formatter.closeConnection();
@@ -132,17 +126,9 @@ public class MainWindow extends JFrame {
 		this.setVisible(true);
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		if (image != null)
-			g.drawImage(image, WIDTH/2 - image.getWidth()/2, HEIGHT/2 - image.getHeight() + 30, null);
-	}
-
 	private class HandleShowPanel implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			container.removeAll();
-			image = null;
 			MainWindow.this.add(getPanel(e));
 			MainWindow.this.validate();
 		}
@@ -153,7 +139,9 @@ public class MainWindow extends JFrame {
 		 * @return panel
 		 */
 		public JPanel getPanel(ActionEvent e) {
-			if (e.getSource() == playerInscription) {
+			if (e.getSource() == welcome) {
+				return new ShowWelcome();
+			} else if (e.getSource() == playerInscription) {
 				return new ShowNewPerson();
 			} else if (e.getSource() == showMatchsTournament) {
 				return new ShowMatchsTournament();

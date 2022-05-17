@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Exceptions.DataException;
+import Exceptions.ValueException;
 import Model.Match;
 import Model.Player;
 import Model.Result;
@@ -34,7 +35,7 @@ public class ResultDB implements ResultDataAccess {
 	}
 
 	@Override
-	public ArrayList<Result> getAllResults() throws DataException {
+	public ArrayList<Result> getAllResults() throws DataException, ValueException {
 		try {
 			String sqlInstruction = "select * from result";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
