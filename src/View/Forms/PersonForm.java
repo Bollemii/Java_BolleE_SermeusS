@@ -1,5 +1,7 @@
 package View.Forms;
 
+import Exceptions.RequirementFieldException;
+import Exceptions.ValueException;
 import View.TournamentFormatter;
 import View.UserInteraction;
 
@@ -8,15 +10,14 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PersonForm extends JPanel {								// A FAIRE
 	private TournamentFormatter formatter;
@@ -44,10 +45,10 @@ public class PersonForm extends JPanel {								// A FAIRE
 		RadioListener radioListener = new RadioListener();
 
 		formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(9, 2, 10, 10));
+		formPanel.setLayout(new GridLayout(10, 2, 10, 10));
 		formPanel.setOpaque(false);
 
-		formPanel.add(new JLabel("Type de personne : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Type de personne * : ", SwingConstants.RIGHT));
 		typePanel = new JPanel();
 		ButtonGroup typeGroup = new ButtonGroup();
 		playerRadio = new JRadioButton("Joueur", true);
@@ -68,7 +69,7 @@ public class PersonForm extends JPanel {								// A FAIRE
 		typePanel.setOpaque(false);
 		formPanel.add(typePanel);
 
-		formPanel.add(new JLabel("Genre : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Genre * : ", SwingConstants.RIGHT));
 		genderPanel = new JPanel();
 		ButtonGroup genderGroup = new ButtonGroup();
 		manRadio = new JRadioButton("Homme", true);
@@ -86,44 +87,48 @@ public class PersonForm extends JPanel {								// A FAIRE
 		genderPanel.setOpaque(false);
 		formPanel.add(genderPanel);
 
-
-		formPanel.add(new JLabel("Prénom : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Prénom * : ", SwingConstants.RIGHT));
 		firstNameText = new JTextField();
 		formPanel.add(firstNameText);
 
-		formPanel.add(new JLabel("Nom : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Nom * : ", SwingConstants.RIGHT));
 		lastNameText = new JTextField();
 		formPanel.add(lastNameText);
 
-		formPanel.add(new JLabel("Date de naissance : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Date de naissance * : ", SwingConstants.RIGHT));
 		birthDateSpinner = new JSpinner(new SpinnerDateModel(new GregorianCalendar(2000, 01, 01).getTime(), null, Date.from(Instant.now()), Calendar.YEAR));
 		birthDateSpinner.setEditor(new JSpinner.DateEditor(birthDateSpinner, "dd-MM-yyyy"));
 		formPanel.add(birthDateSpinner);
 
 		// Player fields
-		professionalLabel = new JLabel("Est professionnel : ", SwingConstants.RIGHT);
+		professionalLabel = new JLabel("Est professionnel * : ", SwingConstants.RIGHT);
 		formPanel.add(professionalLabel);
 		professionalCheck = new JCheckBox();
 		professionalCheck.setOpaque(false);
 		formPanel.add(professionalCheck);
 
-		eloLabel = new JLabel("Elo : ", SwingConstants.RIGHT);
+		eloLabel = new JLabel("Elo * : ", SwingConstants.RIGHT);
 		formPanel.add(eloLabel);
 		eloSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100000, 1));
 		formPanel.add(eloSpinner);
 
 		// Visitor field
-		vipLabel = new JLabel("Est VIP : ", SwingConstants.RIGHT);
+		vipLabel = new JLabel("Est VIP * : ", SwingConstants.RIGHT);
 		formPanel.add(vipLabel);
 		vipCheck = new JCheckBox();
 		vipCheck.setOpaque(false);
 		formPanel.add(vipCheck);
 
 		// Referee field
-		levelLabel = new JLabel("Niveau : ", SwingConstants.RIGHT);
+		levelLabel = new JLabel("Niveau * : ", SwingConstants.RIGHT);
 		formPanel.add(levelLabel);
 		levelText = new JTextField();
 		formPanel.add(levelText);
+
+		JLabel requirement = new JLabel("* : champs obligatoires", SwingConstants.LEFT);
+		requirement.setForeground(Color.RED);
+		requirement.setFont(new Font("italics font", Font.ITALIC, 12));
+		formPanel.add(requirement);
 
 		this.add(formPanel, BorderLayout.CENTER);
 
@@ -171,18 +176,40 @@ public class PersonForm extends JPanel {								// A FAIRE
 			errorMessage += "\n  - Le niveau d'arbitre n'est pas spécifié";
 		}
 
-		if (errorMessage != "") {
-			userInteraction.displayErrorMessage("Des champs obligatoires ne sont pas remplis :" + errorMessage);
-			return false;
+		if (!errorMessage.equals("")) {
+			userInteraction.displayErrorMessage(new RequirementFieldException(errorMessage).getMessage());
 		}
-		return true;
+		return errorMessage.equals("");
+	}
+
+	/**
+	 * test if firstName and lastName haven't digits
+	 * @return if firstName and lastName haven't digits
+	 */
+	private boolean validateTextValues() {
+		String errorMessage = "";
+
+		Pattern pattern = Pattern.compile("^\\D+$");
+		Matcher matcher = pattern.matcher(firstNameText.getText());
+		if (!matcher.find()) {
+			errorMessage += "\n  - Le prénom ne peut pas contenir de chiffre";
+		}
+		matcher = pattern.matcher(lastNameText.getText());
+		if (!matcher.find()) {
+			errorMessage += "\n  - Le nom ne peut pas contenir de chiffre";
+		}
+
+		if (!errorMessage.equals("")) {
+			userInteraction.displayErrorMessage(new ValueException(errorMessage).getMessage());
+		}
+		return errorMessage.equals("");
 	}
 
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == validate) {
-				if (validateRequiredFields()) {
+				if (validateRequiredFields() && validateTextValues()) {
 					GregorianCalendar birthDate = new GregorianCalendar(
 							Integer.parseInt(new SimpleDateFormat("yyyy").format(birthDateSpinner.getValue())),
 							Integer.parseInt(new SimpleDateFormat("MM").format(birthDateSpinner.getValue())) - 1,

@@ -9,7 +9,7 @@ public abstract class ManagerUtils {
 	/**
 	 * get the id from description
 	 * @Format: text (id)
-	 * @param description
+	 * @param description description of Person, Location, Tournament... except Match
 	 * @return identifier
 	 */
 	public static Integer getIDFromDescription(String description) {
@@ -22,7 +22,7 @@ public abstract class ManagerUtils {
 	/**
 	 * get the match id from his description
 	 * @Format: id (date)
-	 * @param description
+	 * @param description description of Match
 	 * @return match identifier
 	 */
 	public static Integer getMatchIDFromDescription(String description) {
@@ -33,32 +33,8 @@ public abstract class ManagerUtils {
 	}
 
 	/**
-	 * get match date from his description
-	 * @Format: id (date)
-	 * @param description
-	 * @return match date
-	 */
-	public static GregorianCalendar getMatchDateFromDescription(String description) {
-		Pattern pattern = Pattern.compile("\\d+ \\((.*)\\)");
-		Matcher matcher = pattern.matcher(description);
-
-		if (matcher.find()) {
-			String dateText = matcher.group(1);
-
-			return new GregorianCalendar(
-				Integer.parseInt(dateText.substring(6, 10)),
-				Integer.parseInt(dateText.substring(3, 5))-1,
-				Integer.parseInt(dateText.substring(0, 2)),
-				Integer.parseInt(dateText.substring(11, 13)),
-				Integer.parseInt(dateText.substring(14, 16))
-			);
-		}
-		return null;
-	}
-
-	/**
 	 * get the toString from calendar with hour
-	 * @param calendar
+	 * @param calendar date to get date and hour description
 	 * @return toString from calendar
 	 */
 	public static String getDateHourString(GregorianCalendar calendar) {
@@ -67,7 +43,7 @@ public abstract class ManagerUtils {
 
 	/**
 	 * get the toString from calendar
-	 * @param calendar
+	 * @param calendar date to get date description
 	 * @return toString from calendar
 	 */
 	public static String getDateString(GregorianCalendar calendar) {

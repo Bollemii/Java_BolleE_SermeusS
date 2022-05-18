@@ -1,6 +1,8 @@
 package View.Forms;
 
 import Business.ManagerUtils;
+import Exceptions.RequirementFieldException;
+import Exceptions.ValueException;
 import View.TournamentFormatter;
 import View.UserInteraction;
 
@@ -14,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReservationForm extends JPanel {
 	private TournamentFormatter formatter;
@@ -42,19 +46,19 @@ public class ReservationForm extends JPanel {
 		formPanel.setLayout(new GridLayout(7, 2, 10, 10));
 		formPanel.setOpaque(false);
 
-		formPanel.add(new JLabel("Visiteur : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Visiteur * : ", SwingConstants.RIGHT));
 		visitorBox = new JComboBox<>(formatter.getVisitorsList().toArray(new String[0]));
 		formPanel.add(visitorBox);
 
-		formPanel.add(new JLabel("Match : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Match * : ", SwingConstants.RIGHT));
 		matchBox = new JComboBox<>(formatter.getMatchsList().toArray(new String[0]));
 		formPanel.add(matchBox);
 
-		formPanel.add(new JLabel("Type de siège : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Type de siège * : ", SwingConstants.RIGHT));
 		seatTypeText = new JTextField();
 		formPanel.add(seatTypeText);
 
-		formPanel.add(new JLabel("Rangée : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Rangée * : ", SwingConstants.RIGHT));
 		try {
 			seatRowText = new JFormattedTextField(new MaskFormatter("?"));
 			formPanel.add(seatRowText);
@@ -62,13 +66,18 @@ public class ReservationForm extends JPanel {
 			userInteraction.displayErrorMessage(exception.getMessage());
 		}
 
-		formPanel.add(new JLabel("Numéro de siège : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Numéro de siège * : ", SwingConstants.RIGHT));
 		seatNumberSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 		formPanel.add(seatNumberSpinner);
 
-		formPanel.add(new JLabel("Prix : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Prix * : ", SwingConstants.RIGHT));
 		costText = new JFormattedTextField(new DecimalFormat("#0.0#"));
 		formPanel.add(costText);
+
+		JLabel requirement = new JLabel("* : champs obligatoires", SwingConstants.LEFT);
+		requirement.setForeground(Color.RED);
+		requirement.setFont(new Font("italics font", Font.ITALIC, 12));
+		formPanel.add(requirement);
 
 		this.add(formPanel, BorderLayout.CENTER);
 
@@ -103,18 +112,36 @@ public class ReservationForm extends JPanel {
 			errorMessage += "\n  - Le prix de la réservation n'est pas spécifié";
 		}
 
-		if (errorMessage != "") {
-			userInteraction.displayErrorMessage("Des champs obligatoires ne sont pas remplis :" + errorMessage);
-			return false;
+		if (!errorMessage.equals("")) {
+			userInteraction.displayErrorMessage(new RequirementFieldException(errorMessage).getMessage());
 		}
-		return true;
+		return errorMessage.equals("");
+	}
+
+	/**
+	 * test if seatType matchs with format
+	 * @return if seatType matchs with format
+	 */
+	private boolean validateTextValues() {
+		String errorMessage = "";
+
+		Pattern pattern = Pattern.compile("^[A-Za-z]+.*$");
+		Matcher matcher = pattern.matcher(seatTypeText.getText());
+		if (!matcher.find()) {
+			errorMessage += "\n  - La valeur du type de siège est incorrecte";
+		}
+
+		if (!errorMessage.equals("")) {
+			userInteraction.displayErrorMessage(new ValueException(errorMessage).getMessage());
+		}
+		return errorMessage.equals("");
 	}
 
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == validate) {
-				if (validateRequiredFields()) {
+				if (validateRequiredFields() && validateTextValues()) {
 					Integer visitorID = ManagerUtils.getIDFromDescription(visitorBox.getSelectedItem().toString());
 					Integer matchID = ManagerUtils.getMatchIDFromDescription(matchBox.getSelectedItem().toString());
 

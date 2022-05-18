@@ -39,6 +39,7 @@ public class PointsWindow extends JFrame {
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("pictures/Trophy.png"));
 
 		JLabel title = new JLabel("Points des joueurs", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", Font.PLAIN, 20));

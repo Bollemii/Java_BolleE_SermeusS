@@ -7,16 +7,6 @@
 - Location ou Referee occupés pour un match, quelle durée par défaut si match sans durée ? (1 match par jour, 5h, ...)
 - Setter dans Model
   - quand requête sql, on est sûr des valeurs → obligé de remonter exception jusque la view ?
+- thread : qd catch déclenché, faut pas arrêter le thread ? Si oui, comment ?
 
 ### 2. A faire
-- [ ] Welcome panel
-- [x] Tâche métier
-  - [x] fenêtre des points
-  - [x] ajout nouveaux results
-  - [x] calcul elo joueurs
-- [x] Vérification ajout Match si Location et Referee libres pour la date
-- [x] Fenêtre animations matchs (thread + gestion fin match)
-- [x] Refaire mise en page du formulaire Match et du choix des joueurs (gestion matchs)
-- [x] JavaDoc
-- [x] Tests unitaires
-- [x] Recherche avec deux dates (période) en entrées

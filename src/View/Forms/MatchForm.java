@@ -44,27 +44,29 @@ public class MatchForm extends JPanel{
 		ButtonListener buttonListener = new ButtonListener();
 
 		formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(7, 2, 10, 10));
+		formPanel.setLayout(new GridLayout(8, 2, 10, 10));
 		formPanel.setOpaque(false);
 
-		formPanel.add(new JLabel("Date : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Date * : ", SwingConstants.RIGHT));
 		dateSpinner = new JSpinner(new SpinnerDateModel(Date.from(Instant.now()), null, null, Calendar.YEAR));
 		dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd-MM-yyyy HH:mm"));
 		formPanel.add(dateSpinner);
 
-		formPanel.add(new JLabel("Tournoi : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Tournoi * : ", SwingConstants.RIGHT));
 		tournamentBox = new JComboBox<>(formatter.getTournamentsList().toArray(new String[0]));
 		formPanel.add(tournamentBox);
 
-		formPanel.add(new JLabel("Arbitre : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Arbitre * : ", SwingConstants.RIGHT));
 		refereeBox = new JComboBox<>(formatter.getRefereesList().toArray(new String[0]));
 		formPanel.add(refereeBox);
 
-		formPanel.add(new JLabel("Localisation : ", SwingConstants.RIGHT));
+		formPanel.add(new JLabel("Localisation * : ", SwingConstants.RIGHT));
 		locationBox = new JComboBox<>(formatter.getLocationsList().toArray(new String[0]));
 		formPanel.add(locationBox);
 
-		formPanel.add(new JLabel("Durée : ", SwingConstants.RIGHT));
+		JLabel durationLabel = new JLabel("Durée : ", SwingConstants.RIGHT);
+		durationLabel.setToolTipText("La valeur 0 correspond à un match sans durée");
+		formPanel.add(durationLabel);
 		durationSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100000, 1));
 		formPanel.add(durationSpinner);
 
@@ -78,6 +80,11 @@ public class MatchForm extends JPanel{
 		finalCheck = new JCheckBox("est une finale");
 		finalCheck.setOpaque(false);
 		formPanel.add(finalCheck);
+
+		JLabel requirement = new JLabel("* : champs obligatoires", SwingConstants.LEFT);
+		requirement.setForeground(Color.RED);
+		requirement.setFont(new Font("italics font", Font.ITALIC, 12));
+		formPanel.add(requirement);
 
 		this.add(formPanel, BorderLayout.CENTER);
 

@@ -1,5 +1,7 @@
 package View.Pong;
 
+import javax.swing.*;
+
 public class MovementThread extends Thread{
     private Pong pong;
 
@@ -7,16 +9,21 @@ public class MovementThread extends Thread{
         this.pong = pong;
     }
 
-    public void run(){
-        while(true && pong.getBall() != null){
-            pong.getBall().move(pong);
-            pong.movePlayer();
+    public void run() {
+        while(pong.getBall() != null){
             try{
                 Thread.sleep(10);
-            }catch (InterruptedException exception){
-                exception.printStackTrace();
+                pong.getBall().move(pong);
+                pong.movePlayer();
+                pong.repaint();
+            } catch (InterruptedException exception){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Problème du thread",
+                        "Erreur thread",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
-            pong.repaint();
         }
     }
 }

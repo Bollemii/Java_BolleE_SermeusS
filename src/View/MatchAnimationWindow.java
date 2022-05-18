@@ -28,7 +28,7 @@ public class MatchAnimationWindow extends JFrame {
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
-
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("pictures/Trophy.png"));
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(
 			new WindowAdapter() {
@@ -93,9 +93,9 @@ public class MatchAnimationWindow extends JFrame {
 
 	/**
 	 * Add a match with his animation
-	 * @param match description
-	 * @param player1 description
-	 * @param player2 description
+	 * @param match match description
+	 * @param player1 player 1 description
+	 * @param player2 player 2 description
 	 */
 	public void addMatch(String match, String player1, String player2) {
 		int iCell = getAvailableMatch();
@@ -115,7 +115,7 @@ public class MatchAnimationWindow extends JFrame {
 	}
 
 	/**
-	 * @param match
+	 * @param match match to find if it's already running
 	 * @return if the match is currently running
 	 */
 	public boolean hasMatch(String match) {
@@ -130,7 +130,7 @@ public class MatchAnimationWindow extends JFrame {
 
 	/**
 	 * Remove the match in the animation Window
-	 * @param match
+	 * @param match match to remove
 	 */
 	public void removeMatch(MatchAnimationPanel match) {
 		for(int i = 0; i < NB_MATCHS_HEIGHT; i++) {
