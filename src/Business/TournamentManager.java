@@ -126,6 +126,9 @@ public class TournamentManager {
 		if (seatNumber > match.getLocation().getNbSeatsPerRow()) {
 			errorMessage += "\n  - Le numéro de siège est supérieur à " + match.getLocation().getNbSeatsPerRow();
 		}
+		if (cost < 0) {
+			errorMessage += "\n  - Le coût doit être positif";
+		}
 		if (!errorMessage.equals("")) {
 			throw new ValueException(errorMessage);
 		}

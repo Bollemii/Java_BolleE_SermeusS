@@ -286,7 +286,7 @@ values(122, 4, 'parterre', 'B', 9, 52.36);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
 values(129, 1, 'gradin', 'D', 11, 14.53);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(131, 3, 'vip', 'G', 3, 0);
+values(131, 3, 'invité', 'G', 3, 0);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
 values(125, 2, 'gradin', 'E', 1, 12.7);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
@@ -296,7 +296,47 @@ values(126, 7, 'gradin', 'A', 14, 5.36);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
 values(127, 9, 'vip', 'F', 5, 100.95);
 insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
-values(130, 10, 'vip', 'A', 2, 2);
+values(130, 10, 'parterre', 'A', 2, 2);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(124, 16, 'vip', 'B', 17, 135.19);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(122, 8, 'parterre', 'H', 5, 2.01);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(128, 15, 'gradin', 'F', 2, 92.65);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(129, 15, 'gradin', 'C', 1, 90.72);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(124, 12, 'vip', 'D', 4, 127.12);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(122, 15, 'prestige', 'B', 3, 175.37);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(123, 12, 'prestige', 'G', 6, 167.53);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(131, 1, 'vip', 'E', 20, 113.34);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(131, 16, 'parterre', 'A', 27, 6.33);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(130, 4, 'gradin', 'L', 7, 33.29);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(127, 13, 'prestige', 'B', 4, 189.52);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(125, 10, 'gradin', 'D', 1, 86.49);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(127, 12, 'parterre', 'C', 7, 11.71);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(126, 6, 'gradin', 'E', 2, 88.33);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(131, 6, 'vip', 'I', 1, 119.79);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(125, 16, 'parterre', 'A', 17, 21.5);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(123, 7, 'gradin', 'A', 12, 30.96);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(124, 1, 'prestige', 'C', 20, 175.81);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(123, 5, 'gradin', 'B', 4, 40.48);
+insert into reservation(visitor_id, match_id, seat_type, seat_row, seat_number, cost)
+values(128, 8, 'vip', 'H', 7, 124.04);
 
 
 -- reward

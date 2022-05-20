@@ -10,7 +10,7 @@ public class MovementThread extends Thread{
     }
 
     public void run() {
-        while(pong.getBall() != null){
+        while(pong.getBall() != null) {
             try{
                 Thread.sleep(10);
                 pong.getBall().move(pong);
